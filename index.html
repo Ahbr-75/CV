@@ -1,149 +1,37 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ahmed Bouchaïr — DSI & RSSI</title>
-<meta name="description" content="Ahmed Bouchaïr, DSI et RSSI : direction de systèmes d'information, cybersécurité, conduite de projets innovants et IA. Ingénieur diplômé du CNAM.">
-<meta name="robots" content="noindex">
-<style>
-:root{--bg:#f6f7f9;--card:#fff;--text:#222831;--muted:#5d6672;--accent:#1f3a5f;--accent-soft:#e8eef6;--line:#dde2e8}
-@media (prefers-color-scheme:dark){:root{--bg:#12161c;--card:#1a2028;--text:#e8ecf1;--muted:#9aa5b1;--accent:#8fb4e8;--accent-soft:#1f2c3d;--line:#2a3340}}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,Calibri,sans-serif}
-a{color:var(--accent)}
-.wrap{max-width:860px;margin:0 auto;padding:0 16px}
-header{padding:48px 0 28px}
-.hero{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
-.photo{width:136px;height:136px;border-radius:50%;object-fit:cover;background:var(--accent-soft);border:3px solid var(--card);box-shadow:0 2px 10px rgba(0,0,0,.15);flex:none;display:grid;place-items:center;font-size:42px;font-weight:700;color:var(--accent);overflow:hidden}
-.photo img{width:100%;height:100%;object-fit:cover}
-h1{margin:0;font-size:2.1rem;line-height:1.15;color:var(--accent)}
-.role{margin:.35rem 0 .6rem;font-size:1.2rem;font-weight:600}
-.lead{margin:0;color:var(--muted);max-width:600px}
-.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
-.btn{display:inline-block;padding:.65rem 1.15rem;border-radius:8px;text-decoration:none;font-weight:600;border:2px solid var(--accent)}
-.btn.primary{background:var(--accent);color:#fff}
-@media (prefers-color-scheme:dark){.btn.primary{color:#0e1218}}
-.btn.ghost{color:var(--accent)}
-.btn:focus-visible,a:focus-visible{outline:3px solid #f0a020;outline-offset:2px}
-.facts{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 0;padding:0;list-style:none}
-.facts li{background:var(--accent-soft);color:var(--accent);padding:.3rem .8rem;border-radius:999px;font-size:.9rem;font-weight:600}
-section{margin:28px 0}
-h2{font-size:1.25rem;color:var(--accent);margin:0 0 14px;padding-bottom:6px;border-bottom:2px solid var(--line)}
-.grid{display:grid;gap:14px}
-@media(min-width:720px){.grid.two{grid-template-columns:1fr 1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-.card h3{margin:0 0 2px;font-size:1.05rem}
-.meta{margin:0 0 8px;color:var(--muted);font-size:.9rem}
-.card ul{margin:0;padding-left:1.15rem}
-.card li{margin:.25rem 0}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
-.chips li{border:1px solid var(--line);background:var(--card);padding:.25rem .7rem;border-radius:999px;font-size:.9rem}
-.soon{border-style:dashed}
-footer{padding:22px 0 48px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line);margin-top:36px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prénom Nom - CV & Candidature</title>
+    <style>
+        body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 750px; margin: 40px auto; padding: 0 20px; color: #222; background: #f9fafb; }
+        .card { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h1 { margin-top: 0; color: #111; }
+        .btn { display: inline-block; background: #2563eb; color: #fff; padding: 12px 20px; text-decoration: none; border-radius: 6px; font-weight: bold; margin: 15px 0; }
+        .btn:hover { background: #1d4ed8; }
+        h2 { border-bottom: 2px solid #e5e7eb; padding-bottom: 5px; margin-top: 25px; }
+    </style>
 </head>
 <body>
-<div class="wrap">
-<header>
-  <div class="hero">
-    <div class="photo" aria-hidden="false">
-      <img src="photo.jpg" alt="Portrait d'Ahmed Bouchaïr" onerror="var p=this.parentNode;p.textContent='AB'">
+    <div class="card">
+        <h1>Prénom NOM</h1>
+        <p><strong>Titre du poste recherché</strong> — Ville / Mobilité</p>
+        <p>Courte phrase d'accroche résumant votre profil et votre disponibilité.</p>
+        
+        <a href="cv.pdf" class="btn" download>Télécharger mon CV (PDF)</a>
+
+        <h2>Expériences clés</h2>
+        <ul>
+            <li><strong>Poste 1</strong> - Entreprise (Dates) : Mission principale en une ligne.</li>
+            <li><strong>Poste 2</strong> - Entreprise (Dates) : Mission principale en une ligne.</li>
+        </ul>
+
+        <h2>Compétences & Formation</h2>
+        <p>Listez ici vos compétences principales, diplômes et langues.</p>
+
+        <h2>Contact</h2>
+        <p>Email : <a href="mailto:votre.email@exemple.com">votre.email@exemple.com</a> | Téléphone : 06 00 00 00 00</p>
     </div>
-    <div>
-      <h1>Ahmed Bouchaïr</h1>
-      <p class="role">DSI &amp; RSSI</p>
-      <p class="lead">Je dirige des systèmes d'information et leur sécurité : de la stratégie à la mise en production, avec la cybersécurité intégrée aux projets. Vingt ans d'expérience, dont dix-huit en management.</p>
-    </div>
-  </div>
-  <div class="actions">
-    <a class="btn primary" href="cv.pdf">Télécharger mon CV (PDF)</a>
-    <a class="btn ghost" href="mailto:ahbouchair@gmail.com">Me contacter</a>
-  </div>
-  <ul class="facts" aria-label="Repères">
-    <li>Ingénieur diplômé du CNAM</li>
-    <li>CISSP</li>
-    <li>ESSEC : IA, Data &amp; création de valeur</li>
-    <li>Chalon-sur-Saône (71)</li>
-  </ul>
-</header>
-
-<main>
-<section id="experiences">
-  <h2>Expériences clés</h2>
-  <div class="grid">
-    <article class="card">
-      <h3>DSI &amp; RSSI — société pharmaceutique internationale</h3>
-      <p class="meta">Inventiva · 2022 – 2026 · France et États-Unis</p>
-      <ul>
-        <li>Définition et déploiement du schéma directeur SI ; direction d'une équipe d'environ 10 personnes et des prestataires (France, Royaume-Uni, États-Unis).</li>
-        <li>Pilotage de la migration vers AWS en architecture hybride : sécurisation, gestion des identités, plan de reprise d'activité.</li>
-        <li>Mise en place de SOC, de PCA / PRA et de cellules de crise cyber ; conformité SOX (ITGC) et GxP.</li>
-        <li>Budgets CAPEX et OPEX ; projets d'intelligence artificielle appliqués à la cybersécurité et au domaine pharmaceutique.</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h3>Consultant cybersécurité</h3>
-      <p class="meta">EY, puis Enedis · 2021 – 2022</p>
-      <ul>
-        <li>Analyses de risques (EBIOS RM), analyse de maturité ISO 27002 sur 114 points de contrôle, audits de sécurité, entretiens avec les équipes.</li>
-        <li>Estimation des écarts avec la réglementation (NIS, opérateurs de services essentiels) et les bonnes pratiques ; feuille de route cyber à 3 ans et plan d'actions présentés au CODIR.</li>
-        <li>Pilotage de projets d'intégration de la cybersécurité, formation des référents et sensibilisation des agents.</li>
-      </ul>
-    </article>
-    <article class="card">
-      <h3>Conduite de projets innovants</h3>
-      <p class="meta">Secteur public, parapublic et privé</p>
-      <ul>
-        <li>Migration vers le cloud hybride et construction d'un datacenter souverain.</li>
-        <li>Déploiement d'un réseau fibre multiservice reliant tous les bâtiments d'une ville ; contribution au projet Smart City.</li>
-        <li>Dématérialisation de la chaîne des achats publics franciliens ; mise en place d'un centre d'appel et organisation d'un helpdesk.</li>
-      </ul>
-    </article>
-  </div>
-</section>
-
-<section id="ia">
-  <h2>Intelligence artificielle</h2>
-  <div class="grid two">
-    <article class="card">
-      <h3>Formation à l'ESSEC</h3>
-      <p class="meta">IA, Data et création de valeur · septembre 2026 – janvier 2027</p>
-      <p style="margin:0">Je me forme à la gouvernance de l'IA et de la data : usages, risques, confidentialité des données et création de valeur pour les métiers.</p>
-    </article>
-    <article class="card soon">
-      <h3>Assistant IA de ce site</h3>
-      <p class="meta">Bientôt</p>
-      <p style="margin:0">Un assistant qui répondra à vos questions sur mon parcours, uniquement à partir des informations de ce site. Cette page évoluera pas à pas, et je documenterai ce que j'apprends en route.</p>
-    </article>
-  </div>
-</section>
-
-<section id="formation">
-  <h2>Formation</h2>
-  <article class="card">
-    <h3>Ingénieur diplômé du CNAM</h3>
-    <p class="meta" style="margin:0">Conservatoire national des arts et métiers · Ingénieur Systèmes d'Information · 2008</p>
-  </article>
-</section>
-
-<section id="competences">
-  <h2>Compétences</h2>
-  <ul class="chips">
-    <li>Direction de SI</li><li>Schéma directeur</li><li>Management d'équipes</li><li>Budgets &amp; prestataires</li>
-    <li>Gouvernance, risques &amp; conformité</li><li>PSSI &amp; ANSSI</li><li>ISO 27002</li><li>EBIOS RM</li><li>NIS</li><li>SOX &amp; GxP</li>
-    <li>Cloud AWS</li><li>SOC</li><li>PCA / PRA</li><li>Gestion de crise cyber</li><li>Conduite de projets</li><li>IA &amp; data</li>
-  </ul>
-</section>
-
-<section id="contact">
-  <h2>Contact</h2>
-  <p>Pour échanger sur un poste ou un projet : <a href="mailto:ahbouchair@gmail.com">ahbouchair@gmail.com</a></p>
-</section>
-</main>
-
-<footer>© Ahmed Bouchaïr · Site personnel. Aucune donnée de visiteur n'est collectée.</footer>
-</div>
 </body>
 </html>
