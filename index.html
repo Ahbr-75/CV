@@ -225,5 +225,116 @@ footer{padding:22px 0 48px;color:var(--muted);font-size:.9rem;border-top:1px sol
   chatSendBtn.onclick = sendMessage;
   chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMessage(); };
 </script>
+<!-- ==================== WIDGET ASSISTANT IA AVEC QUICK-BUTTONS ==================== -->
+<div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: system-ui, -apple-system, sans-serif;">
+  
+  <!-- Bouton Flottant -->
+  <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA" style="background: #0056b3; color: #ffffff; border: none; border-radius: 50px; padding: 12px 22px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px;">
+    <span>💬 Assistant IA CV</span>
+  </button>
+
+  <!-- Fenêtre de Chat -->
+  <div id="chat-box" style="display: none; width: 340px; height: 480px; background: #ffffff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+    
+    <!-- En-tête -->
+    <div style="background: #0056b3; color: white; padding: 14px 16px; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; align-items: center;">
+      <span>Assistant IA — Ahmed Bouchaïr</span>
+      <button id="chat-close-btn" style="background: transparent; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+    </div>
+    
+    <!-- Zone de messages -->
+    <div id="chat-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 14px; background: #f8fafc; display: flex; flex-direction: column; gap: 10px;">
+      <div style="background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 10px; max-width: 90%; line-height: 1.4;">
+        Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
+      </div>
+
+      <!-- Boutons de questions rapides -->
+      <div id="quick-questions" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;">
+        <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?" style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🎓 Diplômes & Certifs</button>
+        <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva." style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🏢 Expérience Inventiva</button>
+        <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?" style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🛡️ Compétences Cyber</button>
+      </div>
+    </div>
+
+    <!-- Champ de saisie -->
+    <div style="padding: 10px 12px; display: flex; gap: 8px; border-top: 1px solid #e2e8f0; background: white;">
+      <input type="text" id="chat-input" placeholder="Posez une question..." style="flex: 1; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none;">
+      <button id="chat-send-btn" style="background: #0056b3; color: white; border: none; padding: 9px 15px; border-radius: 6px; font-weight: 600; cursor: pointer;">Envoyer</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Script d'interaction -->
+<script>
+  const chatToggleBtn = document.getElementById('chat-toggle-btn');
+  const chatCloseBtn = document.getElementById('chat-close-btn');
+  const chatBox = document.getElementById('chat-box');
+  const chatMessages = document.getElementById('chat-messages');
+  const chatInput = document.getElementById('chat-input');
+  const chatSendBtn = document.getElementById('chat-send-btn');
+
+  chatToggleBtn.onclick = () => {
+    const isHidden = chatBox.style.display === 'none';
+    chatBox.style.display = isHidden ? 'flex' : 'none';
+  };
+  chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
+
+  async function sendQuery(text) {
+    if (!text) return;
+
+    // Masquer les boutons rapides après la première interaction
+    const quickBox = document.getElementById('quick-questions');
+    if (quickBox) quickBox.style.display = 'none';
+
+    // 1. Message utilisateur
+    chatMessages.innerHTML += `
+      <div style="align-self: flex-end; background: #0056b3; color: white; padding: 10px 14px; border-radius: 10px; max-width: 88%; line-height: 1.4;">
+        ${text}
+      </div>`;
+    chatInput.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // 2. Loader
+    const loadingId = 'loading-' + Date.now();
+    chatMessages.innerHTML += `
+      <div id="${loadingId}" style="align-self: flex-start; background: #e2e8f0; color: #64748b; padding: 10px 14px; border-radius: 10px; font-style: italic;">
+        Réflexion en cours...
+      </div>`;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+      const data = await res.json();
+      document.getElementById(loadingId)?.remove();
+
+      const reply = data.response || "Désolé, je n'ai pas pu obtenir de réponse.";
+      chatMessages.innerHTML += `
+        <div style="align-self: flex-start; background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 10px; max-width: 88%; line-height: 1.4;">
+          ${reply}
+        </div>`;
+    } catch (err) {
+      document.getElementById(loadingId)?.remove();
+      chatMessages.innerHTML += `
+        <div style="align-self: flex-start; background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 10px;">
+          Erreur de connexion avec l'IA.
+        </div>`;
+    }
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Événements d'envoi classique
+  chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
+  chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
+
+  // Événements sur les boutons de questions rapides
+  document.querySelectorAll('.quick-btn').forEach(btn => {
+    btn.onclick = () => sendQuery(btn.getAttribute('data-query'));
+  });
+</script><!-- ==================== FIN WIDGET ==================== -->
 </body>
 </html>
