@@ -5,98 +5,392 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ahmed Bouchaïr — DSI & RSSI</title>
   <style>
-    /* Styles généraux du CV */
+    /* -------------------------------------------------------------
+       VARIABLES & DESIGN SYSTEM
+    ------------------------------------------------------------- */
     :root {
-      --primary: #0056b3;
-      --dark: #1e293b;
-      --light: #f8fafc;
-      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --dark-navy: #0f172a;
+      --text-main: #334155;
+      --text-muted: #64748b;
+      --bg-body: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
     }
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
-      color: var(--dark);
-      background-color: var(--light);
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: var(--text-main);
+      background-color: var(--bg-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* -------------------------------------------------------------
+       HERO / HEADER SECTION
+    ------------------------------------------------------------- */
     header {
-      background: var(--primary);
+      background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
       color: white;
-      padding: 40px 20px;
+      padding: 50px 20px 40px;
       text-align: center;
+      position: relative;
     }
+
+    .profile-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      margin-bottom: 16px;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-img:hover {
+      transform: scale(1.03);
+    }
+
     header h1 {
-      margin: 0 0 10px 0;
       font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
     }
+
     header p {
-      margin: 0;
-      font-size: 1.2rem;
-      opacity: 0.9;
+      font-size: 1.15rem;
+      color: #94a3b8;
+      max-width: 650px;
+      margin: 0 auto 16px;
+      font-weight: 400;
     }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #4ade80;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #4ade80;
+    }
+
+    /* -------------------------------------------------------------
+       LAYOUT & CARDS
+    ------------------------------------------------------------- */
     .container {
       max-width: 900px;
-      margin: 30px auto;
+      margin: 35px auto;
       padding: 0 20px;
     }
-    section {
-      background: white;
-      padding: 24px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-      border: 1px solid var(--border);
-    }
-    h2 {
-      color: var(--primary);
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 8px;
-      margin-top: 0;
-    }
-    .badge {
-      display: inline-block;
-      background: #e0f2fe;
-      color: #0369a1;
-      padding: 4px 10px;
+
+    .card {
+      background: var(--bg-card);
+      padding: 28px;
+      margin-bottom: 24px;
       border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-right: 6px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-color);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      color: var(--dark-navy);
+      border-bottom: 2px solid #f1f5f9;
+      padding-bottom: 10px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* -------------------------------------------------------------
+       BADGES & SKILLS
+    ------------------------------------------------------------- */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .badge {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    .badge:hover {
+      background: #dbeafe;
+    }
+
+    /* -------------------------------------------------------------
+       TIMELINE & EXPERIENCES
+    ------------------------------------------------------------- */
+    .timeline-item {
+      position: relative;
+      padding-left: 20px;
+      border-left: 2px solid #e2e8f0;
+      margin-bottom: 20px;
+    }
+
+    .timeline-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -6px;
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    .job-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--dark-navy);
+    }
+
+    .company {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
       margin-bottom: 6px;
     }
-    .job-title {
-      font-weight: bold;
-      font-size: 1.1rem;
+
+    /* -------------------------------------------------------------
+       WIDGET CHATBOT IA ERGONOMIQUE
+    ------------------------------------------------------------- */
+    #ai-chat-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
     }
-    .company {
-      color: #64748b;
-      font-style: italic;
+
+    #chat-toggle-btn {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+    }
+
+    #chat-toggle-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+    }
+
+    #chat-box {
+      display: none;
+      width: 360px;
+      height: 500px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      flex-direction: column;
+      overflow: hidden;
+      margin-bottom: 14px;
+      border: 1px solid var(--border-color);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-header {
+      background: var(--dark-navy);
+      color: white;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header-title {
+      font-weight: 600;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .online-indicator {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+    }
+
+    #chat-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 20px;
+      transition: color 0.2s;
+    }
+
+    #chat-close-btn:hover {
+      color: white;
+    }
+
+    #chat-messages {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      font-size: 14px;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .quick-btn {
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid #bfdbfe;
+      border-radius: 20px;
+      padding: 7px 13px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+
+    .quick-btn:hover {
+      background: #eff6ff;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .chat-input-area {
+      padding: 12px;
+      display: flex;
+      gap: 8px;
+      border-top: 1px solid var(--border-color);
+      background: white;
+    }
+
+    #chat-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #chat-input:focus {
+      border-color: var(--primary);
+    }
+
+    #chat-send-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #chat-send-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Ajustements Mobile */
+    @media (max-width: 640px) {
+      .container { padding: 0 12px; }
+      #ai-chat-widget { bottom: 12px; right: 12px; left: 12px; }
+      #chat-toggle-btn { width: 100%; justify-content: center; }
+      #chat-box { width: 100%; height: 80vh; }
     }
   </style>
 </head>
 <body>
 
-  <!-- En-tête du CV -->
+  <!-- =============================================================
+       EN-TÊTE DU CV
+  ============================================================= -->
   <header>
+    <!-- Photo de profil avec repli automatique si image absente -->
+    <img src="photo.jpg" alt="Ahmed Bouchaïr" class="profile-img" onerror="this.style.display='none'">
     <h1>Ahmed Bouchaïr</h1>
     <p>Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI)</p>
+    <div class="status-badge">
+      <span class="status-dot"></span>
+      <span>Disponible pour de nouveaux défis stratégiques</span>
+    </div>
   </header>
 
-  <!-- Contenu Principal du CV -->
+  <!-- =============================================================
+       CONTENU PRINCIPAL DU CV
+  ============================================================= -->
   <main class="container">
     
-    <section>
-      <h2>Profil & Vision</h2>
+    <!-- Profil -->
+    <section class="card">
+      <h2>📌 Profil & Vision Stratégique</h2>
       <p>
         20 ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes et de projets IT. 
-        Spécialisé dans la direction de systèmes d'information, la cybersécurité (CISSP), la gouvernance Cloud et la conduite du changement stratégique.
+        Spécialisé dans la direction de systèmes d'information, la cybersécurité (CISSP), la gouvernance Cloud et la conduite du changement stratégique d'entreprise.
       </p>
     </section>
 
-    <section>
-      <h2>Compétences Clés</h2>
-      <div>
+    <!-- Compétences -->
+    <section class="card">
+      <h2>🛡️ Compétences Clés</h2>
+      <div class="skills-grid">
         <span class="badge">Gouvernance DSI</span>
         <span class="badge">Cybersécurité (CISSP)</span>
         <span class="badge">Cloud Hybride & AWS</span>
@@ -104,78 +398,92 @@
         <span class="badge">Normes ISO 27002 / NIS</span>
         <span class="badge">Conformité GxP & SOX</span>
         <span class="badge">IA d'Entreprise & MLOps</span>
+        <span class="badge">EBIOS RM</span>
+        <span class="badge">Gestion Budgétaire CapEx/OpEx</span>
       </div>
     </section>
 
-    <section>
-      <h2>Expériences Principales</h2>
-      <div style="margin-bottom: 16px;">
+    <!-- Expériences -->
+    <section class="card">
+      <h2>💼 Expériences Principales</h2>
+      
+      <div class="timeline-item">
         <div class="job-title">DSI & RSSI</div>
-        <div class="company">Inventiva — 2022 à 2026</div>
-        <p>Management de l'IT et de la sécurité globale, migration Cloud AWS, gouvernance des données et conformité SOX/GxP.</p>
+        <div class="company">Inventiva (Biotech Internationale) — 2022 à 2026</div>
+        <p>Management du SI et de la cybersécurité globale (France, US, UK). Migration Cloud AWS, mise en place du SOC, gouvernance des données et conformité SOX / GxP.</p>
       </div>
-      <div>
-        <div class="job-title">Consultant Cybersécurité</div>
+
+      <div class="timeline-item">
+        <div class="job-title">Consultant Senior Cybersécurité</div>
         <div class="company">EY / Enedis — 2021 à 2022</div>
-        <p>Analyses de risques EBIOS RM, audits ISO 27002 et accompagnement des Opérateurs de Services Essentiels (OSE).</p>
+        <p>Analyses de risques EBIOS RM, audits de maturité ISO 27002 et accompagnement à la conformité NIS pour les Opérateurs de Services Essentiels (OSE).</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="job-title">Directeur de Projets IT & Datacenter</div>
+        <div class="company">Secteur Public & Parapublic — Prior à 2021</div>
+        <p>Construction de Datacenter souverain, déploiement de réseaux fibre optique (Smart City) et dématérialisation des marchés publics.</p>
       </div>
     </section>
 
-    <section>
-      <h2>Formations & Certifications</h2>
-      <ul>
+    <!-- Formations -->
+    <section class="card">
+      <h2>🎓 Formations & Certifications</h2>
+      <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
         <li><strong>Executive Certificate IA & Création de Valeur</strong> — ESSEC Business School (2026–2027)</li>
-        <li><strong>CISSP</strong> — Certified Information Systems Security Professional</li>
-        <li><strong>Ingénieur Systèmes d'Information</strong> — CNAM (2008)</li>
+        <li><strong>Certification CISSP</strong> — Certified Information Systems Security Professional</li>
+        <li><strong>Diplôme d'Ingénieur Systèmes d'Information</strong> — CNAM Paris (2008)</li>
       </ul>
     </section>
 
   </main>
 
-
-  <!-- ================================================================= -->
-  <!--               WIDGET CHATBOT IA INTERACTIF                        -->
-  <!-- ================================================================= -->
-  <div id="ai-chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; font-family: system-ui, -apple-system, sans-serif;">
+  <!-- =============================================================
+       WIDGET CHATBOT IA INTERACTIF
+  ============================================================= -->
+  <div id="ai-chat-widget">
     
     <!-- Bouton Flottant -->
-    <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA" style="background: #0056b3; color: #ffffff; border: none; border-radius: 50px; padding: 12px 22px; font-size: 15px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,0.25); display: flex; align-items: center; gap: 8px;">
+    <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
       <span>💬 Assistant IA CV</span>
     </button>
 
     <!-- Fenêtre de Chat -->
-    <div id="chat-box" style="display: none; width: 340px; height: 480px; background: #ffffff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.2); flex-direction: column; overflow: hidden; margin-bottom: 12px; border: 1px solid #e2e8f0;">
+    <div id="chat-box">
       
       <!-- En-tête du Chat -->
-      <div style="background: #0056b3; color: white; padding: 14px 16px; font-weight: 600; font-size: 15px; display: flex; justify-content: space-between; align-items: center;">
-        <span>Assistant IA — Ahmed Bouchaïr</span>
-        <button id="chat-close-btn" style="background: transparent; border: none; color: white; cursor: pointer; font-size: 18px;">✕</button>
+      <div class="chat-header">
+        <div class="chat-header-title">
+          <span class="online-indicator"></span>
+          <span>Assistant IA — Ahmed Bouchaïr</span>
+        </div>
+        <button id="chat-close-btn">✕</button>
       </div>
       
       <!-- Zone des messages -->
-      <div id="chat-messages" style="flex: 1; padding: 14px; overflow-y: auto; font-size: 14px; background: #f8fafc; display: flex; flex-direction: column; gap: 10px;">
-        <div style="background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 10px; max-width: 90%; line-height: 1.4;">
+      <div id="chat-messages">
+        <div style="background: #e2e8f0; color: #1e293b; padding: 12px 14px; border-radius: 12px; max-width: 90%; line-height: 1.4;">
           Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
         </div>
 
         <!-- Boutons de questions rapides -->
-        <div id="quick-questions" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;">
-          <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?" style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🎓 Diplômes & Certifs</button>
-          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva." style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🏢 Expérience Inventiva</button>
-          <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?" style="background: #ffffff; color: #0056b3; border: 1px solid #0056b3; border-radius: 16px; padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer;">🛡️ Compétences Cyber</button>
+        <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
+          <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?">🎓 Diplômes & Certifications</button>
+          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva.">🏢 Expérience DSI/RSSI Inventiva</button>
+          <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?">🛡️ Compétences Cybersécurité</button>
         </div>
       </div>
 
       <!-- Champ de saisie -->
-      <div style="padding: 10px 12px; display: flex; gap: 8px; border-top: 1px solid #e2e8f0; background: white;">
-        <input type="text" id="chat-input" placeholder="Posez une question..." style="flex: 1; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none;">
-        <button id="chat-send-btn" style="background: #0056b3; color: white; border: none; padding: 9px 15px; border-radius: 6px; font-weight: 600; cursor: pointer;">Envoyer</button>
+      <div class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Posez une question..." autocomplete="off">
+        <button id="chat-send-btn">Envoyer</button>
       </div>
 
     </div>
   </div>
 
-  <!-- Script d'interaction du Chatbot -->
+  <!-- Script d'interaction JavaScript -->
   <script>
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
     const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -184,23 +492,25 @@
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // Toggle d'ouverture / fermeture
+    // Toggle Ouverture / Fermeture
     chatToggleBtn.onclick = () => {
-      chatBox.style.display = chatBox.style.display === 'none' ? 'flex' : 'none';
+      const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
+      chatBox.style.display = isHidden ? 'flex' : 'none';
+      if (isHidden) chatInput.focus();
     };
     chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
 
-    // Ajout d'un message dans le DOM (appendChild stable)
+    // Ajout propre dans le DOM sans casser les event listeners (appendChild)
     function appendMessage(text, isUser = false, isError = false, id = null) {
       const div = document.createElement('div');
       if (id) div.id = id;
 
       if (isUser) {
-        div.style.cssText = 'align-self: flex-end; background: #0056b3; color: white; padding: 10px 14px; border-radius: 10px; max-width: 88%; line-height: 1.4;';
+        div.style.cssText = 'align-self: flex-end; background: var(--primary); color: white; padding: 10px 14px; border-radius: 12px 12px 2px 12px; max-width: 85%; line-height: 1.4;';
       } else if (isError) {
-        div.style.cssText = 'align-self: flex-start; background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 10px;';
+        div.style.cssText = 'align-self: flex-start; background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 12px 12px 12px 2px;';
       } else {
-        div.style.cssText = 'align-self: flex-start; background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 10px; max-width: 88%; line-height: 1.4;';
+        div.style.cssText = 'align-self: flex-start; background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 12px 12px 12px 2px; max-width: 88%; line-height: 1.4;';
       }
 
       div.innerHTML = text;
@@ -209,11 +519,11 @@
       return div;
     }
 
-    // Envoi de la requête vers /api/chat
+    // Traitement de l'envoi vers /api/chat
     async function sendQuery(text) {
       if (!text) return;
 
-      // Masquer les boutons de suggestions
+      // Cacher la liste des boutons de suggestion
       const quickBox = document.getElementById('quick-questions');
       if (quickBox) quickBox.style.display = 'none';
 
@@ -243,10 +553,11 @@
       }
     }
 
-    // Événements boutons et saisie
+    // Événements d'envoi (bouton et touche Entrée)
     chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
     chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
 
+    // Événements boutons de suggestion
     document.querySelectorAll('.quick-btn').forEach(btn => {
       btn.onclick = () => sendQuery(btn.getAttribute('data-query'));
     });
