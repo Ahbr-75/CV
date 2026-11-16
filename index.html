@@ -6,7 +6,7 @@
   <title>Ahmed Bouchaïr — DSI & RSSI</title>
   <style>
     /* -------------------------------------------------------------
-       VARIABLES & DESIGN SYSTEM
+       VARIABLES & SYSTEME DE DESIGN
     ------------------------------------------------------------- */
     :root {
       --primary: #2563eb;
@@ -36,7 +36,7 @@
     }
 
     /* -------------------------------------------------------------
-       HERO / HEADER SECTION
+       SECTION EN-TÊTE / HERO
     ------------------------------------------------------------- */
     header {
       background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
@@ -98,7 +98,7 @@
     }
 
     /* -------------------------------------------------------------
-       LAYOUT & CARDS
+       DISPOSITION & CARTES
     ------------------------------------------------------------- */
     .container {
       max-width: 900px;
@@ -132,7 +132,7 @@
     }
 
     /* -------------------------------------------------------------
-       BADGES & SKILLS
+       BADGES & COMPÉTENCES
     ------------------------------------------------------------- */
     .skills-grid {
       display: flex;
@@ -151,7 +151,7 @@
     }
 
     /* -------------------------------------------------------------
-       TIMELINE & EXPERIENCES
+       CHRONOLOGIE & EXPÉRIENCES
     ------------------------------------------------------------- */
     .timeline-item {
       position: relative;
@@ -189,7 +189,7 @@
     }
 
     /* -------------------------------------------------------------
-       WIDGET CHATBOT IA ERGONOMIQUE
+       WIDGET CHATBOT IA AVEC MÉMOIRE DE CONVERSATION
     ------------------------------------------------------------- */
     #ai-chat-widget {
       position: fixed;
@@ -469,6 +469,9 @@
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
+    // Tableau de mémoire de conversation multi-tours
+    let conversationHistory = [];
+
     chatToggleBtn.onclick = () => {
       const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
       chatBox.style.display = isHidden ? 'flex' : 'none';
@@ -503,6 +506,9 @@
       appendMessage(text, true);
       chatInput.value = '';
 
+      // Enregistrement du message utilisateur dans la mémoire de session
+      conversationHistory.push({ role: 'user', content: text });
+
       const loadingId = 'loading-' + Date.now();
       appendMessage('<i>Réflexion en cours...</i>', false, false, loadingId);
 
@@ -510,15 +516,18 @@
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify({ messages: conversationHistory })
         });
 
         const data = await res.json();
         document.getElementById(loadingId)?.remove();
 
-        // Récupération de la réponse ou affichage de l'erreur détaillée si présente
         const reply = data.response || (data.details ? `⚠️ ${data.error}: ${data.details}` : (data.error || "Désolé, je n'ai pas pu obtenir de réponse."));
         
+        if (data.response) {
+          conversationHistory.push({ role: 'assistant', content: data.response });
+        }
+
         appendMessage(reply, false, !data.response);
       } catch (err) {
         document.getElementById(loadingId)?.remove();
