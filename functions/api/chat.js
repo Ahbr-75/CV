@@ -1,37 +1,75 @@
 // functions/api/chat.js
 
-export async function onRequestPost(context) {
-  try {
-    const { request, env } = context;
+// Origines autorisées à solliciter l'API
+const ALLOWED_ORIGINS = [
+  'https://cv-89q.pages.dev',
+  'http://localhost:8788',
+  '[suspicious link removed]'
+];
 
-    // 1. Vérification du binding Workers AI
+function getCorsHeaders(request) {
+  const origin = request.headers.get('Origin');
+  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://cv-89q.pages.dev';
+  
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+  };
+}
+
+// 1. Gestion automatique des requêtes Preflight OPTIONS
+export async function onRequestOptions(context) {
+  const corsHeaders = getCorsHeaders(context.request);
+  return new Response(null, {
+    status: 204,
+    headers: corsHeaders
+  });
+}
+
+// 2. Traitement des requêtes POST de chat
+export async function onRequestPost(context) {
+  const { request, env } = context;
+  const corsHeaders = getCorsHeaders(request);
+
+  try {
+    // Vérification du binding Workers AI
     if (!env || !env.AI) {
       return new Response(
         JSON.stringify({ 
           error: "Binding AI non configuré", 
-          details: "La variable env.AI est introuvable dans context.env. Assurez-vous d'avoir ajouté le Binding Workers AI nommé 'AI' dans Cloudflare Settings > Functions > Bindings." 
+          details: "La variable env.AI est introuvable. Assurez-vous d'avoir configuré la liaison nommée 'AI' sous Cloudflare Settings > Functions > Bindings." 
         }), 
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
 
     const body = await request.json().catch(() => ({}));
-    
-    // Support de l'historique complet (array) ou d'un message unique (string)
+
+    // Extraction des messages (mémoire multi-tours)
     let chatMessages = [];
     if (Array.isArray(body.messages) && body.messages.length > 0) {
-      chatMessages = body.messages.slice(-8); // Limite aux 8 derniers messages pour garder une latence faible
-    } else if (body.message) {
-      chatMessages = [{ role: 'user', content: body.message }];
-    } else {
-      return new Response(JSON.stringify({ error: "Message vide" }), { status: 400 });
+      chatMessages = body.messages.slice(-8);
+    } else if (body.message && typeof body.message === 'string' && body.message.trim() !== '') {
+      chatMessages = [{ role: 'user', content: body.message.trim() }];
     }
 
-    // 2. System Prompt
+    if (chatMessages.length === 0) {
+      return new Response(
+        JSON.stringify({ 
+          error: "Message vide", 
+          details: "Aucun message valide n'a été reçu par l'API." 
+        }), 
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+
+    // Contexte du CV d'Ahmed Bouchaïr
     const systemPrompt = `
 Tu es l'assistant virtuel interactif du CV en ligne d'Ahmed Bouchaïr (DSI & RSSI).
 Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compétences et ses réalisations avec précision, concision et courtoisie.
-Conserve le contexte des questions précédentes pour répondre naturellement aux demandes de précision.
+Conserve le contexte des messages précédents de la conversation pour répondre naturellement aux questions de suivi.
 
 --- PARCOURS ET EXPÉRIENCES D'AHMED BOUCHAÏR ---
 - Titre : Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI).
@@ -53,7 +91,7 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
       ...chatMessages
     ];
 
-    // 3. Modèles actifs avec boucle de fallback
+    // Modèles Workers AI avec système de repli
     const models = [
       '@cf/meta/llama-3.2-3b-instruct',
       '@cf/meta/llama-3.3-70b-instruct',
@@ -85,8 +123,8 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
 
     return new Response(JSON.stringify({ response: outputText }), {
       headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        ...corsHeaders,
+        'Content-Type': 'application/json'
       }
     });
   } catch (error) {
@@ -97,7 +135,7 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
       }), 
       { 
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       }
     );
   }
