@@ -9,7 +9,7 @@ export async function onRequestPost(context) {
       return new Response(
         JSON.stringify({ 
           error: "Binding AI non configuré", 
-          details: "La variable env.AI est introuvable dans context.env. Assurez-vous d'avoir ajouté le Binding Workers AI nommé 'AI' dans Cloudflare." 
+          details: "La variable env.AI est introuvable dans context.env. Assurez-vous d'avoir ajouté le Binding Workers AI nommé 'AI' dans Cloudflare Settings > Functions > Bindings." 
         }), 
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
@@ -41,15 +41,36 @@ Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compé
 Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la question posée, dans la langue du visiteur. Ne fabrique aucune information non mentionnée.
 `;
 
-    // Modèle actif et supporté sur Cloudflare Workers AI
-    const aiResponse = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: message }
-      ],
-      max_tokens: 300,
-      temperature: 0.5
-    });
+    // Liste des modèles actifs Cloudflare Workers AI avec boucle de fallback
+    const models = [
+      '@cf/meta/llama-3.2-3b-instruct',
+      '@cf/meta/llama-3.3-70b-instruct',
+      '@cf/meta/llama-3.1-8b-instruct-fp8',
+      '@cf/mistral/mistral-7b-instruct-v0.2'
+    ];
+
+    let aiResponse = null;
+    let lastError = null;
+
+    for (const model of models) {
+      try {
+        aiResponse = await env.AI.run(model, {
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: message }
+          ],
+          max_tokens: 300,
+          temperature: 0.5
+        });
+        if (aiResponse) break;
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    if (!aiResponse) {
+      throw lastError || new Error("Aucun modèle Workers AI n'a pu répondre.");
+    }
 
     const outputText = aiResponse.response || aiResponse.result || (typeof aiResponse === 'string' ? aiResponse : JSON.stringify(aiResponse));
 
