@@ -113,7 +113,7 @@
       border-radius: 12px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.2s ease;
     }
 
     .card:hover {
@@ -148,11 +148,6 @@
       border-radius: 8px;
       font-size: 0.88rem;
       font-weight: 500;
-      transition: background 0.2s;
-    }
-
-    .badge:hover {
-      background: #dbeafe;
     }
 
     /* -------------------------------------------------------------
@@ -222,7 +217,6 @@
     #chat-toggle-btn:hover {
       background: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
     }
 
     #chat-box {
@@ -274,7 +268,6 @@
       color: #94a3b8;
       cursor: pointer;
       font-size: 20px;
-      transition: color 0.2s;
     }
 
     #chat-close-btn:hover {
@@ -308,7 +301,6 @@
     .quick-btn:hover {
       background: #eff6ff;
       border-color: var(--primary);
-      transform: translateY(-1px);
     }
 
     .chat-input-area {
@@ -326,7 +318,6 @@
       border-radius: 8px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
     }
 
     #chat-input:focus {
@@ -341,14 +332,12 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
     #chat-send-btn:hover {
       background: var(--primary-hover);
     }
 
-    /* Ajustements Mobile */
     @media (max-width: 640px) {
       .container { padding: 0 12px; }
       #ai-chat-widget { bottom: 12px; right: 12px; left: 12px; }
@@ -363,7 +352,6 @@
        EN-TÊTE DU CV
   ============================================================= -->
   <header>
-    <!-- Photo de profil avec repli automatique si image absente -->
     <img src="photo.jpg" alt="Ahmed Bouchaïr" class="profile-img" onerror="this.style.display='none'">
     <h1>Ahmed Bouchaïr</h1>
     <p>Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI)</p>
@@ -378,7 +366,6 @@
   ============================================================= -->
   <main class="container">
     
-    <!-- Profil -->
     <section class="card">
       <h2>📌 Profil & Vision Stratégique</h2>
       <p>
@@ -387,7 +374,6 @@
       </p>
     </section>
 
-    <!-- Compétences -->
     <section class="card">
       <h2>🛡️ Compétences Clés</h2>
       <div class="skills-grid">
@@ -403,7 +389,6 @@
       </div>
     </section>
 
-    <!-- Expériences -->
     <section class="card">
       <h2>💼 Expériences Principales</h2>
       
@@ -426,7 +411,6 @@
       </div>
     </section>
 
-    <!-- Formations -->
     <section class="card">
       <h2>🎓 Formations & Certifications</h2>
       <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
@@ -443,15 +427,12 @@
   ============================================================= -->
   <div id="ai-chat-widget">
     
-    <!-- Bouton Flottant -->
     <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
       <span>💬 Assistant IA CV</span>
     </button>
 
-    <!-- Fenêtre de Chat -->
     <div id="chat-box">
       
-      <!-- En-tête du Chat -->
       <div class="chat-header">
         <div class="chat-header-title">
           <span class="online-indicator"></span>
@@ -460,13 +441,11 @@
         <button id="chat-close-btn">✕</button>
       </div>
       
-      <!-- Zone des messages -->
       <div id="chat-messages">
         <div style="background: #e2e8f0; color: #1e293b; padding: 12px 14px; border-radius: 12px; max-width: 90%; line-height: 1.4;">
           Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
         </div>
 
-        <!-- Boutons de questions rapides -->
         <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
           <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?">🎓 Diplômes & Certifications</button>
           <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva.">🏢 Expérience DSI/RSSI Inventiva</button>
@@ -474,7 +453,6 @@
         </div>
       </div>
 
-      <!-- Champ de saisie -->
       <div class="chat-input-area">
         <input type="text" id="chat-input" placeholder="Posez une question..." autocomplete="off">
         <button id="chat-send-btn">Envoyer</button>
@@ -483,7 +461,6 @@
     </div>
   </div>
 
-  <!-- Script d'interaction JavaScript -->
   <script>
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
     const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -492,7 +469,6 @@
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // Toggle Ouverture / Fermeture
     chatToggleBtn.onclick = () => {
       const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
       chatBox.style.display = isHidden ? 'flex' : 'none';
@@ -500,7 +476,6 @@
     };
     chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
 
-    // Ajout propre dans le DOM sans casser les event listeners (appendChild)
     function appendMessage(text, isUser = false, isError = false, id = null) {
       const div = document.createElement('div');
       if (id) div.id = id;
@@ -519,19 +494,15 @@
       return div;
     }
 
-    // Traitement de l'envoi vers /api/chat
     async function sendQuery(text) {
       if (!text) return;
 
-      // Cacher la liste des boutons de suggestion
       const quickBox = document.getElementById('quick-questions');
       if (quickBox) quickBox.style.display = 'none';
 
-      // 1. Afficher le message utilisateur
       appendMessage(text, true);
       chatInput.value = '';
 
-      // 2. Afficher l'état de chargement
       const loadingId = 'loading-' + Date.now();
       appendMessage('<i>Réflexion en cours...</i>', false, false, loadingId);
 
@@ -545,19 +516,19 @@
         const data = await res.json();
         document.getElementById(loadingId)?.remove();
 
-        const reply = data.response || "Désolé, je n'ai pas pu obtenir de réponse.";
-        appendMessage(reply, false);
+        // Récupération de la réponse ou affichage de l'erreur détaillée si présente
+        const reply = data.response || (data.details ? `⚠️ ${data.error}: ${data.details}` : (data.error || "Désolé, je n'ai pas pu obtenir de réponse."));
+        
+        appendMessage(reply, false, !data.response);
       } catch (err) {
         document.getElementById(loadingId)?.remove();
-        appendMessage('Erreur de connexion avec l\'IA.', false, true);
+        appendMessage('Erreur de connexion avec le serveur API.', false, true);
       }
     }
 
-    // Événements d'envoi (bouton et touche Entrée)
     chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
     chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
 
-    // Événements boutons de suggestion
     document.querySelectorAll('.quick-btn').forEach(btn => {
       btn.onclick = () => sendQuery(btn.getAttribute('data-query'));
     });
