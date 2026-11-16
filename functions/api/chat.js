@@ -4,7 +4,7 @@ export async function onRequestPost(context) {
   try {
     const { request, env } = context;
 
-    // Vérification de la liaison Workers AI
+    // 1. Vérification du binding Workers AI
     if (!env || !env.AI) {
       return new Response(
         JSON.stringify({ 
@@ -16,15 +16,22 @@ export async function onRequestPost(context) {
     }
 
     const body = await request.json().catch(() => ({}));
-    const message = body.message;
-
-    if (!message) {
+    
+    // Support de l'historique complet (array) ou d'un message unique (string)
+    let chatMessages = [];
+    if (Array.isArray(body.messages) && body.messages.length > 0) {
+      chatMessages = body.messages.slice(-8); // Limite aux 8 derniers messages pour garder une latence faible
+    } else if (body.message) {
+      chatMessages = [{ role: 'user', content: body.message }];
+    } else {
       return new Response(JSON.stringify({ error: "Message vide" }), { status: 400 });
     }
 
+    // 2. System Prompt
     const systemPrompt = `
 Tu es l'assistant virtuel interactif du CV en ligne d'Ahmed Bouchaïr (DSI & RSSI).
 Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compétences et ses réalisations avec précision, concision et courtoisie.
+Conserve le contexte des questions précédentes pour répondre naturellement aux demandes de précision.
 
 --- PARCOURS ET EXPÉRIENCES D'AHMED BOUCHAÏR ---
 - Titre : Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI).
@@ -41,7 +48,12 @@ Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compé
 Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la question posée, dans la langue du visiteur. Ne fabrique aucune information non mentionnée.
 `;
 
-    // Liste des modèles actifs Cloudflare Workers AI avec boucle de fallback
+    const fullMessages = [
+      { role: 'system', content: systemPrompt },
+      ...chatMessages
+    ];
+
+    // 3. Modèles actifs avec boucle de fallback
     const models = [
       '@cf/meta/llama-3.2-3b-instruct',
       '@cf/meta/llama-3.3-70b-instruct',
@@ -55,10 +67,7 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
     for (const model of models) {
       try {
         aiResponse = await env.AI.run(model, {
-          messages: [
-            { role: 'system', content: systemPrompt },
-            { role: 'user', content: message }
-          ],
+          messages: fullMessages,
           max_tokens: 300,
           temperature: 0.5
         });
@@ -69,7 +78,7 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
     }
 
     if (!aiResponse) {
-      throw lastError || new Error("Aucun modèle Workers AI n'a pu répondre.");
+      throw lastError || new Error("Aucun modèle Workers AI disponible n'a pu répondre.");
     }
 
     const outputText = aiResponse.response || aiResponse.result || (typeof aiResponse === 'string' ? aiResponse : JSON.stringify(aiResponse));
