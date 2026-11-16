@@ -9,7 +9,7 @@ export async function onRequestPost(context) {
       return new Response(
         JSON.stringify({ 
           error: "Binding AI non configuré", 
-          details: "La variable env.AI est introuvable. Vérifiez la liaison Workers AI (nom: AI) sous Cloudflare Settings > Functions." 
+          details: "La variable env.AI est introuvable dans context.env. Assurez-vous d'avoir ajouté le Binding Workers AI nommé 'AI' dans Cloudflare." 
         }), 
         { status: 500, headers: { 'Content-Type': 'application/json' } }
       );
@@ -24,19 +24,25 @@ export async function onRequestPost(context) {
 
     const systemPrompt = `
 Tu es l'assistant virtuel interactif du CV en ligne d'Ahmed Bouchaïr (DSI & RSSI).
-Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compétences et ses réalisations avec précision et courtoisie.
+Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compétences et ses réalisations avec précision, concision et courtoisie.
 
---- PARCOURS ET EXPÉRIENCES ---
-- Ahmed Bouchaïr: DSI & RSSI avec 20 ans d'expérience globale dans le numérique et 18 ans en management IT.
-- Inventiva (2022-2026): DSI & RSSI, management IT (France, US, UK), migration AWS, SOC, SOX/GxP.
-- EY / Enedis (2021-2022): Consultant Cybersécurité, EBIOS RM, ISO 27002, conformité NIS (OSE).
-- Formations: Executive Certificate IA ESSEC (2026-2027), Certification CISSP, Ingénieur CNAM (2008).
+--- PARCOURS ET EXPÉRIENCES D'AHMED BOUCHAÏR ---
+- Titre : Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI).
+- Expérience : 20 ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes et de projets IT.
+- Formations & Diplômes :
+  1. Executive Certificate "IA, Data & Création de Valeur" — ESSEC Business School (2026–2027)
+  2. Certification CISSP (Certified Information Systems Security Professional)
+  3. Diplôme d'Ingénieur Systèmes d'Information — CNAM Paris (2008)
+- Expériences Clés :
+  1. DSI & RSSI — Inventiva (Biotech Internationale, 2022–2026) : Management IT/Sécurité (France, US, UK), migration Cloud AWS, SOC, conformité SOX/GxP.
+  2. Consultant Cybersécurité — EY / Enedis (2021–2022) : Analyses EBIOS RM, audits ISO 27002, conformité NIS (OSE).
+  3. Direction de projets IT & Datacenter (Secteur public/parapublic) : Datacenter souverain, réseau fibre Smart City, dématérialisation marchés publics.
 
-Consignes: Réponds brièvement (2 à 4 phrases), dans la langue de la question. Ne fabrique aucune information.
+Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la question posée, dans la langue du visiteur. Ne fabrique aucune information non mentionnée.
 `;
 
-    // Modèle Llama 3.1 8B Instruct
-    const aiResponse = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
+    // Modèle actif et supporté sur Cloudflare Workers AI
+    const aiResponse = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: message }
@@ -45,7 +51,7 @@ Consignes: Réponds brièvement (2 à 4 phrases), dans la langue de la question.
       temperature: 0.5
     });
 
-    const outputText = aiResponse.response || aiResponse.result || JSON.stringify(aiResponse);
+    const outputText = aiResponse.response || aiResponse.result || (typeof aiResponse === 'string' ? aiResponse : JSON.stringify(aiResponse));
 
     return new Response(JSON.stringify({ response: outputText }), {
       headers: { 
