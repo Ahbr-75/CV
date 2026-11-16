@@ -1,10 +1,9 @@
 // functions/api/chat.js
 
-// Origines autorisées à solliciter l'API
 const ALLOWED_ORIGINS = [
   'https://cv-89q.pages.dev',
   'http://localhost:8788',
-  '[suspicious link removed]'
+  'https://cv-89q.pages.dev/'
 ];
 
 function getCorsHeaders(request) {
@@ -19,7 +18,6 @@ function getCorsHeaders(request) {
   };
 }
 
-// 1. Gestion automatique des requêtes Preflight OPTIONS
 export async function onRequestOptions(context) {
   const corsHeaders = getCorsHeaders(context.request);
   return new Response(null, {
@@ -28,13 +26,11 @@ export async function onRequestOptions(context) {
   });
 }
 
-// 2. Traitement des requêtes POST de chat
 export async function onRequestPost(context) {
   const { request, env } = context;
   const corsHeaders = getCorsHeaders(request);
 
   try {
-    // Vérification du binding Workers AI
     if (!env || !env.AI) {
       return new Response(
         JSON.stringify({ 
@@ -47,7 +43,6 @@ export async function onRequestPost(context) {
 
     const body = await request.json().catch(() => ({}));
 
-    // Extraction des messages (mémoire multi-tours)
     let chatMessages = [];
     if (Array.isArray(body.messages) && body.messages.length > 0) {
       chatMessages = body.messages.slice(-8);
@@ -65,7 +60,6 @@ export async function onRequestPost(context) {
       );
     }
 
-    // Contexte du CV d'Ahmed Bouchaïr
     const systemPrompt = `
 Tu es l'assistant virtuel interactif du CV en ligne d'Ahmed Bouchaïr (DSI & RSSI).
 Ton rôle est d'informer les recruteurs et dirigeants sur son profil, ses compétences et ses réalisations avec précision, concision et courtoisie.
@@ -91,7 +85,6 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
       ...chatMessages
     ];
 
-    // Modèles Workers AI avec système de repli
     const models = [
       '@cf/meta/llama-3.2-3b-instruct',
       '@cf/meta/llama-3.3-70b-instruct',
@@ -99,34 +92,37 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
       '@cf/mistral/mistral-7b-instruct-v0.2'
     ];
 
-    let aiResponse = null;
+    let stream = null;
     let lastError = null;
 
     for (const model of models) {
       try {
-        aiResponse = await env.AI.run(model, {
+        stream = await env.AI.run(model, {
           messages: fullMessages,
+          stream: true,
           max_tokens: 300,
           temperature: 0.5
         });
-        if (aiResponse) break;
+        if (stream) break;
       } catch (err) {
         lastError = err;
       }
     }
 
-    if (!aiResponse) {
+    if (!stream) {
       throw lastError || new Error("Aucun modèle Workers AI disponible n'a pu répondre.");
     }
 
-    const outputText = aiResponse.response || aiResponse.result || (typeof aiResponse === 'string' ? aiResponse : JSON.stringify(aiResponse));
-
-    return new Response(JSON.stringify({ response: outputText }), {
-      headers: { 
+    // Envoi du flux SSE
+    return new Response(stream, {
+      headers: {
         ...corsHeaders,
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
       }
     });
+
   } catch (error) {
     return new Response(
       JSON.stringify({ 
@@ -140,3 +136,90 @@ Consignes strictes : Réponds brièvement (2 à 4 phrases), directement à la qu
     );
   }
 }
+
+2. Fichier index.html (Mise à jour v5 - Streaming frontend)
+Sur GitHub, mettez à jour votre fichier index.html avec le code téléchargé depuis le Studio (ou remplacez le bloc <script> par la gestion du ReadableStream) :
+
+    async function sendQuery(text) {
+      if (!text) return;
+
+      const quickBox = document.getElementById('quick-questions');
+      if (quickBox) quickBox.style.display = 'none';
+
+      appendMessage(text, true);
+      chatInput.value = '';
+
+      conversationHistory.push({ role: 'user', content: text });
+
+      const loadingId = 'loading-' + Date.now();
+      appendMessage('<i>Réflexion en cours...</i>', false, false, loadingId);
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: conversationHistory })
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          document.getElementById(loadingId)?.remove();
+          const errText = errorData.details ? `⚠️ ${errorData.error}: ${errorData.details}` : (errorData.error || "Désolé, je n'ai pas pu obtenir de réponse.");
+          appendMessage(errText, false, true);
+          return;
+        }
+
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json();
+          document.getElementById(loadingId)?.remove();
+          const reply = data.response || data.error || "Désolé, je n'ai pas pu obtenir de réponse.";
+          if (data.response) conversationHistory.push({ role: 'assistant', content: data.response });
+          appendMessage(reply, false, !data.response);
+          return;
+        }
+
+        // Traitement du flux Streaming (SSE)
+        document.getElementById(loadingId)?.remove();
+        const assistantMsgDiv = appendMessage('', false);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let fullText = '';
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.response) {
+                  fullText += parsed.response;
+                  assistantMsgDiv.innerHTML = fullText;
+                  chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+
+        if (fullText) {
+          conversationHistory.push({ role: 'assistant', content: fullText });
+        } else {
+          assistantMsgDiv.innerHTML = "Désolé, aucune réponse n'a pu être générée.";
+        }
+
+      } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        appendMessage('Erreur de connexion avec le serveur API.', false, true);
+      }
+    }
