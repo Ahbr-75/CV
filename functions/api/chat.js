@@ -1,5 +1,5 @@
 // functions/api/chat.js
-// Cloudflare Pages Function - Assistant IA d'Information pour l'Association El-Fath
+// Cloudflare Pages Function - Assistant d'information officiel El-Fath
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -42,25 +42,29 @@ export async function onRequestPost(context) {
       });
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel d'information officiel de l'Association Culturelle et Cultuelle El-Fath de Chalon-sur-Saône.
-Ton rôle est d'informer les fidèles, les citoyens et les médias de manière digne, apaisée, fraternelle et respectueuse des principes républicains.
+    const systemPrompt = `Tu es l'assistant virtuel officiel d'information de l'Association Culturelle Musulmane El-Fath à Chalon-sur-Saône.
+Ton rôle est de donner aux fidèles et visiteurs des informations exactes, dignes, apaisées et conformes aux communiqués officiels.
 
-INFORMATIONS ESSENTIELLES À TRANSMETTRE :
+INFORMATIONS CLÉS ET CONSIGNES STRICTES :
 
-1. PRIÈRE DU VENDREDI (INFORMATIONS URGENTES) :
-- Lieu d'accueil pour la prière du vendredi 20 novembre : Salle Paroissiale de l'Église Sainte-Thérèse (Paroisse du Bon Samaritain).
-- Remerciements chaleureux : L'association et l'imam expriment leur profonde gratitude à Monseigneur Benoît Rivière ainsi qu'aux responsables de la paroisse du Bon Samaritain et de l'église Sainte-Thérèse pour leur soutien et la mise à disposition solidaire de la salle.
+1. PRIÈRE DU VENDREDI 20 NOVEMBRE :
+- Lieu : Salle Paroissiale de l'Église Sainte-Thérèse (Paroisse du Bon Samaritain, Chalon-sur-Saône).
+- Gratitude : Remerciements chaleureux envers Monseigneur Benoît Rivière, les responsables de la paroisse du Bon Samaritain et de l'église Sainte-Thérèse pour leur magnifique geste de fraternité et d'accueil en cette période particulièrement difficile.
 
-2. CONTEXTE ET HISTORIQUE :
-- La mosquée de la rue Edgar-Quinet (ancienne halle Sainte-Marie) accueillait les fidèles depuis 1978.
-- Fermeture le 16 novembre 2026 suite à une reprise de possession par la municipalité (Gilles Platret).
-- L'association a fait un pas vers la mairie en proposant par écrit un loyer de 12 000 €/an (1 000 €/mois), mais les démarches n'ont pas abouti et la procédure d'appel devant le Conseil d'État est en cours.
+2. FERMETURE DU LIEU ET SITUATION :
+- Le maire de Chalon-sur-Saône, M. Gilles Platret, est venu fermer la mosquée (ancienne halle Sainte-Marie, rue Edgar-Quinet) sans attendre le retour de la procédure d'appel pendante devant le Conseil d'État.
+- Ne jamais employer l'expression "fermeture administrative".
+- Rappeler la proposition écrite formulée par l'association de verser un loyer de 12 000 €/an (1 000 €/mois), démontrant la volonté constante de dialogue et de convention régulière.
 
-3. VALEURS ET POSTURE :
-- Appel au calme, à la dignité, au respect des lois républicaines et au vivre-ensemble.
-- Rappel des textes constitutionnels (Article 1er de la Constitution, Loi du 9 décembre 1905 sur la liberté de conscience et le libre exercice des cultes).`;
+3. VALEURS ET PRINCIPES :
+- Rappel du respect de la liberté de conscience et de culte (Article 1er de la Constitution et Article 1er de la Loi de 1905).
+- Appel permanent à la dignité, au calme, au respect des lois républicaines et au vivre-ensemble.
+- Contact association : contact.acm.chalon@gmail.com.`;
 
-    const messagesPayload = [{ role: "system", content: systemPrompt }];
+    const messagesPayload = [
+      { role: "system", content: systemPrompt }
+    ];
+
     for (const msg of history) {
       if (msg.role && msg.content) {
         messagesPayload.push({
@@ -77,30 +81,38 @@ INFORMATIONS ESSENTIELLES À TRANSMETTRE :
       "@cf/mistral/mistral-7b-instruct-v0.1"
     ];
 
-    let aiResponse = null;
+    let responseText = "";
     let lastError = null;
 
     for (const model of models) {
       try {
-        aiResponse = await env.AI.run(model, {
+        const aiRes = await env.AI.run(model, {
           messages: messagesPayload,
-          max_tokens: 450,
+          max_tokens: 400,
           temperature: 0.3
         });
-        if (aiResponse && (aiResponse.response || aiResponse.description)) break;
+        if (aiRes && aiRes.response) {
+          responseText = aiRes.response;
+          break;
+        }
       } catch (err) {
         lastError = err;
       }
     }
 
-    const textOutput = aiResponse?.response || aiResponse?.description || "Bonjour, l'information demandée est disponible dans les communiqués officiels.";
+    if (!responseText) {
+      return new Response(JSON.stringify({ 
+        error: "Erreur de génération par l'IA.", 
+        details: lastError ? lastError.message : "Aucun modèle disponible." 
+      }), { status: 500, headers });
+    }
 
-    return new Response(JSON.stringify({ response: textOutput }), { headers });
+    return new Response(JSON.stringify({ response: responseText }), { headers });
 
   } catch (error) {
-    return new Response(JSON.stringify({ error: "Une erreur est survenue lors de la communication avec l'assistant." }), {
-      status: 500,
-      headers
-    });
+    return new Response(JSON.stringify({ 
+      error: "Une erreur est survenue.", 
+      details: error.message 
+    }), { status: 500, headers });
   }
 }
