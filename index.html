@@ -3,109 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed Bouchaïr — DSI & RSSI</title>
+  <title>Association Musulmane El-Fath — Chalon-sur-Saône</title>
   <style>
-    /* -------------------------------------------------------------
-       VARIABLES & SYSTEME DE DESIGN
-    ------------------------------------------------------------- */
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --dark-navy: #0f172a;
-      --text-main: #334155;
-      --text-muted: #64748b;
-      --bg-body: #f8fafc;
+      --primary: #15803d;
+      --primary-hover: #166534;
+      --dark-green: #064e3b;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --bg-body: #f7fee7;
       --bg-card: #ffffff;
-      --border-color: #e2e8f0;
+      --border-color: #e5e7eb;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1);
     }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       color: var(--text-main);
-      background-color: var(--bg-body);
-      -webkit-font-smoothing: antialiased;
+      background-color: #f9fafb;
     }
-
-    /* -------------------------------------------------------------
-       SECTION EN-TÊTE / HERO
-    ------------------------------------------------------------- */
     header {
-      background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
+      background: linear-gradient(135deg, var(--dark-green) 0%, #111827 100%);
       color: white;
-      padding: 50px 20px 40px;
+      padding: 50px 20px;
       text-align: center;
-      position: relative;
     }
-
-    .profile-img {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      margin-bottom: 16px;
-      transition: transform 0.3s ease;
-    }
-
-    .profile-img:hover {
-      transform: scale(1.03);
-    }
-
-    header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      font-size: 1.15rem;
-      color: #94a3b8;
-      max-width: 650px;
-      margin: 0 auto 16px;
-      font-weight: 400;
-    }
-
+    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 1.1rem; color: #d1fae5; max-width: 700px; margin: 0 auto 16px; }
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(37, 99, 235, 0.2);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      padding: 6px 14px;
+      gap: 8px;
+      background: rgba(21, 128, 61, 0.3);
+      border: 1px solid rgba(52, 211, 153, 0.4);
+      color: #6ee7b7;
+      padding: 6px 16px;
       border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.9rem;
     }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      background-color: #4ade80;
-      border-radius: 50%;
-      box-shadow: 0 0 8px #4ade80;
-    }
-
-    /* -------------------------------------------------------------
-       DISPOSITION & CARTES
-    ------------------------------------------------------------- */
-    .container {
-      max-width: 900px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
-
+    .container { max-width: 900px; margin: 35px auto; padding: 0 20px; }
     .card {
       background: var(--bg-card);
       padding: 28px;
@@ -113,57 +51,30 @@
       border-radius: 12px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
-      transition: box-shadow 0.2s ease;
     }
-
-    .card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-
-    h2 {
-      font-size: 1.35rem;
-      color: var(--dark-navy);
-      border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 10px;
-      margin-bottom: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* -------------------------------------------------------------
-       BADGES & COMPÉTENCES
-    ------------------------------------------------------------- */
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .badge {
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-      padding: 6px 12px;
+    h2 { font-size: 1.35rem; color: var(--dark-green); border-bottom: 2px solid #ecfdf5; padding-bottom: 10px; margin-bottom: 18px; }
+    .alert-box {
+      background: #fef2f2;
+      border-left: 4px solid #ef4444;
+      padding: 16px;
       border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 500;
+      color: #991b1b;
+      margin-bottom: 20px;
     }
-
-    /* -------------------------------------------------------------
-       CHRONOLOGIE & EXPÉRIENCES
-    ------------------------------------------------------------- */
+    .info-box {
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      padding: 16px;
+      border-radius: 8px;
+      color: #14532d;
+      margin-bottom: 20px;
+    }
     .timeline-item {
       position: relative;
       padding-left: 20px;
-      border-left: 2px solid #e2e8f0;
-      margin-bottom: 20px;
+      border-left: 2px solid #d1d5db;
+      margin-bottom: 18px;
     }
-
-    .timeline-item:last-child {
-      margin-bottom: 0;
-    }
-
     .timeline-item::before {
       content: '';
       position: absolute;
@@ -174,323 +85,100 @@
       border-radius: 50%;
       background: var(--primary);
     }
-
-    .job-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--dark-navy);
-    }
-
-    .company {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    /* -------------------------------------------------------------
-       WIDGET CHATBOT IA AVEC MÉMOIRE DE CONVERSATION
-    ------------------------------------------------------------- */
-    #ai-chat-widget {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-    }
-
+    /* Chatbot widget */
+    #ai-chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
     #chat-toggle-btn {
       background: var(--primary);
-      color: #ffffff;
+      color: white;
       border: none;
       border-radius: 50px;
       padding: 14px 24px;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(21, 128, 61, 0.4);
     }
-
-    #chat-toggle-btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-2px);
-    }
-
     #chat-box {
       display: none;
-      width: 360px;
-      height: 500px;
-      background: #ffffff;
+      width: 380px;
+      height: 520px;
+      background: white;
       border-radius: 16px;
       box-shadow: var(--shadow-md);
       flex-direction: column;
       overflow: hidden;
       margin-bottom: 14px;
       border: 1px solid var(--border-color);
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .chat-header {
-      background: var(--dark-navy);
-      color: white;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chat-header-title {
-      font-weight: 600;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .online-indicator {
-      width: 8px;
-      height: 8px;
-      background-color: #22c55e;
-      border-radius: 50%;
-    }
-
-    #chat-close-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    #chat-close-btn:hover {
-      color: white;
-    }
-
-    #chat-messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      font-size: 14px;
-      background: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .quick-btn {
-      background: #ffffff;
-      color: var(--primary);
-      border: 1px solid #bfdbfe;
-      border-radius: 20px;
-      padding: 7px 13px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-    }
-
-    .quick-btn:hover {
-      background: #eff6ff;
-      border-color: var(--primary);
-    }
-
-    .chat-input-area {
-      padding: 12px;
-      display: flex;
-      gap: 8px;
-      border-top: 1px solid var(--border-color);
-      background: white;
-    }
-
-    #chat-input {
-      flex: 1;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    #chat-input:focus {
-      border-color: var(--primary);
-    }
-
-    #chat-send-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    #chat-send-btn:hover {
-      background: var(--primary-hover);
-    }
-
-    @media (max-width: 640px) {
-      .container { padding: 0 12px; }
-      #ai-chat-widget { bottom: 12px; right: 12px; left: 12px; }
-      #chat-toggle-btn { width: 100%; justify-content: center; }
-      #chat-box { width: 100%; height: 80vh; }
-    }
+    .chat-header { background: var(--dark-green); color: white; padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+    #chat-messages { flex: 1; padding: 16px; overflow-y: auto; font-size: 14px; background: #f9fafb; display: flex; flex-direction: column; gap: 12px; }
+    .chat-input-area { padding: 12px; display: flex; gap: 8px; border-top: 1px solid var(--border-color); background: white; }
+    #chat-input { flex: 1; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; outline: none; }
+    #chat-send-btn { background: var(--primary); color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-weight: 600; }
   </style>
 </head>
 <body>
-
-  <!-- =============================================================
-       EN-TÊTE DU CV
-  ============================================================= -->
   <header>
-    <img src="photo.jpg" alt="Ahmed Bouchaïr" class="profile-img" onerror="this.style.display='none'">
-    <h1>Ahmed Bouchaïr</h1>
-    <p>Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI)</p>
+    <h1>Association Culturelle et Cultuelle El-Fath</h1>
+    <p>Chalon-sur-Saône — Communiqué Officiel et Espace d'Information</p>
     <div class="status-badge">
-      <span class="status-dot"></span>
-      <span>Disponible pour de nouveaux défis stratégiques</span>
-    </div>
-  
-    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <a href="cv-ahmed-bouchair-developpe.pdf" download style="background: #2563eb; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);">
-        📄 Télécharger le CV Complet (PDF)
-      </a>
-      <button onclick="document.getElementById('contact-modal').style.display='flex'" style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-        📅 Planifier un Échange / Contact
-      </button>
+      <span>📢 Appel au calme, à la dignité et au dialogue républicain</span>
     </div>
   </header>
 
-  <!-- =============================================================
-       CONTENU PRINCIPAL DU CV
-  ============================================================= -->
   <main class="container">
-    
+    <div class="alert-box">
+      <strong>Fermeture des locaux (16 Novembre 2026) :</strong> Suite à l'ordonnance du Tribunal Administratif de Dijon et à la décision de la municipalité, les locaux historiques de la rue Edgar-Quinet (ancienne halle Sainte-Marie) ont été repris le 16 novembre 2026.
+    </div>
+
     <section class="card">
-      <h2>📌 Profil & Vision Stratégique</h2>
-      <p>
-        20 ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes et de projets IT. 
-        Spécialisé dans la direction de systèmes d'information, la cybersécurité (CISSP), la gouvernance Cloud et la conduite du changement stratégique d'entreprise.
-      </p>
+      <h2>📌 Communiqué de l'Association El-Fath</h2>
+      <p>Depuis 1978, la mosquée El-Fath a accueilli des générations de fidèles dans le respect des valeurs républicaines et du vivre-ensemble. Malgré nos démarches actives pour établir une convention locative (incluant une proposition de contribution annuelle de 12 000 €), la fermeture administrative est survenue ce 16 novembre 2026.</p>
+      <br>
+      <p>L'association réaffirme son attachement à la paix civile, rejette toute forme de surenchère et appelle l'ensemble de la communauté à faire preuve de dignité et de retenue.</p>
     </section>
 
     <section class="card">
-      <h2>🛡️ Compétences Clés</h2>
-      <div class="skills-grid">
-        <span class="badge">Gouvernance DSI</span>
-        <span class="badge">Cybersécurité (CISSP)</span>
-        <span class="badge">Cloud Hybride & AWS</span>
-        <span class="badge">SOC & Incident Response</span>
-        <span class="badge">Normes ISO 27002 / NIS</span>
-        <span class="badge">Conformité GxP & SOX</span>
-        <span class="badge">IA d'Entreprise & MLOps</span>
-        <span class="badge">EBIOS RM</span>
-        <span class="badge">Gestion Budgétaire CapEx/OpEx</span>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>💼 Expériences Principales</h2>
-      
+      <h2>📅 Chronologie & Contexte</h2>
       <div class="timeline-item">
-        <div class="job-title">DSI & RSSI</div>
-        <div class="company">Inventiva (Biotech Internationale) — 2022 à 2026</div>
-        <p>Management du SI et de la cybersécurité globale (France, US, UK). Migration Cloud AWS, mise en place du SOC, gouvernance des données et conformité SOX / GxP.</p>
+        <strong>1978 – 1979 :</strong> Mise à disposition des locaux municipaux rue Edgar-Quinet pour le culte musulman à Chalon-sur-Saône.
       </div>
-
       <div class="timeline-item">
-        <div class="job-title">Consultant Senior Cybersécurité</div>
-        <div class="company">EY / Enedis — 2021 à 2022</div>
-        <p>Analyses de risques EBIOS RM, audits de maturité ISO 27002 et accompagnement à la conformité NIS pour les Opérateurs de Services Essentiels (OSE).</p>
+        <strong>Juin – Septembre 2026 :</strong> Contentieux sur la gratuité du local au regard de la loi de 1905. Ordonnance d'expulsion rendue le 22 septembre 2026 par le Tribunal Administratif de Dijon.
       </div>
-
       <div class="timeline-item">
-        <div class="job-title">Directeur de Projets IT & Datacenter</div>
-        <div class="company">Secteur Public & Parapublic — Prior à 2021</div>
-        <p>Construction de Datacenter souverain, déploiement de réseaux fibre optique (Smart City) et dématérialisation des marchés publics.</p>
+        <strong>16 Novembre 2026 :</strong> Reprise officielle des clés et serrures par les services municipaux.
+      </div>
+      <div class="timeline-item">
+        <strong>Aujourd'hui :</strong> Démarches en cours pour trouver une solution temporaire et pérenne d'accueil des fidèles.
       </div>
     </section>
 
     <section class="card">
-      <h2>🎓 Formations & Certifications</h2>
-      <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-        <li><strong>Executive Certificate IA & Création de Valeur</strong> — ESSEC Business School (2026–2027)</li>
-        <li><strong>Certification CISSP</strong> — Certified Information Systems Security Professional</li>
-        <li><strong>Diplôme d'Ingénieur Systèmes d'Information</strong> — CNAM Paris (2008)</li>
-      </ul>
+      <h2>🤝 Nos Engagements & Démarches</h2>
+      <div class="info-box">
+        <strong>Recherche d'un nouveau lieu :</strong> L'association recherche activement un espace privé répondant aux normes de sécurité pour accueillir la prière et les activités culturelles.
+      </div>
     </section>
-
   </main>
 
-  <!-- =============================================================
-       WIDGET CHATBOT IA INTERACTIF
-  ============================================================= -->
-  
-  <!-- MODAL CONTACT -->
-  <div id="contact-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(4px);" onclick="if(event.target.id==='contact-modal') this.style.display='none'">
-    <div style="background: white; padding: 32px; border-radius: 16px; max-width: 480px; width: 90%; box-shadow: 0 20px 30px rgba(0,0,0,0.2); position: relative;">
-      <button onclick="document.getElementById('contact-modal').style.display='none'" style="position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; cursor: pointer; color: #64748b;">✕</button>
-      <h3 style="margin-bottom: 8px; color: #0f172a; font-size: 1.3rem;">✉️ Prendre Contact avec Ahmed Bouchaïr</h3>
-      <p style="margin-bottom: 20px; color: #64748b; font-size: 0.95rem;">Directeur des Systèmes d'Information & Responsable Sécurité (DSI / RSSI)</p>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="mailto:ahbouchair@gmail.com" style="background: #2563eb; color: white; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center;">
-          ✉️ Envoyer un Email Direct (ahbouchair@gmail.com)
-        </a>
-        <a href="tel:+33611321769" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center;">
-          📞 Appeler au +33 6 11 32 17 69
-        </a>
-      </div>
-    </div>
-  </div>
-
+  <!-- Chatbot Widget -->
   <div id="ai-chat-widget">
-    
-    <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
-      <span>💬 Assistant IA CV</span>
-    </button>
-
+    <button id="chat-toggle-btn">💬 Assistant Information El-Fath</button>
     <div id="chat-box">
-      
       <div class="chat-header">
-        <div class="chat-header-title">
-          <span class="online-indicator"></span>
-          <span>Assistant IA — Ahmed Bouchaïr</span>
-        </div>
-        <button id="chat-close-btn">✕</button>
+        <span>Assistant IA — El-Fath Chalon</span>
+        <button id="chat-close-btn" style="background:none;border:none;color:white;font-size:18px;cursor:pointer;">✕</button>
       </div>
-      
       <div id="chat-messages">
-        <div style="background: #e2e8f0; color: #1e293b; padding: 12px 14px; border-radius: 12px; max-width: 90%; line-height: 1.4;">
-          Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
-        </div>
-
-        
-        <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
-          <button class="quick-btn" data-query="Voici une offre d'emploi : Chef / Directeur de Projet IT. Peux-tu analyser l'adéquation d'Ahmed ?">💼 Job Matcher (Tester une Fiche de Poste)</button>
-          <button class="quick-btn" data-query="Peux-tu rédiger une lettre de motivation sur-mesure pour un poste de DSI / RSSI ?">📝 Rédiger une Lettre de Motivation</button>
-          <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed (CNAM Paris, ESSEC, CISSP) ?">🎓 Diplômes & Certifications</button>
-          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva et chez EY / Enedis.">🏢 Expérience DSI/RSSI Inventiva & EY</button>
-        </div>
-          <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?">🎓 Diplômes & Certifications</button>
-          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva.">🏢 Expérience DSI/RSSI Inventiva</button>
-          <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?">🛡️ Compétences Cybersécurité</button>
+        <div style="background:#e5e7eb;padding:10px;border-radius:10px;">
+          Bonjour. Je suis l'assistant virtuel d'information de l'Association El-Fath. Posez-moi vos questions sur la situation, les démarches ou les communiqués officiels.
         </div>
       </div>
-
       <div class="chat-input-area">
-        <input type="text" id="chat-input" placeholder="Posez une question..." autocomplete="off">
+        <input type="text" id="chat-input" placeholder="Posez une question...">
         <button id="chat-send-btn">Envoyer</button>
       </div>
-
     </div>
   </div>
 
@@ -501,79 +189,52 @@
     const chatMessages = document.getElementById('chat-messages');
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
+    let history = [];
 
-    // Tableau de mémoire de conversation multi-tours
-    let conversationHistory = [];
-
-    chatToggleBtn.onclick = () => {
-      const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
-      chatBox.style.display = isHidden ? 'flex' : 'none';
-      if (isHidden) chatInput.focus();
-    };
+    chatToggleBtn.onclick = () => { chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex'; };
     chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
 
-    function appendMessage(text, isUser = false, isError = false, id = null) {
+    function appendMsg(text, isUser) {
       const div = document.createElement('div');
-      if (id) div.id = id;
-
-      if (isUser) {
-        div.style.cssText = 'align-self: flex-end; background: var(--primary); color: white; padding: 10px 14px; border-radius: 12px 12px 2px 12px; max-width: 85%; line-height: 1.4;';
-      } else if (isError) {
-        div.style.cssText = 'align-self: flex-start; background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 12px 12px 12px 2px;';
-      } else {
-        div.style.cssText = 'align-self: flex-start; background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 12px 12px 12px 2px; max-width: 88%; line-height: 1.4;';
-      }
-
-      div.innerHTML = text;
+      div.style.cssText = isUser 
+        ? 'align-self:flex-end;background:#15803d;color:white;padding:10px 14px;border-radius:12px;max-width:85%;'
+        : 'align-self:flex-start;background:#e5e7eb;color:#1f2937;padding:10px 14px;border-radius:12px;max-width:85%;';
+      div.innerText = text;
       chatMessages.appendChild(div);
       chatMessages.scrollTop = chatMessages.scrollHeight;
-      return div;
     }
 
-    async function sendQuery(text) {
-      if (!text) return;
-
-      const quickBox = document.getElementById('quick-questions');
-      if (quickBox) quickBox.style.display = 'none';
-
-      appendMessage(text, true);
+    async function sendMsg() {
+      const val = chatInput.value.trim();
+      if (!val) return;
+      appendMsg(val, true);
       chatInput.value = '';
+      history.push({ role: 'user', content: val });
 
-      // Enregistrement du message utilisateur dans la mémoire de session
-      conversationHistory.push({ role: 'user', content: text });
-
-      const loadingId = 'loading-' + Date.now();
-      appendMessage('<i>Réflexion en cours...</i>', false, false, loadingId);
+      const loading = document.createElement('div');
+      loading.innerText = 'Réflexion...';
+      loading.style.cssText = 'align-self:flex-start;font-style:italic;color:#6b7280;';
+      chatMessages.appendChild(loading);
 
       try {
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: conversationHistory })
+          body: JSON.stringify({ messages: history })
         });
-
         const data = await res.json();
-        document.getElementById(loadingId)?.remove();
-
-        const reply = data.response || (data.details ? `⚠️ ${data.error}: ${data.details}` : (data.error || "Désolé, je n'ai pas pu obtenir de réponse."));
-        
-        if (data.response) {
-          conversationHistory.push({ role: 'assistant', content: data.response });
-        }
-
-        appendMessage(reply, false, !data.response);
-      } catch (err) {
-        document.getElementById(loadingId)?.remove();
-        appendMessage('Erreur de connexion avec le serveur API.', false, true);
+        loading.remove();
+        const reply = data.response || data.error || "Désolé, aucune réponse disponible.";
+        history.push({ role: 'assistant', content: reply });
+        appendMsg(reply, false);
+      } catch(e) {
+        loading.remove();
+        appendMsg("Erreur de connexion au serveur API.", false);
       }
     }
 
-    chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
-    chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
-
-    document.querySelectorAll('.quick-btn').forEach(btn => {
-      btn.onclick = () => sendQuery(btn.getAttribute('data-query'));
-    });
+    chatSendBtn.onclick = sendMsg;
+    chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendMsg(); };
   </script>
 </body>
 </html>
