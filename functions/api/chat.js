@@ -1,111 +1,114 @@
 // functions/api/chat.js
-// API Backend Cloudflare Workers AI - Assistant Virtuel CV Ahmed Bouchair
+// Cloudflare Pages Function - Assistant d'Information Association Musulmane Chalon (El-Fath)
 
-const ALLOWED_ORIGINS = ['https://cv-89q.pages.dev', 'http://localhost:8788', 'https://cv-89q.pages.dev/'];
-
-function getCorsHeaders(request) {
-  const origin = request.headers.get('Origin');
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
-  return {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-  };
-}
-
-export async function onRequestOptions(context) {
-  const corsHeaders = getCorsHeaders(context.request);
-  return new Response(null, { status: 204, headers: corsHeaders });
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
 }
 
 export async function onRequestPost(context) {
-  const { request, env } = context;
-  const corsHeaders = getCorsHeaders(request);
+  const headers = {
+    "Content-Type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+
   try {
-    if (!env || !env.AI) {
-      return new Response(
-        JSON.stringify({ error: 'Binding AI non configure', details: 'Liaison AI introuvable.' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-    const body = await request.json().catch(() => ({}));
-    let chatMessages = [];
-    if (Array.isArray(body.messages) && body.messages.length > 0) {
-      chatMessages = body.messages.slice(-8);
-    } else if (body.message && typeof body.message === 'string' && body.message.trim() !== '') {
-      chatMessages = [{ role: 'user', content: body.message.trim() }];
-    }
-    if (chatMessages.length === 0) {
-      return new Response(
-        JSON.stringify({ error: 'Message vide', details: 'Aucun message valide.' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    const { request, env } = context;
+    const body = await request.json();
+
+    let userMessage = "";
+    let history = [];
+
+    if (body.messages && Array.isArray(body.messages) && body.messages.length > 0) {
+      history = body.messages;
+      userMessage = history[history.length - 1].content || "";
+    } else if (body.message && typeof body.message === "string") {
+      userMessage = body.message;
+      history = [{ role: "user", content: userMessage }];
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel interactif du CV en ligne d'Ahmed Bouchaïr (DSI / CIO & RSSI).
-Ton rôle est d'informer les recruteurs, dirigeants, RH et chasseurs de têtes sur son profil, ses compétences et son parcours avec rigueur, concision et professionnalisme.
-Tu conserves le contexte des messages précédents de la conversation pour répondre naturellement aux questions de suivi.
+    if (!userMessage || userMessage.trim() === "") {
+      return new Response(JSON.stringify({ error: "Le message ne peut pas être vide." }), {
+        status: 400,
+        headers
+      });
+    }
 
-REFERENTIEL EXHAUSTIF DU PARCOURS D'AHMED BOUCHAIR:
-1. TITRE ET SYNTHESE EXECUTIVE :
-- Nom : Ahmed Bouchaïr
-- Titres : Directeur des Systèmes d'Information (DSI / CIO) & Responsable de la Sécurité des SI (RSSI).
-- Expérience : Plus de 20 ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes IT et de projets informatiques complexes.
-- Triple expertise : Gouvernance & Stratégie DSI, Cybersécurité (CISSP, GRC, PSSI, SOC, EBIOS RM), et Gouvernance des Données & IA.
+    const systemPrompt = `Tu es l'assistant virtuel d'information de l'Association Musulmane El-Fath de Chalon-sur-Saône.
+Ton rôle est de fournir des réponses factuelles, apaisées, respectueuses et précises aux citoyens, fidèles et journalistes s'informant sur la situation de la mosquée et de l'association.
 
-2. DIPLÔMES ET CERTIFICATIONS FORMELLES (À NE JAMAIS OMETTRE NI CONTESTER) :
-- DIPLÔME D'INGÉNIEUR : Diplôme d'Ingénieur en Systèmes d'Information (Bac+5) — CNAM Paris (2008). Ahmed POSSÈDE un diplôme d'ingénieur en informatique de premier plan.
-- EXECUTIVE CERTIFICATE IA : "IA, Data & Création de Valeur" — ESSEC Business School (2026–2027). Gouvernance de l'IA, MLOps, Business Impact.
-- CERTIFICATION CYBERSÉCURITÉ : Certification CISSP (Certified Information Systems Security Professional) — (ISC)² (obtenue en 2013).
-- AUTRES DIPLÔMES INFORMATIQUES : DEST Informatique (Bac+4) — CNAM Bourgogne (2005) ; Technicien Supérieur en Informatique — AFPA du Creusot (2003) ; DEUG STAPS — Université de Dijon (1999).
+CONTEXTE FACTUEL :
+- Le 16 novembre 2026, la municipalité de Chalon-sur-Saône (portée par le maire Gilles Platret) a fait procéder au changement des serrures et à la reprise de possession du bâtiment situé au 4, rue Edgar-Quinet (ancienne halle Sainte-Marie).
+- Ce bâtiment abritait le centre culturel et cultuel musulman El-Fath depuis 1978/1979 (soit près de 47 ans d'ancrage local).
+- La décision fait suite à une ordonnance du Tribunal Administratif de Dijon (rendue en septembre 2026) motivée par le strict respect de la loi de 1905 concernant la mise à disposition gratuite de locaux municipaux pour le culte.
+- L'association exprime la tristesse et l'incompréhension des fidèles face à l'absence de solution de repli ou d'accueil alternative.
+- L'association prône le calme, le respect des lois de la République, le refus de toute provocation et appelle au dialogue constructif avec les autorités.
 
-3. EXPÉRIENCE EN ESN, CONSEIL ET PILOTAGE DE PROJETS CONTRACTUELS :
-- EXPERIENCE EN ESN / CONSEIL AVÉRÉE : Ahmed a exercé pendant 2 ans comme Consultant Senior en Cybersécurité et Management de Projets :
-  * Chez EY (Ernst & Young) / Secteur Assurance (Abeille Assurances) : Security Solution Project Manager (9 mois). Pilotage de bout en bout de projets d'intégration de sécurité (SOC managé, DLP, comptes à privilèges), animation des CODIR et réunions hebdomadaires, suivi des engagements contractuels, budgets et KPI, aide à la décision pour mises en production (GO run).
-  * Chez ENEDIS : RSSI de 2 Directions Régionales (Bourgogne et Alsace Franche-Comté - 13 mois). Audits de maturité ISO 27002 sur 114 points de contrôle, EBIOS RM, conformité NIS (OSE), animation du CERT Lyon et plan d'action à 3 ans.
+CONSIGNES DE RÉPONSE :
+1. Reste neutre, mesuré, digne, républicain et apaisé.
+2. Réponds directement en français (ou dans la langue de la question).
+3. Ne diffuse aucun message de haine ni de provocation.
+4. Encourage le dialogue et la recherche de solutions concertées pour l'exercice du culte dans le respect des lois.`;
 
-4. PARCOURS CHRONOLOGIQUE ET EXPÉRIENCES MANAGÉRALES :
-- Groupement Hospitalier de Territoire (GHT) Bourgogne Méridionale (05/2026–08/2026) : DSI Adjoint & Responsable Infrastructure (Santé Publique). Construction d'un datacenter souverain, sécurité des infrastructures hospitalières.
-- Inventiva Pharma (2022–04/2026) : Chief Information Officer (DSI) & RSSI (Biotech internationale cotée Euronext/NASDAQ, sites France et US). Schéma directeur SI, migration Move to Cloud AWS hybride (IAM Entra ID/AWS, DRP), SOC managé, conformité SOX ITGC (contrôles financiers) et GxP (qualité pharma), projets IA appliqués à la pharma, management direct de 10p en France + 1p aux US + prestataires FR/UK/US, budgets CAPEX/OPEX.
-- GIP Maximilien (2020–2021) : Chef de projet services numériques. Dématérialisation globale de la chaîne des achats publics en Île-de-France.
-- Babolat VS (2019–2020) : Responsable SI Groupe & RSSI (Équipementier sportif). Management des équipes IT multi-sites (Lyon, Asie, États-Unis), budget IT Groupe, tests d'intrusion mondiaux.
-- Ville d'Épinay-sur-Seine (2018–2019) : Directeur Technique SI. Schéma directeur, réseau fibre optique multiservice (Smart City), conformité RGPD.
-- OPAC Saône-et-Loire (2006–2018) [12 ans d'évolution] : RSSI (2016-2018 : PSSI ANSSI, SMSI ISO 27001, CISSP) ; DSI Adjoint & Infra (2008-2016 : Move to Cloud hybride, 1er centre d'appels internalisé avec téléphonie IP Alcatel/Cisco, mini-CRM PHP/Oracle/Linux, CTI) ; Ingénieur système & applications (2006-2008 : ERP, CRM, virtualisation VMware ESXi).
-- Missions Locales & Saint-Gobain Emballage (2003–2006) : Responsable SI (Missions Locales) ; Technicien informatique industrielle et cellule de crise cyber (Saint-Gobain).
-
-CONSIGNES POUR LE MODE "JOB MATCHER" (ANALYSE DE FICHE DE POSTE):
-Si le recruteur colle une fiche de poste, une offre d'emploi ou demande d'évaluer la correspondance d'Ahmed pour un poste (ex: ESN, Chef de Projet, Directeur de Projet, DSI, RSSI) :
-1. Calcule un score global de correspondance (%) élevé et réaliste (ex: 90% à 95%).
-2. Présente un tableau ou un bilan clair des critères de l'offre vs le profil d'Ahmed.
-3. RAPPEL CRUCIAL : Valide TOUJOURS que l'expérience en ESN/Conseil (Cabinet EY / Enedis) et le diplôme en informatique (Ingénieur CNAM Bac+5) sont BIEN PRÉSENTS et constituent des atouts majeurs.
-4. Conclus avec 3 conseils clés d'entretien valorisants.
-
-CONSIGNES DE STYLE ET DE FORME:
-- Réponds avec clarté, concision et pertinence.
-- Utilise la langue du visiteur (français par défaut).
-- Ne fabrique AUCUNE information non mentionnée dans le référentiel ci-dessus.`;
-
-    const fullMessages = [ { role: 'system', content: systemPrompt }, ...chatMessages ];
-    const models = [
-      '@cf/meta/llama-3.2-3b-instruct',
-      '@cf/meta/llama-3.3-70b-instruct',
-      '@cf/meta/llama-3.1-8b-instruct-fp8',
-      '@cf/mistral/mistral-7b-instruct-v0.2'
+    const messagesPayload = [
+      { role: "system", content: systemPrompt }
     ];
-    let stream = null;
+
+    for (const msg of history) {
+      if (msg.role && msg.content) {
+        messagesPayload.push({
+          role: msg.role === "user" ? "user" : "assistant",
+          content: msg.content
+        });
+      }
+    }
+
+    const models = [
+      "@cf/meta/llama-3.3-70b-instruct",
+      "@cf/meta/llama-3.2-3b-instruct",
+      "@cf/meta/llama-3.1-8b-instruct",
+      "@cf/mistral/mistral-7b-instruct-v0.1"
+    ];
+
+    let aiResponse = null;
     let lastError = null;
+
     for (const model of models) {
       try {
-        stream = await env.AI.run(model, { messages: fullMessages, stream: true, max_tokens: 600, temperature: 0.4 });
-        if (stream) break;
-      } catch (err) { lastError = err; }
+        aiResponse = await env.AI.run(model, {
+          messages: messagesPayload,
+          max_tokens: 500,
+          temperature: 0.4
+        });
+        if (aiResponse && (aiResponse.response || aiResponse.text)) break;
+      } catch (err) {
+        lastError = err;
+      }
     }
-    if (!stream) throw lastError || new Error('Aucun modele disponible.');
-    return new Response(stream, {
-      headers: { ...corsHeaders, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' }
-    });
+
+    if (!aiResponse) {
+      throw lastError || new Error("Aucun modèle IA disponible.");
+    }
+
+    const responseText = aiResponse.response || aiResponse.text || "Pas de réponse générée.";
+
+    return new Response(JSON.stringify({ response: responseText }), { headers });
+
   } catch (error) {
-    return new Response(JSON.stringify({ error: 'Erreur IA', details: error.message || String(error) }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({
+      error: "Une erreur est survenue lors du traitement.",
+      details: error.message
+    }), {
+      status: 500,
+      headers
+    });
   }
 }
