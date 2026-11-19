@@ -1,5 +1,5 @@
 // functions/api/chat.js
-// Cloudflare Pages Function - Assistant d'Information Association Musulmane Chalon (El-Fath)
+// Cloudflare Pages Function - Assistant IA d'Information pour l'Association El-Fath Chalon
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -42,26 +42,26 @@ export async function onRequestPost(context) {
       });
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel d'information de l'Association Musulmane El-Fath de Chalon-sur-Saône.
-Ton rôle est de fournir des réponses factuelles, apaisées, respectueuses et précises aux citoyens, fidèles et journalistes s'informant sur la situation de la mosquée et de l'association.
+    const systemPrompt = `Tu es l'assistant virtuel d'information officiel de l'Association Culturelle et Cultuelle El-Fath à Chalon-sur-Saône.
+Ton rôle est d'informer les fidèles, les citoyens et les médias avec sobriété, clarté, impartialité et un esprit d'apaisement et de respect républicain.
 
-CONTEXTE FACTUEL :
-- Le 16 novembre 2026, la municipalité de Chalon-sur-Saône (portée par le maire Gilles Platret) a fait procéder au changement des serrures et à la reprise de possession du bâtiment situé au 4, rue Edgar-Quinet (ancienne halle Sainte-Marie).
-- Ce bâtiment abritait le centre culturel et cultuel musulman El-Fath depuis 1978/1979 (soit près de 47 ans d'ancrage local).
-- La décision fait suite à une ordonnance du Tribunal Administratif de Dijon (rendue en septembre 2026) motivée par le strict respect de la loi de 1905 concernant la mise à disposition gratuite de locaux municipaux pour le culte.
-- L'association exprime la tristesse et l'incompréhension des fidèles face à l'absence de solution de repli ou d'accueil alternative.
-- L'association prône le calme, le respect des lois de la République, le refus de toute provocation et appelle au dialogue constructif avec les autorités.
+CONTEXTE ET FAITS OFFICIELS :
+1. Événements du 16 Novembre 2026 :
+   - Reprise de possession par la municipalité des locaux communaux de la rue Edgar-Quinet (ancienne halle Sainte-Marie), occupés à titre gracieux depuis 1978/1979.
+   - Décision suite à l'ordonnance d'expulsion rendue le 22 septembre 2026 par le Tribunal Administratif de Dijon au motif du respect de la loi de 1905 sur la laïcité.
+   - L'association avait proposé une contribution financière de 12 000 €/an qui n'a pas abouti à un accord.
+
+2. POSTURE DE L'ASSOCIATION :
+   - Appel au calme, à la dignité et au respect des décisions de justice et des institutions républicaines.
+   - Refus de toute surenchère ou polémique.
+   - Recherche active de solutions de relogement et d'espaces privés pour l'exercice du culte et les activités culturelles.
 
 CONSIGNES DE RÉPONSE :
-1. Reste neutre, mesuré, digne, républicain et apaisé.
-2. Réponds directement en français (ou dans la langue de la question).
-3. Ne diffuse aucun message de haine ni de provocation.
-4. Encourage le dialogue et la recherche de solutions concertées pour l'exercice du culte dans le respect des lois.`;
+- Réponds avec sérénité, empathie, précision et civisme.
+- Évite toute déclaration polémique, violente ou partisane.
+- Encourage le dialogue constructif.`;
 
-    const messagesPayload = [
-      { role: "system", content: systemPrompt }
-    ];
-
+    const messagesPayload = [{ role: "system", content: systemPrompt }];
     for (const msg of history) {
       if (msg.role && msg.content) {
         messagesPayload.push({
@@ -75,7 +75,7 @@ CONSIGNES DE RÉPONSE :
       "@cf/meta/llama-3.3-70b-instruct",
       "@cf/meta/llama-3.2-3b-instruct",
       "@cf/meta/llama-3.1-8b-instruct",
-      "@cf/mistral/mistral-7b-instruct-v0.1"
+      "@cf/meta/llama-3-8b-instruct"
     ];
 
     let aiResponse = null;
@@ -85,30 +85,25 @@ CONSIGNES DE RÉPONSE :
       try {
         aiResponse = await env.AI.run(model, {
           messages: messagesPayload,
-          max_tokens: 500,
-          temperature: 0.4
+          max_tokens: 450,
+          temperature: 0.3
         });
-        if (aiResponse && (aiResponse.response || aiResponse.text)) break;
+        if (aiResponse && aiResponse.response) break;
       } catch (err) {
         lastError = err;
       }
     }
 
-    if (!aiResponse) {
-      throw lastError || new Error("Aucun modèle IA disponible.");
+    if (!aiResponse || !aiResponse.response) {
+      throw lastError || new Error("Aucun modèle n'a pu répondre.");
     }
 
-    const responseText = aiResponse.response || aiResponse.text || "Pas de réponse générée.";
-
-    return new Response(JSON.stringify({ response: responseText }), { headers });
+    return new Response(JSON.stringify({ response: aiResponse.response }), { headers });
 
   } catch (error) {
     return new Response(JSON.stringify({
-      error: "Une erreur est survenue lors du traitement.",
+      error: "Une erreur est survenue lors de la communication avec l'assistant.",
       details: error.message
-    }), {
-      status: 500,
-      headers
-    });
+    }), { status: 500, headers });
   }
 }
