@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Association Musulmane El-Fath — Chalon-sur-Saône</title>
+  <title>Association Musulmane El-Fath — Chalon-sur-Saône | Prière du Vendredi</title>
   <style>
     :root {
       --primary: #15803d;
       --primary-hover: #166534;
       --dark-green: #064e3b;
+      --accent-gold: #d97706;
+      --accent-gold-bg: #fffbeb;
       --text-main: #1f2937;
       --text-muted: #4b5563;
-      --bg-body: #f7fee7;
+      --bg-body: #f8fafc;
       --bg-card: #ffffff;
       --border-color: #e5e7eb;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
@@ -22,53 +24,100 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       color: var(--text-main);
-      background-color: #f9fafb;
+      background-color: var(--bg-body);
     }
     header {
       background: linear-gradient(135deg, var(--dark-green) 0%, #111827 100%);
       color: white;
-      padding: 50px 20px;
+      padding: 45px 20px 35px;
       text-align: center;
     }
-    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 8px; }
-    header p { font-size: 1.1rem; color: #d1fae5; max-width: 700px; margin: 0 auto 16px; }
+    header h1 { font-size: 2.1rem; font-weight: 700; margin-bottom: 8px; }
+    header p { font-size: 1.1rem; color: #d1fae5; max-width: 750px; margin: 0 auto 16px; }
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(21, 128, 61, 0.3);
-      border: 1px solid rgba(52, 211, 153, 0.4);
+      background: rgba(21, 128, 61, 0.35);
+      border: 1px solid rgba(52, 211, 153, 0.5);
       color: #6ee7b7;
-      padding: 6px 16px;
+      padding: 8px 18px;
       border-radius: 20px;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 500;
     }
-    .container { max-width: 900px; margin: 35px auto; padding: 0 20px; }
+    .container { max-width: 920px; margin: 30px auto; padding: 0 20px; }
+    
+    /* ANNONCE URGENTE PRIÈRE DU VENDREDI */
+    .urgent-banner {
+      background: linear-gradient(135deg, #065f46 0%, #047857 100%);
+      color: white;
+      border: 2px solid #34d399;
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 12px 24px -6px rgba(5, 150, 105, 0.25);
+    }
+    .urgent-banner h2 {
+      color: #fef08a;
+      font-size: 1.6rem;
+      border-bottom: 2px solid rgba(254, 240, 138, 0.3);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .location-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px 0;
+      backdrop-filter: blur(5px);
+    }
+    .location-box p { font-size: 1.1rem; margin-bottom: 8px; }
+    .location-highlight {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: #047857;
+      padding: 8px 14px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 6px 0;
+      border: 1px solid #6ee7b7;
+    }
+
     .card {
       background: var(--bg-card);
       padding: 28px;
       margin-bottom: 24px;
-      border-radius: 12px;
+      border-radius: 14px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
     }
     h2 { font-size: 1.35rem; color: var(--dark-green); border-bottom: 2px solid #ecfdf5; padding-bottom: 10px; margin-bottom: 18px; }
-    .alert-box {
-      background: #fef2f2;
-      border-left: 4px solid #ef4444;
-      padding: 16px;
+    
+    .gratitude-box {
+      background: #eff6ff;
+      border-left: 4px solid #2563eb;
+      padding: 18px;
       border-radius: 8px;
-      color: #991b1b;
-      margin-bottom: 20px;
+      color: #1e40af;
+      margin-top: 14px;
+      font-size: 0.98rem;
     }
-    .info-box {
-      background: #f0fdf4;
-      border-left: 4px solid #22c55e;
-      padding: 16px;
+    .quote-box {
+      font-style: italic;
+      background: #fdfce7;
+      border-left: 4px solid #eab308;
+      padding: 16px 20px;
       border-radius: 8px;
-      color: #14532d;
-      margin-bottom: 20px;
+      color: #713f12;
+      margin: 16px 0;
     }
+
     .timeline-item {
       position: relative;
       padding-left: 20px;
@@ -85,7 +134,8 @@
       border-radius: 50%;
       background: var(--primary);
     }
-    /* Chatbot widget */
+    
+    /* CHATBOT WIDGET */
     #ai-chat-widget { position: fixed; bottom: 24px; right: 24px; z-index: 9999; }
     #chat-toggle-btn {
       background: var(--primary);
@@ -97,6 +147,9 @@
       font-weight: 600;
       cursor: pointer;
       box-shadow: 0 4px 16px rgba(21, 128, 61, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     #chat-box {
       display: none;
@@ -118,51 +171,77 @@
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Association Culturelle et Cultuelle El-Fath</h1>
-    <p>Chalon-sur-Saône — Communiqué Officiel et Espace d'Information</p>
+    <h1>Association Culturelle Musulmane El-Fath</h1>
+    <p>Chalon-sur-Saône — Communiqué de l'Imam & Informations Culte</p>
     <div class="status-badge">
-      <span>📢 Appel au calme, à la dignité et au dialogue républicain</span>
+      <span>📢 Information Importante & Message aux Fidèles</span>
     </div>
   </header>
 
   <main class="container">
-    <div class="alert-box">
-      <strong>Fermeture des locaux (16 Novembre 2026) :</strong> Suite à l'ordonnance du Tribunal Administratif de Dijon et à la décision de la municipalité, les locaux historiques de la rue Edgar-Quinet (ancienne halle Sainte-Marie) ont été repris le 16 novembre 2026.
+
+    <!-- BLOC ANNONCE URGENTE : PRIÈRE DU VENDREDI -->
+    <div class="urgent-banner">
+      <h2>📍 ANNONCE IMPORTANTE — PRIÈRE DU VENDREDI 20 NOVEMBRE</h2>
+      <p style="font-size: 1.05rem; line-height: 1.5; margin-bottom: 12px;">
+        Suite à la fermeture administrative de la mosquée de la rue Edgar-Quinet et dans cette période particulièrement difficile pour notre communauté, <strong>la prière du vendredi 20 novembre se déroulera dans la salle paroissiale mise généreusement à notre disposition.</strong>
+      </p>
+      
+      <div class="location-box">
+        <p><strong>🏢 Lieu d'accueil de la prière :</strong></p>
+        <div class="location-highlight">📍 Salle Paroissiale de l'Église Sainte-Thérèse</div>
+        <p style="margin-top: 6px; font-size: 0.95rem; opacity: 0.95;">
+          Paroisse du Bon Samaritain — Chalon-sur-Saône
+        </p>
+      </div>
+
+      <p style="font-size: 0.98rem; opacity: 0.95;">
+        🤝 <strong>Remerciements de l'Association et de l'Imam :</strong> L'association et l'imam tiennent à exprimer leur plus profonde gratitude à <strong>Monseigneur Benoît Rivière</strong>, ainsi qu'aux responsables de la paroisse du Bon Samaritain et de l'église Sainte-Thérèse, pour leur accueil chaleureux et ce magnifique geste de fraternité et de solidarité républicaine.
+      </p>
     </div>
 
+    <!-- COMMUNIQUÉ DE L'IMAM ET DE L'ASSOCIATION -->
     <section class="card">
-      <h2>📌 Communiqué de l'Association El-Fath</h2>
-      <p>Depuis 1978, la mosquée El-Fath a accueilli des générations de fidèles dans le respect des valeurs républicaines et du vivre-ensemble. Malgré nos démarches actives pour établir une convention locative (incluant une proposition de contribution annuelle de 12 000 €), la fermeture administrative est survenue ce 16 novembre 2026.</p>
-      <br>
-      <p>L'association réaffirme son attachement à la paix civile, rejette toute forme de surenchère et appelle l'ensemble de la communauté à faire preuve de dignité et de retenue.</p>
-    </section>
+      <h2>📜 Message de l'Imam et Principes Républicains</h2>
+      <p>
+        La fermeture soudaine de la première mosquée de Chalon-sur-Saône (mise à disposition depuis 1978) place les fidèles et nos aînés dans une situation éprouvante. Face à cette épreuve, l'association a maintenu une démarche constructive en proposant un loyer annuel de 12 000 € (1 000 €/mois) pour instaurer une convention conforme tout en préservant le dialogue.
+      </p>
+      
+      <div class="quote-box">
+        « Ce geste de fraternité et d'humanité de la paroisse nous touche profondément. Il témoigne de la force du dialogue interreligieux, du respect mutuel et de notre capacité à nous soutenir au-delà de nos différences. »
+      </div>
 
-    <section class="card">
-      <h2>📅 Chronologie & Contexte</h2>
-      <div class="timeline-item">
-        <strong>1978 – 1979 :</strong> Mise à disposition des locaux municipaux rue Edgar-Quinet pour le culte musulman à Chalon-sur-Saône.
-      </div>
-      <div class="timeline-item">
-        <strong>Juin – Septembre 2026 :</strong> Contentieux sur la gratuité du local au regard de la loi de 1905. Ordonnance d'expulsion rendue le 22 septembre 2026 par le Tribunal Administratif de Dijon.
-      </div>
-      <div class="timeline-item">
-        <strong>16 Novembre 2026 :</strong> Reprise officielle des clés et serrures par les services municipaux.
-      </div>
-      <div class="timeline-item">
-        <strong>Aujourd'hui :</strong> Démarches en cours pour trouver une solution temporaire et pérenne d'accueil des fidèles.
+      <p>
+        L'association rappelle que la Constitution (Article 1er) et la loi du 9 décembre 1905 garantissent la <strong>liberté de conscience et le libre exercice des cultes</strong>. Nous appelons tous les fidèles au calme, à la dignité et au respect des lois républicaines.
+      </p>
+
+      <div class="gratitude-box">
+        <strong>Remerciements :</strong> Sincères remerciements à toutes les personnes, associations et citoyens qui se mobilisent pour accompagner la communauté et faire vivre les valeurs de fraternité et de vivre-ensemble.
       </div>
     </section>
 
+    <!-- CHRONOLOGIE DES ÉVÉNEMENTS -->
     <section class="card">
-      <h2>🤝 Nos Engagements & Démarches</h2>
-      <div class="info-box">
-        <strong>Recherche d'un nouveau lieu :</strong> L'association recherche activement un espace privé répondant aux normes de sécurité pour accueillir la prière et les activités culturelles.
+      <h2>📅 Rappel des faits</h2>
+      <div class="timeline-item">
+        <strong>1978 – 1979 :</strong> Mise à disposition de l'ancienne halle Sainte-Marie (rue Edgar-Quinet) pour le culte musulman à Chalon.
+      </div>
+      <div class="timeline-item">
+        <strong>22 Septembre 2026 :</strong> Ordonnance du Tribunal Administratif. Proposition écrite de l'association pour un loyer de 1 000 €/mois. Saisine du Conseil d'État.
+      </div>
+      <div class="timeline-item">
+        <strong>16 Novembre 2026 :</strong> Reprise des clés et serrures par la municipalité.
+      </div>
+      <div class="timeline-item">
+        <strong>Vendredi 20 Novembre 2026 :</strong> Accueil solidaire de la prière du vendredi à la <strong>Salle Paroissiale de l'Église Sainte-Thérèse (Paroisse du Bon Samaritain)</strong>.
       </div>
     </section>
+
   </main>
 
-  <!-- Chatbot Widget -->
+  <!-- WIDGET CHATBOT IA -->
   <div id="ai-chat-widget">
     <button id="chat-toggle-btn">💬 Assistant Information El-Fath</button>
     <div id="chat-box">
@@ -172,11 +251,11 @@
       </div>
       <div id="chat-messages">
         <div style="background:#e5e7eb;padding:10px;border-radius:10px;">
-          Bonjour. Je suis l'assistant virtuel d'information de l'Association El-Fath. Posez-moi vos questions sur la situation, les démarches ou les communiqués officiels.
+          Bonjour. Je suis l'assistant d'information d'El-Fath. Vous pouvez me poser des questions sur la prière du vendredi, le lieu d'accueil ou les communiqués.
         </div>
       </div>
       <div class="chat-input-area">
-        <input type="text" id="chat-input" placeholder="Posez une question...">
+        <input type="text" id="chat-input" placeholder="Où se déroule la prière ?...">
         <button id="chat-send-btn">Envoyer</button>
       </div>
     </div>
