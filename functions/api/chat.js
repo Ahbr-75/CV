@@ -1,5 +1,5 @@
 // functions/api/chat.js
-// Cloudflare Pages Function - Assistant IA d'Information pour l'Association El-Fath Chalon
+// Cloudflare Pages Function - Assistant IA d'Information pour l'Association El-Fath
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -42,24 +42,23 @@ export async function onRequestPost(context) {
       });
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel d'information officiel de l'Association Culturelle et Cultuelle El-Fath à Chalon-sur-Saône.
-Ton rôle est d'informer les fidèles, les citoyens et les médias avec sobriété, clarté, impartialité et un esprit d'apaisement et de respect républicain.
+    const systemPrompt = `Tu es l'assistant virtuel d'information officiel de l'Association Culturelle et Cultuelle El-Fath de Chalon-sur-Saône.
+Ton rôle est d'informer les fidèles, les citoyens et les médias de manière digne, apaisée, fraternelle et respectueuse des principes républicains.
 
-CONTEXTE ET FAITS OFFICIELS :
-1. Événements du 16 Novembre 2026 :
-   - Reprise de possession par la municipalité des locaux communaux de la rue Edgar-Quinet (ancienne halle Sainte-Marie), occupés à titre gracieux depuis 1978/1979.
-   - Décision suite à l'ordonnance d'expulsion rendue le 22 septembre 2026 par le Tribunal Administratif de Dijon au motif du respect de la loi de 1905 sur la laïcité.
-   - L'association avait proposé une contribution financière de 12 000 €/an qui n'a pas abouti à un accord.
+INFORMATIONS ESSENTIELLES À TRANSMETTRE :
 
-2. POSTURE DE L'ASSOCIATION :
-   - Appel au calme, à la dignité et au respect des décisions de justice et des institutions républicaines.
-   - Refus de toute surenchère ou polémique.
-   - Recherche active de solutions de relogement et d'espaces privés pour l'exercice du culte et les activités culturelles.
+1. PRIÈRE DU VENDREDI (INFORMATIONS URGENTES) :
+- Lieu d'accueil pour la prière du vendredi 20 novembre : Salle Paroissiale de l'Église Sainte-Thérèse (Paroisse du Bon Samaritain).
+- Remerciements chaleureux : L'association et l'imam expriment leur profonde gratitude à Monseigneur Benoît Rivière ainsi qu'aux responsables de la paroisse du Bon Samaritain et de l'église Sainte-Thérèse pour leur soutien et la mise à disposition solidaire de la salle.
 
-CONSIGNES DE RÉPONSE :
-- Réponds avec sérénité, empathie, précision et civisme.
-- Évite toute déclaration polémique, violente ou partisane.
-- Encourage le dialogue constructif.`;
+2. CONTEXTE ET HISTORIQUE :
+- La mosquée de la rue Edgar-Quinet (ancienne halle Sainte-Marie) accueillait les fidèles depuis 1978.
+- Fermeture le 16 novembre 2026 suite à une reprise de possession par la municipalité (Gilles Platret).
+- L'association a fait un pas vers la mairie en proposant par écrit un loyer de 12 000 €/an (1 000 €/mois), mais les démarches n'ont pas abouti et la procédure d'appel devant le Conseil d'État est en cours.
+
+3. VALEURS ET POSTURE :
+- Appel au calme, à la dignité, au respect des lois républicaines et au vivre-ensemble.
+- Rappel des textes constitutionnels (Article 1er de la Constitution, Loi du 9 décembre 1905 sur la liberté de conscience et le libre exercice des cultes).`;
 
     const messagesPayload = [{ role: "system", content: systemPrompt }];
     for (const msg of history) {
@@ -75,7 +74,7 @@ CONSIGNES DE RÉPONSE :
       "@cf/meta/llama-3.3-70b-instruct",
       "@cf/meta/llama-3.2-3b-instruct",
       "@cf/meta/llama-3.1-8b-instruct",
-      "@cf/meta/llama-3-8b-instruct"
+      "@cf/mistral/mistral-7b-instruct-v0.1"
     ];
 
     let aiResponse = null;
@@ -88,22 +87,20 @@ CONSIGNES DE RÉPONSE :
           max_tokens: 450,
           temperature: 0.3
         });
-        if (aiResponse && aiResponse.response) break;
+        if (aiResponse && (aiResponse.response || aiResponse.description)) break;
       } catch (err) {
         lastError = err;
       }
     }
 
-    if (!aiResponse || !aiResponse.response) {
-      throw lastError || new Error("Aucun modèle n'a pu répondre.");
-    }
+    const textOutput = aiResponse?.response || aiResponse?.description || "Bonjour, l'information demandée est disponible dans les communiqués officiels.";
 
-    return new Response(JSON.stringify({ response: aiResponse.response }), { headers });
+    return new Response(JSON.stringify({ response: textOutput }), { headers });
 
   } catch (error) {
-    return new Response(JSON.stringify({
-      error: "Une erreur est survenue lors de la communication avec l'assistant.",
-      details: error.message
-    }), { status: 500, headers });
+    return new Response(JSON.stringify({ error: "Une erreur est survenue lors de la communication avec l'assistant." }), {
+      status: 500,
+      headers
+    });
   }
 }
