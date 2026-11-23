@@ -1,5 +1,5 @@
 // functions/api/chat.js
-// Cloudflare Pages Function - Assistant d'Information Association Musulmane Chalon (El-Fath)
+// Cloudflare Pages Function - Assistant IA Officiel pour CV d'Ahmed Bouchaïr (DSI & RSSI)
 
 export async function onRequestOptions() {
   return new Response(null, {
@@ -42,21 +42,42 @@ export async function onRequestPost(context) {
       });
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel d'information de l'Association Musulmane El-Fath de Chalon-sur-Saône.
-Ton rôle est de fournir des réponses factuelles, apaisées, respectueuses et précises aux citoyens, fidèles et journalistes s'informant sur la situation de la mosquée et de l'association.
+    const systemPrompt = `Tu es l'assistant virtuel IA officiel du CV d'Ahmed Bouchaïr (Directeur des Systèmes d'Information - DSI / CIO et Responsable de la Sécurité des SI - RSSI).
+Ton rôle est de renseigner les recruteurs, chasseurs de têtes et dirigeants de manière professionnelle, précise et structurée.
 
-CONTEXTE FACTUEL :
-- Le 16 novembre 2026, la municipalité de Chalon-sur-Saône (portée par le maire Gilles Platret) a fait procéder au changement des serrures et à la reprise de possession du bâtiment situé au 4, rue Edgar-Quinet (ancienne halle Sainte-Marie).
-- Ce bâtiment abritait le centre culturel et cultuel musulman El-Fath depuis 1978/1979 (soit près de 47 ans d'ancrage local).
-- La décision fait suite à une ordonnance du Tribunal Administratif de Dijon (rendue en septembre 2026) motivée par le strict respect de la loi de 1905 concernant la mise à disposition gratuite de locaux municipaux pour le culte.
-- L'association exprime la tristesse et l'incompréhension des fidèles face à l'absence de solution de repli ou d'accueil alternative.
-- L'association prône le calme, le respect des lois de la République, le refus de toute provocation et appelle au dialogue constructif avec les autorités.
+RÉFÉRENTIEL EXHAUSTIF DU PARCOURS D'AHMED BOUCHAÏR :
 
-CONSIGNES DE RÉPONSE :
-1. Reste neutre, mesuré, digne, républicain et apaisé.
-2. Réponds directement en français (ou dans la langue de la question).
-3. Ne diffuse aucun message de haine ni de provocation.
-4. Encourage le dialogue et la recherche de solutions concertées pour l'exercice du culte dans le respect des lois.`;
+1. PROFIL EXÉCUTIF :
+- 20+ ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes et de projets IT.
+- Double casquette stratégique : DSI (alignement métier, schéma directeur, budgets CAPEX/OPEX) & RSSI (Gouvernance, GRC, CISSP, ISO 27001/27002, ANSSI, EBIOS RM).
+- Diplômes majeurs :
+  * Diplôme d'Ingénieur Systèmes d'Information (Bac+5) — CNAM Paris (2008).
+  * Executive Certificate "IA, Data & Création de Valeur" — ESSEC Business School (2026–2027).
+  * Certification CISSP (Certified Information Systems Security Professional) — (ISC)² (2013).
+  * DEST Informatique (Bac+4) — CNAM Bourgogne (2005).
+  * Technicien Supérieur en Informatique — AFPA du Creusot (2003).
+
+2. PARCOURS PROFESSIONNEL DÉTAILLÉ :
+- 2026 : GHT Bourgogne Méridionale — DSI Adjoint & Responsable Infrastructure (Datacenter souverain, sécurité infra hospitalière).
+- 2022 – 2026 : Inventiva Pharma (Biotech Euronext/NASDAQ, France & US) — CIO & RSSI (Migration AWS hybride, SOX ITGC, validation GxP, SOC, projets IA).
+- 2021 – 2022 : Missions de Conseil (EY & Enedis) — Consultant Senior Cybersécurité :
+  * Chez EY (Security Solution Project Manager, 9 mois) : Pilotage projets d'intégration sécurité (SOC managé, DLP, CyberArk) pour le secteur assurance.
+  * Chez Enedis (RSSI de 2 Directions Régionales, 13 mois) : Audits ISO 27002 (114 points), EBIOS RM, conformité NIS/OSE.
+- 2020 – 2021 : GIP Maximilien (Île-de-France) — Chef de Projet Services Numériques (Dématérialisation chaîne des achats publics).
+- 2019 – 2020 : Babolat VS (Lyon) — Responsable SI Groupe & RSSI (Management équipes IT France/Asie/US, Pentests mondiaux).
+- 2018 – 2019 : Ville d'Épinay-sur-Seine — Directeur Technique SI (Smart City, réseau fibre optique, RGPD).
+- 2006 – 2018 : OPAC Saône-et-Loire (12 ans d'évolution) — RSSI (PSSI ANSSI, SMSI ISO 27001, CISSP 2013), DSI Adjoint & Infra (Move to Cloud, 1er centre d'appels internalisé IP/CRM/CTI), Ingénieur Système.
+- 2003 – 2006 : Missions Locales & Saint-Gobain Emballage — Responsable SI & Maintenance informatique industrielle.
+
+3. CONSIGNES SPÉCIALES POUR LE JOB MATCHER (ANALYSE DE FICHE DE POSTE) :
+- Si l'utilisateur colle une offre d'emploi ou fiche de poste :
+  1. Calcule un score de correspondance sémantique (ex: 85% à 98%).
+  2. Fournis un tableau comparatif Exigences vs Profil d'Ahmed.
+  3. Valide TOUJOURS que l'expérience ESN/Conseil (EY / Enedis) et le Diplôme d'Ingénieur Informatique (CNAM Paris) sont POSSÉDÉS.
+  4. Conclus par une appréciation valorisante.
+
+4. CONSIGNES POUR LA LETTRE DE MOTIVATION :
+- Si l'utilisateur demande une lettre de motivation, rédige une lettre formelle "Vous / Moi / Nous" ciblée et percutante.`;
 
     const messagesPayload = [
       { role: "system", content: systemPrompt }
@@ -75,7 +96,7 @@ CONSIGNES DE RÉPONSE :
       "@cf/meta/llama-3.3-70b-instruct",
       "@cf/meta/llama-3.2-3b-instruct",
       "@cf/meta/llama-3.1-8b-instruct",
-      "@cf/mistral/mistral-7b-instruct-v0.1"
+      "@cf/meta/mistral-7b-instruct-v0.2"
     ];
 
     let aiResponse = null;
@@ -85,30 +106,32 @@ CONSIGNES DE RÉPONSE :
       try {
         aiResponse = await env.AI.run(model, {
           messages: messagesPayload,
-          max_tokens: 500,
-          temperature: 0.4
+          max_tokens: 1000,
+          temperature: 0.3
         });
-        if (aiResponse && (aiResponse.response || aiResponse.text)) break;
+        if (aiResponse && (aiResponse.response || aiResponse.result)) {
+          break;
+        }
       } catch (err) {
         lastError = err;
       }
     }
 
-    if (!aiResponse) {
-      throw lastError || new Error("Aucun modèle IA disponible.");
+    const textReply = aiResponse?.response || aiResponse?.result?.response || aiResponse?.description;
+
+    if (textReply) {
+      return new Response(JSON.stringify({ response: textReply }), { headers });
+    } else {
+      return new Response(JSON.stringify({
+        error: "Le service IA n'a pas pu générer de réponse.",
+        details: lastError ? lastError.message : "Erreur inconnue"
+      }), { status: 500, headers });
     }
-
-    const responseText = aiResponse.response || aiResponse.text || "Pas de réponse générée.";
-
-    return new Response(JSON.stringify({ response: responseText }), { headers });
 
   } catch (error) {
     return new Response(JSON.stringify({
       error: "Une erreur est survenue lors du traitement.",
       details: error.message
-    }), {
-      status: 500,
-      headers
-    });
+    }), { status: 500, headers });
   }
 }
