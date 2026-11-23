@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed Bouchaïr — DSI & RSSI</title>
+  <title>Ahmed Bouchaïr — DSI & RSSI (CV Exécutif)</title>
   <style>
     /* -------------------------------------------------------------
-       VARIABLES & DESIGN SYSTEM
+       VARIABLES & SYSTÈME DE DESIGN
     ------------------------------------------------------------- */
     :root {
       --primary: #2563eb;
@@ -36,12 +36,12 @@
     }
 
     /* -------------------------------------------------------------
-       HERO / HEADER SECTION
+       SECTION EN-TÊTE / HERO
     ------------------------------------------------------------- */
     header {
       background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
       color: white;
-      padding: 50px 20px 40px;
+      padding: 50px 20px 45px;
       text-align: center;
       position: relative;
     }
@@ -62,7 +62,7 @@
     }
 
     header h1 {
-      font-size: 2.2rem;
+      font-size: 2.3rem;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
@@ -71,9 +71,17 @@
     header p {
       font-size: 1.15rem;
       color: #94a3b8;
-      max-width: 650px;
-      margin: 0 auto 16px;
+      max-width: 700px;
+      margin: 0 auto 20px;
       font-weight: 400;
+    }
+
+    .header-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
     }
 
     .status-badge {
@@ -83,9 +91,9 @@
       background: rgba(37, 99, 235, 0.2);
       border: 1px solid rgba(56, 189, 248, 0.4);
       color: #38bdf8;
-      padding: 6px 14px;
+      padding: 8px 16px;
       border-radius: 20px;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 500;
     }
 
@@ -97,11 +105,31 @@
       box-shadow: 0 0 8px #4ade80;
     }
 
+    .btn-download-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      transition: all 0.2s ease;
+    }
+
+    .btn-download-pdf:hover {
+      background: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+
     /* -------------------------------------------------------------
-       LAYOUT & CARDS
+       DISPOSITION & CARTES
     ------------------------------------------------------------- */
     .container {
-      max-width: 900px;
+      max-width: 920px;
       margin: 35px auto;
       padding: 0 20px;
     }
@@ -113,7 +141,7 @@
       border-radius: 12px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      transition: box-shadow 0.2s ease;
     }
 
     .card:hover {
@@ -132,7 +160,7 @@
     }
 
     /* -------------------------------------------------------------
-       BADGES & SKILLS
+       BADGES & COMPÉTENCES
     ------------------------------------------------------------- */
     .skills-grid {
       display: flex;
@@ -148,21 +176,16 @@
       border-radius: 8px;
       font-size: 0.88rem;
       font-weight: 500;
-      transition: background 0.2s;
-    }
-
-    .badge:hover {
-      background: #dbeafe;
     }
 
     /* -------------------------------------------------------------
-       TIMELINE & EXPERIENCES
+       CHRONOLOGIE & EXPÉRIENCES
     ------------------------------------------------------------- */
     .timeline-item {
       position: relative;
       padding-left: 20px;
       border-left: 2px solid #e2e8f0;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     .timeline-item:last-child {
@@ -194,7 +217,7 @@
     }
 
     /* -------------------------------------------------------------
-       WIDGET CHATBOT IA ERGONOMIQUE
+       WIDGET CHATBOT IA INTERACTIF
     ------------------------------------------------------------- */
     #ai-chat-widget {
       position: fixed;
@@ -222,13 +245,12 @@
     #chat-toggle-btn:hover {
       background: var(--primary-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
     }
 
     #chat-box {
       display: none;
-      width: 360px;
-      height: 500px;
+      width: 380px;
+      height: 530px;
       background: #ffffff;
       border-radius: 16px;
       box-shadow: var(--shadow-md);
@@ -274,7 +296,6 @@
       color: #94a3b8;
       cursor: pointer;
       font-size: 20px;
-      transition: color 0.2s;
     }
 
     #chat-close-btn:hover {
@@ -308,7 +329,6 @@
     .quick-btn:hover {
       background: #eff6ff;
       border-color: var(--primary);
-      transform: translateY(-1px);
     }
 
     .chat-input-area {
@@ -326,7 +346,6 @@
       border-radius: 8px;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
     }
 
     #chat-input:focus {
@@ -341,14 +360,12 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
     }
 
     #chat-send-btn:hover {
       background: var(--primary-hover);
     }
 
-    /* Ajustements Mobile */
     @media (max-width: 640px) {
       .container { padding: 0 12px; }
       #ai-chat-widget { bottom: 12px; right: 12px; left: 12px; }
@@ -363,13 +380,18 @@
        EN-TÊTE DU CV
   ============================================================= -->
   <header>
-    <!-- Photo de profil avec repli automatique si image absente -->
     <img src="photo.jpg" alt="Ahmed Bouchaïr" class="profile-img" onerror="this.style.display='none'">
     <h1>Ahmed Bouchaïr</h1>
-    <p>Directeur des Systèmes d'Information (DSI) & Responsable de la Sécurité des SI (RSSI)</p>
-    <div class="status-badge">
-      <span class="status-dot"></span>
-      <span>Disponible pour de nouveaux défis stratégiques</span>
+    <p>Directeur des Systèmes d'Information (DSI / CIO) & Responsable de la Sécurité des SI (RSSI)</p>
+
+    <div class="header-actions">
+      <div class="status-badge">
+        <span class="status-dot"></span>
+        <span>Disponible pour de nouveaux défis stratégiques</span>
+      </div>
+      <a href="cv-ahmed-bouchair-developpe.pdf" download class="btn-download-pdf">
+        📄 Télécharger le CV Complet (PDF)
+      </a>
     </div>
   </header>
 
@@ -378,61 +400,71 @@
   ============================================================= -->
   <main class="container">
     
-    <!-- Profil -->
     <section class="card">
-      <h2>📌 Profil & Vision Stratégique</h2>
+      <h2>📌 Profil & Synthèse Exécutive</h2>
       <p>
-        20 ans d'expérience globale dans le numérique, dont 18 ans en management d'équipes et de projets IT. 
-        Spécialisé dans la direction de systèmes d'information, la cybersécurité (CISSP), la gouvernance Cloud et la conduite du changement stratégique d'entreprise.
+        <strong>20 ans d'expérience globale dans le numérique</strong>, dont <strong>18 ans en management d'équipes et de projets IT</strong>. 
+        Expert de la direction des systèmes d'information, de la cybersécurité (certifié <strong>CISSP</strong>), de la conformité réglementaire (SOX, GxP, NIS/OSE) et de la gouvernance Cloud & IA (ESSEC Business School).
       </p>
     </section>
 
-    <!-- Compétences -->
     <section class="card">
-      <h2>🛡️ Compétences Clés</h2>
+      <h2>🛡️ Compétences Clés & Piliers d'Expertise</h2>
       <div class="skills-grid">
-        <span class="badge">Gouvernance DSI</span>
+        <span class="badge">Gouvernance & Stratégie DSI</span>
         <span class="badge">Cybersécurité (CISSP)</span>
         <span class="badge">Cloud Hybride & AWS</span>
-        <span class="badge">SOC & Incident Response</span>
-        <span class="badge">Normes ISO 27002 / NIS</span>
-        <span class="badge">Conformité GxP & SOX</span>
-        <span class="badge">IA d'Entreprise & MLOps</span>
-        <span class="badge">EBIOS RM</span>
+        <span class="badge">Conformité SOX & ITGC</span>
+        <span class="badge">Systèmes Qualité GxP (Pharma)</span>
+        <span class="badge">Directive NIS & OSE</span>
+        <span class="badge">PSSI ANSSI & SMSI ISO 27001</span>
+        <span class="badge">SOC & Gestion de Crises</span>
+        <span class="badge">Gouvernance IA (ESSEC)</span>
         <span class="badge">Gestion Budgétaire CapEx/OpEx</span>
       </div>
     </section>
 
-    <!-- Expériences -->
     <section class="card">
-      <h2>💼 Expériences Principales</h2>
+      <h2>💼 Parcours & Expériences Exécutives</h2>
       
       <div class="timeline-item">
-        <div class="job-title">DSI & RSSI</div>
-        <div class="company">Inventiva (Biotech Internationale) — 2022 à 2026</div>
-        <p>Management du SI et de la cybersécurité globale (France, US, UK). Migration Cloud AWS, mise en place du SOC, gouvernance des données et conformité SOX / GxP.</p>
+        <div class="job-title">DSI Adjoint & Responsable Infrastructure</div>
+        <div class="company">GHT Bourgogne Méridionale (Secteur Hospitalier Public) — 2026</div>
+        <p>Construction du Datacenter souverain hospitalier, sécurisation des infrastructures critiques et gouvernance cyber santé.</p>
       </div>
 
       <div class="timeline-item">
-        <div class="job-title">Consultant Senior Cybersécurité</div>
-        <div class="company">EY / Enedis — 2021 à 2022</div>
-        <p>Analyses de risques EBIOS RM, audits de maturité ISO 27002 et accompagnement à la conformité NIS pour les Opérateurs de Services Essentiels (OSE).</p>
+        <div class="job-title">Chief Information Officer (DSI) & RSSI</div>
+        <div class="company">Inventiva Pharma (Biotech Internationale Euronext/NASDAQ) — 2022 à 2026</div>
+        <p>Direction du SI et de la cybersécurité globale (France & États-Unis). Migration Cloud AWS hybride, conformités SOX (ITGC) et GxP, supervision du SOC et stratégie IA.</p>
       </div>
 
       <div class="timeline-item">
-        <div class="job-title">Directeur de Projets IT & Datacenter</div>
-        <div class="company">Secteur Public & Parapublic — Prior à 2021</div>
-        <p>Construction de Datacenter souverain, déploiement de réseaux fibre optique (Smart City) et dématérialisation des marchés publics.</p>
+        <div class="job-title">Consultant Senior Cybersécurité & RSSI de Transition</div>
+        <div class="company">Missions de Conseil (EY & ENEDIS) — 2021 à 2022</div>
+        <p>RSSI de 2 directions régionales chez Enedis (audits ISO 27002 sur 114 points, EBIOS RM, conformité NIS/OSE) et Security Project Manager chez EY (SOC managé, DLP, CyberArk).</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="job-title">Responsable SI Groupe & RSSI</div>
+        <div class="company">Babolat VS (Équipementier Sportif International) — 2019 à 2020</div>
+        <p>Management des équipes IT internationales (France, Asie, US), tests d'intrusion mondiaux et gouvernance du SI Groupe.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="job-title">DSI Adjoint, Responsable Infrastructure & RSSI</div>
+        <div class="company">OPAC Saône-et-Loire — 2006 à 2018 (12 ans d'évolution)</div>
+        <p>RSSI (PSSI ANSSI, SMSI ISO 27001, CISSP 2013), Move to Cloud hybride et création du 1er centre d'appels internalisé (téléphonie IP, mini-CRM PHP/Oracle, CTI).</p>
       </div>
     </section>
 
-    <!-- Formations -->
     <section class="card">
       <h2>🎓 Formations & Certifications</h2>
       <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-        <li><strong>Executive Certificate IA & Création de Valeur</strong> — ESSEC Business School (2026–2027)</li>
-        <li><strong>Certification CISSP</strong> — Certified Information Systems Security Professional</li>
-        <li><strong>Diplôme d'Ingénieur Systèmes d'Information</strong> — CNAM Paris (2008)</li>
+        <li><strong>Executive Certificate IA, Data & Création de Valeur</strong> — ESSEC Business School (2026–2027)</li>
+        <li><strong>Certification CISSP (Certified Information Systems Security Professional)</strong> — (ISC)² (depuis 2013)</li>
+        <li><strong>Diplôme d'Ingénieur Systèmes d'Information (Bac+5)</strong> — CNAM Paris (2008)</li>
+        <li><strong>DEST Informatique (Bac+4)</strong> — CNAM Bourgogne (2005)</li>
       </ul>
     </section>
 
@@ -443,15 +475,12 @@
   ============================================================= -->
   <div id="ai-chat-widget">
     
-    <!-- Bouton Flottant -->
     <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
-      <span>💬 Assistant IA CV</span>
+      <span>💬 Assistant IA CV & Job Matcher</span>
     </button>
 
-    <!-- Fenêtre de Chat -->
     <div id="chat-box">
       
-      <!-- En-tête du Chat -->
       <div class="chat-header">
         <div class="chat-header-title">
           <span class="online-indicator"></span>
@@ -460,30 +489,27 @@
         <button id="chat-close-btn">✕</button>
       </div>
       
-      <!-- Zone des messages -->
       <div id="chat-messages">
         <div style="background: #e2e8f0; color: #1e293b; padding: 12px 14px; border-radius: 12px; max-width: 90%; line-height: 1.4;">
-          Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
+          Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Vous pouvez me poser vos questions ou <strong>coller une fiche de poste</strong> pour tester l'adéquation du profil !
         </div>
 
-        <!-- Boutons de questions rapides -->
         <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
           <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?">🎓 Diplômes & Certifications</button>
-          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva.">🏢 Expérience DSI/RSSI Inventiva</button>
-          <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?">🛡️ Compétences Cybersécurité</button>
+          <button class="quick-btn" data-query="Détaille son expérience de DSI et RSSI chez Inventiva et la conformité SOX/GxP.">🏢 Expérience DSI/RSSI Inventiva</button>
+          <button class="quick-btn" data-query="Quelles sont ses compétences en cybersécurité (CISSP, ISO 27001, NIS, EBIOS) ?">🛡️ Compétences Cybersécurité</button>
+          <button class="quick-btn" data-query="Je souhaiterais évaluer l'adéquation d'Ahmed pour un poste de DSI / RSSI. Voici la fiche de poste : ">💼 Tester une Fiche de Poste (Job Matcher)</button>
         </div>
       </div>
 
-      <!-- Champ de saisie -->
       <div class="chat-input-area">
-        <input type="text" id="chat-input" placeholder="Posez une question..." autocomplete="off">
+        <input type="text" id="chat-input" placeholder="Posez une question ou collez un poste..." autocomplete="off">
         <button id="chat-send-btn">Envoyer</button>
       </div>
 
     </div>
   </div>
 
-  <!-- Script d'interaction JavaScript -->
   <script>
     const chatToggleBtn = document.getElementById('chat-toggle-btn');
     const chatCloseBtn = document.getElementById('chat-close-btn');
@@ -492,7 +518,8 @@
     const chatInput = document.getElementById('chat-input');
     const chatSendBtn = document.getElementById('chat-send-btn');
 
-    // Toggle Ouverture / Fermeture
+    let conversationHistory = [];
+
     chatToggleBtn.onclick = () => {
       const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
       chatBox.style.display = isHidden ? 'flex' : 'none';
@@ -500,7 +527,6 @@
     };
     chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
 
-    // Ajout propre dans le DOM sans casser les event listeners (appendChild)
     function appendMessage(text, isUser = false, isError = false, id = null) {
       const div = document.createElement('div');
       if (id) div.id = id;
@@ -519,19 +545,17 @@
       return div;
     }
 
-    // Traitement de l'envoi vers /api/chat
     async function sendQuery(text) {
       if (!text) return;
 
-      // Cacher la liste des boutons de suggestion
       const quickBox = document.getElementById('quick-questions');
       if (quickBox) quickBox.style.display = 'none';
 
-      // 1. Afficher le message utilisateur
       appendMessage(text, true);
       chatInput.value = '';
 
-      // 2. Afficher l'état de chargement
+      conversationHistory.push({ role: 'user', content: text });
+
       const loadingId = 'loading-' + Date.now();
       appendMessage('<i>Réflexion en cours...</i>', false, false, loadingId);
 
@@ -539,27 +563,85 @@
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: text })
+          body: JSON.stringify({ messages: conversationHistory })
         });
 
-        const data = await res.json();
-        document.getElementById(loadingId)?.remove();
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({}));
+          document.getElementById(loadingId)?.remove();
+          const errText = errorData.details ? `⚠️ ${errorData.error}: ${errorData.details}` : (errorData.error || "Désolé, je n'ai pas pu obtenir de réponse.");
+          appendMessage(errText, false, true);
+          return;
+        }
 
-        const reply = data.response || "Désolé, je n'ai pas pu obtenir de réponse.";
-        appendMessage(reply, false);
+        const contentType = res.headers.get('content-type') || '';
+        if (contentType.includes('application/json')) {
+          const data = await res.json();
+          document.getElementById(loadingId)?.remove();
+          const reply = data.response || data.error || "Désolé, je n'ai pas pu obtenir de réponse.";
+          if (data.response) conversationHistory.push({ role: 'assistant', content: data.response });
+          appendMessage(reply, false, !data.response);
+          return;
+        }
+
+        // Traitement du flux Streaming (SSE)
+        document.getElementById(loadingId)?.remove();
+        const assistantMsgDiv = appendMessage('', false);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let fullText = '';
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              const dataStr = line.slice(6).trim();
+              if (dataStr === '[DONE]') continue;
+              try {
+                const parsed = JSON.parse(dataStr);
+                if (parsed.response) {
+                  fullText += parsed.response;
+                  assistantMsgDiv.innerHTML = fullText;
+                  chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+              } catch (e) {}
+            }
+          }
+        }
+
+        if (fullText) {
+          conversationHistory.push({ role: 'assistant', content: fullText });
+        } else {
+          assistantMsgDiv.innerHTML = "Désolé, aucune réponse n'a pu être générée.";
+        }
+
       } catch (err) {
         document.getElementById(loadingId)?.remove();
-        appendMessage('Erreur de connexion avec l\'IA.', false, true);
+        appendMessage('Erreur de connexion avec le serveur API.', false, true);
       }
     }
 
-    // Événements d'envoi (bouton et touche Entrée)
     chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
     chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
 
-    // Événements boutons de suggestion
     document.querySelectorAll('.quick-btn').forEach(btn => {
-      btn.onclick = () => sendQuery(btn.getAttribute('data-query'));
+      btn.onclick = () => {
+        const query = btn.getAttribute('data-query');
+        if (query.includes("Fiche de Poste")) {
+          chatInput.value = query;
+          chatInput.focus();
+        } else {
+          sendQuery(query);
+        }
+      };
     });
   </script>
 </body>
