@@ -3,131 +3,154 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed BouchaÃ¯r â€” DSI & RSSI (CV ExÃ©cutif)</title>
+  <title>Ahmed BouchaÃ©r â€” DSI & RSSI ExÃ©cutif</title>
   <style>
-    /* -------------------------------------------------------------
-       VARIABLES & SYSTÃˆME DE DESIGN
-    ------------------------------------------------------------- */
     :root {
       --primary: #2563eb;
       --primary-hover: #1d4ed8;
+      --primary-light: #eff6ff;
       --dark-navy: #0f172a;
+      --slate-800: #1e293b;
       --text-main: #334155;
       --text-muted: #64748b;
       --bg-body: #f8fafc;
       --bg-card: #ffffff;
       --border-color: #e2e8f0;
       --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.05);
+      --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.6;
       color: var(--text-main);
       background-color: var(--bg-body);
       -webkit-font-smoothing: antialiased;
     }
 
-    /* -------------------------------------------------------------
-       SECTION EN-TÃŠTE / HERO
-    ------------------------------------------------------------- */
     header {
-      background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
+      background: linear-gradient(13deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%);
       color: white;
-      padding: 50px 20px 45px;
+      padding: 55px 20px 45px;
       text-align: center;
       position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+
+    .header-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .profile-img-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 18px;
     }
 
     .profile-img {
-      width: 140px;
-      height: 140px;
+      width: 145px;
+      height: 145px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-      margin-bottom: 16px;
+      border: 4px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.3);
       transition: transform 0.3s ease;
     }
 
     .profile-img:hover {
-      transform: scale(1.03);
+      transform: scale(1.04);
     }
 
     header h1 {
-      font-size: 2.3rem;
+      font-size: 2.3rim;
       font-weight: 700;
       letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
 
-    header p {
-      font-size: 1.15rem;
-      color: #94a3b8;
-      max-width: 700px;
-      margin: 0 auto 20px;
-      font-weight: 400;
+    header p.subtitle {
+      font-size: 1.2rom;
+      color: #93c5fd;
+      font-weight: 500;
+      margin-bottom: 12px;
     }
 
-    .header-actions {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
+    header p.tagline {
+      font-size: 0.98rem;
+      color: #cbd5e1;
+      max-width: 680px;
+      margin: 0 auto 20px;
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      background: rgba(37, 99, 235, 0.2);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      padding: 8px 16px;
+      gap: 8px;
+      background: rgba(37, 99, 235, 0.25);
+      border: 1px solid rgba(147, 197, 253, 0.4);
+      color: #7dd3fc;
+      padding: 6px 16px;
       border-radius: 20px;
       font-size: 0.88rem;
       font-weight: 500;
+      margin-bottom: 22px;
     }
 
     .status-dot {
-      width: 8px;
-      height: 8px;
+      width: 9px;
+      height: 9px;
       background-color: #4ade80;
       border-radius: 50%;
-      box-shadow: 0 0 8px #4ade80;
+      box-shadow: 0 0 10px #4ade80;
     }
 
-    .btn-download-pdf {
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+    }
+
+    .cta-primary {
       background: var(--primary);
       color: white;
-      text-decoration: none;
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
     }
 
-    .btn-download-pdf:hover {
+    .cta-primary:hover {
       background: var(--primary-hover);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
-    /* -------------------------------------------------------------
-       DISPOSITION & CARTES
-    ------------------------------------------------------------- */
+    .cta-secondary {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-2px);
+    }
+
     .container {
       max-width: 920px;
       margin: 35px auto;
@@ -136,513 +159,66 @@
 
     .card {
       background: var(--bg-card);
-      padding: 28px;
-      margin-bottom: 24px;
-      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 26px;
+      border-radius: 14px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-color);
-      transition: box-shadow 0.2s ease;
+      transition: box-shadow 0.25s ease;
     }
 
     .card:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      box-shadow: var(--shadow-md);
     }
 
     h2 {
-      font-size: 1.35rem;
+      font-size: 1.4rem;
       color: var(--dark-navy);
       border-bottom: 2px solid #f1f5f9;
-      padding-bottom: 10px;
-      margin-bottom: 18px;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    /* -------------------------------------------------------------
-       BADGES & COMPÃ‰TENCES
-    ------------------------------------------------------------- */
     .skills-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .badge {
-      background: #eff6ff;
+      background: var(--primary-light);
       color: #1e40af;
       border: 1px solid #bfdbfe;
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 8px;
-      font-size: 0.88rem;
+      font-size: 0.9num;
       font-weight: 500;
     }
 
-    /* -------------------------------------------------------------
-       CHRONOLOGIE & EXPÃ‰RIENCES
-    ------------------------------------------------------------- */
     .timeline-item {
       position: relative;
-      padding-left: 20px;
-      border-left: 2px solid #e2e8f0;
-      margin-bottom: 22px;
+      padding-left: 24px;
+      border-left: 2px solid #cbd5e1;
+      margin-bottom: 24px;
     }
 
-    .timeline-item:last-child {
-      margin-bottom: 0;
-    }
+    .timeline-item:last-chiÂˆX\™Ú[‹X›İÛNˆÂˆB‚ˆ[Y[[™KZ][N˜™Y›Ü™HÂˆÛÛ[ˆ	ÉÎÂˆÜÚ][ÛˆXœÛÛ]NÂˆYˆMÜÂˆÜˆÂˆÚYˆLœÂˆZYÚˆLœÂˆ›Ü™\‹\˜Y]\ÎˆL	NÂˆ˜XÚÙÜ›İ[™ˆ˜\ŠK\š[X\JNÂˆ›Ş\ÚYİÎˆÙY™™™ÂˆB‚ˆš›Ø‹]]HÂˆ›Û]ÙZYÚˆÌÂˆ›Û\Ú^™NˆKŒM\™[NÂˆÛÛÜˆ˜\ŠKY\šË[˜]JNÂˆB‚ˆ˜ÛÛ\[HÂˆÛÛÜˆ˜\ŠK\š[X\JNÂˆ›Û\Ú^™NˆM\™[NÂˆ›Û]ÙZYÚˆŒÂˆX\™Ú[‹X›İÛNˆœÂˆB‚ˆ[Y[[™KZ][HÂˆÛÛÜˆ˜\ŠK]^[XZ[ŠNÂˆ›Û\Ú^™NˆMœ™[NÂˆB‚ˆØZKXÚ]]ÚYÙ]ÂˆÜÚ][Ûˆš^YÂˆ›İÛNˆÂˆšYÚˆÂˆ‹Z[™^ˆNNNNÂˆB‚ˆØÚ]]ÙÙÛKXˆÂˆ˜XÚÙÜ›İ[™ˆ[™X\‹YÜ˜YY[
+LÙYËÌMŒÙXˆ	KÌYYL	JNÂˆÛÛÜˆÙ™™™™™Âˆ›Ü™\ˆ›Û™NÂˆ›Ü™\‹\˜Y]\ÎˆLÂˆY[™ÎˆMÂˆ›Û\Ú^™NˆM\Âˆ›Û]ÙZYÚˆŒÂˆİ\œÛÜˆÚ[\Âˆ›Ş\ÚYİÎˆ™Ø˜JÍËNKŒÍK
+NÂˆ\Ü^Nˆ›^Âˆ[YÛ‹Z][\ÎˆÙ[\ÂˆØ\ˆLÂˆ˜[œÚ][Ûˆ[Œ\ÈX\ÙNÂˆB‚ˆØÚ]]ÙÙÛKXšİ™\ˆÂˆ˜[œÙ›Ü›Nˆ˜[œÛ]VJLÜ
+HØØ[JKŒŠNÂˆ›Ş\ÚYİÎˆLœ™Ø˜JÍËNKŒÍKJNÂˆB‚ˆØÚ]X›ŞÂˆ\Ü^Nˆ›Û™NÂˆÚYˆÂˆZYÚˆMLÂˆ˜XÚÙÜ›İ[™ˆÙ™™™™™Âˆ›Ü™\‹\˜Y]\ÎˆNÂˆ›Ş\ÚYİÎˆ˜\ŠK\ÚYİË[ÊNÂˆ›^Y\™Xİ[ÛˆÛÛ[[Âˆİ™\™›İÎˆY[ÂˆX\™Ú[‹X›İÛNˆMÂˆ›Ü™\ˆ\ÛÛY˜\ŠKX›Ü™\‹XÛÛÜŠNÂˆ[š[X][ÛˆÛYU\ŒÜÈİXšXËX™^šY\ŠŒM‹KŒËJNÂˆB‚ˆÙ^Yœ˜[Y\ÈÛYU\Âˆœ›ÛHÈÜXÚ]NˆÈ˜[œÙ›Ü›Nˆ˜[œÛ]VJŒ
+NÈBˆÈÈÜXÚ]NˆNÈ˜[œÙ›Ü›Nˆ˜[œÛ]VJ
+NÈBˆB‚ˆ˜Ú]ZXY\ˆÂˆ˜XÚÙÜ›İ[™ˆ˜\ŠKY\šË[˜]JNÂˆÛÛÜˆÚ]NÂˆY[™ÎˆMNÂˆ\Ü^Nˆ›^Âˆ\İYKXÛÛ[ˆÜXÙKX™]ÙY[Âˆ[YÛ‹Z][\ÎˆÙ[\ÂˆB‚ˆ˜Ú]ZXY\‹]]HÂˆ›Û]ÙZYÚˆŒÂˆ›Û\Ú^™NˆM\Âˆ\Ü^Nˆ›^Âˆ[YÛ‹Z][\ÎˆÙ[\ÂˆØ\ˆÂˆB‚ˆ›Û›[™KZ[™XØ]ÜˆÂˆÚYˆ\ÂˆZYÚˆ\Âˆ˜XÚÙÜ›İ[™XÛÛÜˆÌŒ˜ÍMYNÂˆ›Ü™\‹\˜Y]\ÎˆL	NÂˆ›Ş\ÚYİÎˆÌŒ˜ÍMYNÂˆB‚ˆ˜Ú]ZXY\‹XXİ[ÛœÈÂˆ\Ü^Nˆ›^ÂˆØ\ˆLÂˆ[YÛ‹Z][\ÎˆÙ[\ÂˆB‚ˆšXÛÛ‹XˆÂˆ˜XÚÙÜ›İ[™ˆ˜[œÜ\™[Âˆ›Ü™\ˆ›Û™NÂˆÛÛÜˆÎMLØÂˆİ\œÛÜˆÚ[\Âˆ›Û\Ú^™NˆMœÂˆ˜[œÚ][ÛˆÛÛÜˆŒœÎÂˆB‚ˆšXÛÛ‹Xšİ™\ˆÈÛÛÜˆÚ]NÈB‚ˆØÚ][Y\ÜØYÙ\ÈÂˆ›^ˆNÂˆY[™ÎˆMœÂˆİ™\™›İË^Nˆ]]ÎÂˆ›Û\Ú^™NˆMÂˆ˜XÚÙÜ›İ[™ˆÙ˜Y˜ÎÂˆ\Ü^Nˆ›^Âˆ›^Y\™Xİ[ÛˆÛÛ[[ÂˆØ\ˆLœÂˆB‚ˆœ]ZXÚËXˆÂˆ˜XÚÙÜ›İ[™ˆÙ™™™™™ÂˆÛÛÜˆ˜\ŠK\š[X\JNÂˆ›Ü™\ˆ\ÛÛYØ™™™™NÂˆ›Ü™\‹\˜Y]\ÎˆŒÂˆY[™ÎˆMÂˆ›Û\Ú^™NˆLœÂˆ›Û]ÙZYÚˆLÂˆİ\œÛÜˆÚ[\Âˆ˜[œÚ][Ûˆ[ŒœÈX\ÙNÂˆ^X[YÛˆYÂˆB‚ˆœ]ZXÚËXšİ™\ˆÂˆ˜XÚÙÜ›İ[™ˆÙY™™™Âˆ›Ü™\‹XÛÛÜˆ˜\ŠK\š[X\JNÂˆB‚ˆ˜Ú]Z[œ]X\™XHÂˆY[™ÎˆLœÂˆ\Ü^Nˆ›^ÂˆØ\ˆÂˆ›Ü™\‹]Üˆ\ÛÛY˜\ŠKX›Ü™\‹XÛÛÜŠNÂˆ˜XÚÙÜ›İ[™ˆÚ]NÂˆ[YÛ‹Z][\ÎˆÙ[\ÂˆB‚ˆØÚ]Z[œ]Âˆ›^ˆNÂˆY[™ÎˆLMÂˆ›Ü™\ˆ\ÛÛYØØ™YLNÂˆ›Ü™\‹\˜Y]\ÎˆÂˆ›Û\Ú^™NˆMÂˆİ][™Nˆ›Û™NÂˆB‚ˆØÚ]Z[œ]™›Øİ\ÈÈ›Ü™\‹XÛÛÜˆ˜\ŠK\š[X\JNÈB‚ˆØÚ]\Ù[™XˆÂˆ˜XÚÙÜ›İ[™ˆ˜\ŠK\š[X\JNÂˆÛÛÜˆÚ]NÂˆ›Ü™\ˆ›Û™NÂˆY[™ÎˆLMœÂˆ›Ü™\‹\˜Y]\ÎˆÂˆ›Û]ÙZYÚˆŒÂˆİ\œÛÜˆÚ[\ÂˆB‚ˆØÚ]\Ù[™Xšİ™\ˆÈ˜XÚÙÜ›İ[™ˆ˜\ŠK\š[X\KZİ™\ŠNÈB‚ˆ›[Ù[Âˆ\Ü^Nˆ›Û™NÂˆÜÚ][Ûˆš^YÂˆÜˆÈYˆÈÚYˆL	NÈZYÚˆL	NÂˆ˜XÚÙÜ›İ[™ˆ™Ø˜JMKŒË‹ŠNÂˆ‹Z[™^ˆLÂˆ[YÛ‹Z][\ÎˆÙ[\Âˆ\İYKXÛÛ[ˆÙ[\ÂˆB‚ˆ›[Ù[XÛÛ[Âˆ˜XÚÙÜ›İ[™ˆÚ]NÂˆY[™ÎˆÌÂˆ›Ü™\‹\˜Y]\ÎˆMœÂˆX^]ÚYˆÂˆÚYˆL	NÂˆ›Ş\ÚYİÎˆ˜\ŠK\ÚYİË[ÊNÂˆÜÚ][Ûˆ™[]]™NÂˆB‚ˆ›[Ù[XÛÜÙHÂˆÜÚ][ÛˆXœÛÛ]NÂˆÜˆMœÈšYÚˆNÂˆ˜XÚÙÜ›İ[™ˆ›Û™NÈ›Ü™\ˆ›Û™NÂˆ›Û\Ú^™NˆŒœÈÛÛÜˆ˜\ŠK]^[]]Y
+NÈİ\œÛÜˆÚ[\ÂˆB‚ˆYYXH
+X^]ÚYˆ
+HÂˆ˜ÛÛZ[™\ˆÈY[™ÎˆMÈBˆØZKXÚ]]ÚYÙ]È›İÛNˆLœÈšYÚˆLœÈYˆLœÈBˆØÚ]]ÙÙÛKXˆÈÚYˆL	NÈ\İYKXÛÛ[ˆÙ[\ÈBˆØÚ]X›ŞÈÚYˆL	NÈZYÚˆšÈBˆBˆÜİ[O‚ÚXY‚›ÙO‚ˆXY\‚ˆ]ˆÛ\ÜÏHšXY\‹XÛÛ[‚ˆ]ˆÛ\ÜÏHœ›Ùš[KZ[YËXÛÛZ[™\ˆ‚ˆ[YÈÜ˜ÏHœİËšœÈˆ[HZYY›İXÚpçœˆˆÛ\ÜÏHœ›Ùš[KZ[YÈˆÛ™\œ›ÜH\Ë›Û™\œ›Ü[[È\ËœÜ˜ÏIÚÎ‹ËİZKX]˜]\œË˜ÛÛKØ\KÏÛ˜[YOPZYY
+Ğ›İXÚZ\‰˜˜XÚÙÜ›İ[™LMŒÙX‰˜ÛÛÜY™™‰œÚ^™OLŒ	ÎÈ‚ˆÙ]‚ˆOZYY›İXÚpëœÚO‚ˆÛ\ÜÏHœİX]H‘\™Xİ]\ˆ\ÈŞ\İ0êY\È	Ò[™›Ü›X][Ûˆ
+ÒHÈÒSÊH	ˆ™\ÜÛœØX›HHHğêXİ\š]0êH\ÈÒH
+”ÔÒJOÜ‚ˆÛ\ÜÏHYÛ[™HŒŒ[œÈ	Ù^0ê\šY[˜ÙH[pê\š\]YH0§ˆN[œÈ[ˆX[˜YÙ[Y[U0§ˆÙ\YšpêHÒTÔÔ	ˆTÔÑPÈKÑ]OÜ‚ˆ]ˆÛ\ÜÏHœİ]\ËX˜YÙH‚ˆÜ[ˆÛ\ÜÏHœİ]\ËYİÜÜ[‚ˆÜ[‘\ÜÛšX›Hİ\ˆH›İ]™X]^0êYš\Èİ˜]êYÚ\]Y\ÏÜÜ[‚ˆÙ]‚ˆ]˜Û\ÜÏH˜İKYÜ›İ\‚ˆH™YH˜İ‹XZYYX›İXÚZ\‹Y]™[ÜKœˆˆİÛ›ØYÛ\ÜÏH˜İKXˆİK\š[X\H‚ˆ<'äã0ê[0êXÚ\™Ù\ˆHÕˆÛÛ\]
+ŠBˆØO‚ˆ]ÛˆÛ\ÜÏH˜İKXˆİK\ÙXÛÛ™\HˆÛ˜ÛXÚÏH›Ü[ÛÛXİ[Ù[
 
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      left: -6px;
-      top: 4px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--primary);
-    }
-
-    .job-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: var(--dark-navy);
-    }
-
-    .company {
-      color: var(--text-muted);
-      font-size: 0.92rem;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
-
-    /* -------------------------------------------------------------
-       WIDGET CHATBOT IA INTERACTIF
-    ------------------------------------------------------------- */
-    #ai-chat-widget {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-    }
-
-    #chat-toggle-btn {
-      background: var(--primary);
-      color: #ffffff;
-      border: none;
-      border-radius: 50px;
-      padding: 14px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.25s ease;
-    }
-
-    #chat-toggle-btn:hover {
-      background: var(--primary-hover);
-      transform: translateY(-2px);
-    }
-
-    #chat-box {
-      display: none;
-      width: 380px;
-      height: 530px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: var(--shadow-md);
-      flex-direction: column;
-      overflow: hidden;
-      margin-bottom: 14px;
-      border: 1px solid var(--border-color);
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .chat-header {
-      background: var(--dark-navy);
-      color: white;
-      padding: 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .chat-header-title {
-      font-weight: 600;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .online-indicator {
-      width: 8px;
-      height: 8px;
-      background-color: #22c55e;
-      border-radius: 50%;
-    }
-
-    #chat-close-btn {
-      background: transparent;
-      border: none;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    #chat-close-btn:hover {
-      color: white;
-    }
-
-    #chat-messages {
-      flex: 1;
-      padding: 16px;
-      overflow-y: auto;
-      font-size: 14px;
-      background: #f8fafc;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .quick-btn {
-      background: #ffffff;
-      color: var(--primary);
-      border: 1px solid #bfdbfe;
-      border-radius: 20px;
-      padding: 7px 13px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-    }
-
-    .quick-btn:hover {
-      background: #eff6ff;
-      border-color: var(--primary);
-    }
-
-    .chat-input-area {
-      padding: 12px;
-      display: flex;
-      gap: 8px;
-      border-top: 1px solid var(--border-color);
-      background: white;
-    }
-
-    #chat-input {
-      flex: 1;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-    }
-
-    #chat-input:focus {
-      border-color: var(--primary);
-    }
-
-    #chat-send-btn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    #chat-send-btn:hover {
-      background: var(--primary-hover);
-    }
-
-    @media (max-width: 640px) {
-      .container { padding: 0 12px; }
-      #ai-chat-widget { bottom: 12px; right: 12px; left: 12px; }
-      #chat-toggle-btn { width: 100%; justify-content: center; }
-      #chat-box { width: 100%; height: 80vh; }
-    }
-  </style>
-</head>
-<body>
-
-  <!-- =============================================================
-       EN-TÃŠTE DU CV
-  ============================================================= -->
-  <header>
-    <img src="photo.jpg" alt="Ahmed BouchaÃ¯r" class="profile-img" onerror="this.style.display='none'">
-    <h1>Ahmed BouchaÃ¯r</h1>
-    <p>Directeur des SystÃ¨mes d'Information (DSI / CIO) & Responsable de la SÃ©curitÃ© des SI (RSSI)</p>
-
-    <div class="header-actions">
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        <span>Disponible pour de nouveaux dÃ©fis stratÃ©giques</span>
-      </div>
-      <a href="cv-ahmed-bouchair-developpe.pdf" download class="btn-download-pdf">
-        ğŸ“„ TÃ©lÃ©charger le CV Complet (PDF)
-      </a>
-    </div>
-  </header>
-
-  <!-- =============================================================
-       CONTENU PRINCIPAL DU CV
-  ============================================================= -->
-  <main class="container">
-    
-    <section class="card">
-      <h2>ğŸ“Œ Profil & SynthÃ¨se ExÃ©cutive</h2>
-      <p>
-        <strong>20 ans d'expÃ©rience globale dans le numÃ©rique</strong>, dont <strong>18 ans en management d'Ã©quipes et de projets IT</strong>. 
-        Expert de la direction des systÃ¨mes d'information, de la cybersÃ©curitÃ© (certifiÃ© <strong>CISSP</strong>), de la conformitÃ© rÃ©glementaire (SOX, GxP, NIS/OSE) et de la gouvernance Cloud & IA (ESSEC Business School).
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>ğŸ›¡ï¸ CompÃ©tences ClÃ©s & Piliers d'Expertise</h2>
-      <div class="skills-grid">
-        <span class="badge">Gouvernance & StratÃ©gie DSI</span>
-        <span class="badge">CybersÃ©curitÃ© (CISSP)</span>
-        <span class="badge">Cloud Hybride & AWS</span>
-        <span class="badge">ConformitÃ© SOX & ITGC</span>
-        <span class="badge">SystÃ¨mes QualitÃ© GxP (Pharma)</span>
-        <span class="badge">Directive NIS & OSE</span>
-        <span class="badge">PSSI ANSSI & SMSI ISO 27001</span>
-        <span class="badge">SOC & Gestion de Crises</span>
-        <span class="badge">Gouvernance IA (ESSEC)</span>
-        <span class="badge">Gestion BudgÃ©taire CapEx/OpEx</span>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>ğŸ’¼ Parcours & ExpÃ©riences ExÃ©cutives</h2>
-      
-      <div class="timeline-item">
-        <div class="job-title">DSI Adjoint & Responsable Infrastructure</div>
-        <div class="company">GHT Bourgogne MÃ©ridionale (Secteur Hospitalier Public) â€” 2026</div>
-        <p>Construction du Datacenter souverain hospitalier, sÃ©curisation des infrastructures critiques et gouvernance cyber santÃ©.</p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="job-title">Chief Information Officer (DSI) & RSSI</div>
-        <div class="company">Inventiva Pharma (Biotech Internationale Euronext/NASDAQ) â€” 2022 Ã  2026</div>
-        <p>Direction du SI et de la cybersÃ©curitÃ© globale (France & Ã‰tats-Unis). Migration Cloud AWS hybride, conformitÃ©s SOX (ITGC) et GxP, supervision du SOC et stratÃ©gie IA.</p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="job-title">Consultant Senior CybersÃ©curitÃ© & RSSI de Transition</div>
-        <div class="company">Missions de Conseil (EY & ENEDIS) â€” 2021 Ã  2022</div>
-        <p>RSSI de 2 directions rÃ©gionales chez Enedis (audits ISO 27002 sur 114 points, EBIOS RM, conformitÃ© NIS/OSE) et Security Project Manager chez EY (SOC managÃ©, DLP, CyberArk).</p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="job-title">Responsable SI Groupe & RSSI</div>
-        <div class="company">Babolat VS (Ã‰quipementier Sportif International) â€” 2019 Ã  2020</div>
-        <p>Management des Ã©quipes IT internationales (France, Asie, US), tests d'intrusion mondiaux et gouvernance du SI Groupe.</p>
-      </div>
-
-      <div class="timeline-item">
-        <div class="job-title">DSI Adjoint, Responsable Infrastructure & RSSI</div>
-        <div class="company">OPAC SaÃ´ne-et-Loire â€” 2006 Ã  2018 (12 ans d'Ã©volution)</div>
-        <p>RSSI (PSSI ANSSI, SMSI ISO 27001, CISSP 2013), Move to Cloud hybride et crÃ©ation du 1er centre d'appels internalisÃ© (tÃ©lÃ©phonie IP, mini-CRM PHP/Oracle, CTI).</p>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>ğŸ“ Formations & Certifications</h2>
-      <ul style="padding-left: 20px; display: flex; flex-direction: column; gap: 8px;">
-        <li><strong>Executive Certificate IA, Data & CrÃ©ation de Valeur</strong> â€” ESSEC Business School (2026â€“2027)</li>
-        <li><strong>Certification CISSP (Certified Information Systems Security Professional)</strong> â€” (ISC)Â² (depuis 2013)</li>
-        <li><strong>DiplÃ´me d'IngÃ©nieur SystÃ¨mes d'Information (Bac+5)</strong> â€” CNAM Paris (2008)</li>
-        <li><strong>DEST Informatique (Bac+4)</strong> â€” CNAM Bourgogne (2005)</li>
-      </ul>
-    </section>
-
-  </main>
-
-  <!-- =============================================================
-       WIDGET CHATBOT IA INTERACTIF
-  ============================================================= -->
-  <div id="ai-chat-widget">
-    
-    <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
-      <span>ğŸ’¬ Assistant IA CV & Job Matcher</span>
-    </button>
-
-    <div id="chat-box">
-      
-      <div class="chat-header">
-        <div class="chat-header-title">
-          <span class="online-indicator"></span>
-          <span>Assistant IA â€” Ahmed BouchaÃ¯r</span>
-        </div>
-        <button id="chat-close-btn">âœ•</button>
-      </div>
-      
-      <div id="chat-messages">
-        <div style="background: #e2e8f0; color: #1e293b; padding: 12px 14px; border-radius: 12px; max-width: 90%; line-height: 1.4;">
-          Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed BouchaÃ¯r</strong>. Vous pouvez me poser vos questions ou <strong>coller une fiche de poste</strong> pour tester l'adÃ©quation du profil !
-        </div>
-
-        <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
-          <button class="quick-btn" data-query="Quels sont les diplÃ´mes et certifications d'Ahmed ?">ğŸ“ DiplÃ´mes & Certifications</button>
-          <button class="quick-btn" data-query="DÃ©taille son expÃ©rience de DSI et RSSI chez Inventiva et la conformitÃ© SOX/GxP.">ğŸ¢ ExpÃ©rience DSI/RSSI Inventiva</button>
-          <button class="quick-btn" data-query="Quelles sont ses compÃ©tences en cybersÃ©curitÃ© (CISSP, ISO 27001, NIS, EBIOS) ?">ğŸ›¡ï¸ CompÃ©tences CybersÃ©curitÃ©</button>
-          <button class="quick-btn" data-query="Je souhaiterais Ã©valuer l'adÃ©quation d'Ahmed pour un poste de DSI / RSSI. Voici la fiche de poste : ">ğŸ’¼ Tester une Fiche de Poste (Job Matcher)</button>
-        </div>
-      </div>
-
-      <div class="chat-input-area">
-        <input type="text" id="chat-input" placeholder="Posez une question ou collez un poste..." autocomplete="off">
-        <button id="chat-send-btn">Envoyer</button>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    const chatToggleBtn = document.getElementById('chat-toggle-btn');
-    const chatCloseBtn = document.getElementById('chat-close-btn');
-    const chatBox = document.getElementById('chat-box');
-    const chatMessages = document.getElementById('chat-messages');
-    const chatInput = document.getElementById('chat-input');
-    const chatSendBtn = document.getElementById('chat-send-btn');
-
-    let conversationHistory = [];
-
-    chatToggleBtn.onclick = () => {
-      const isHidden = chatBox.style.display === 'none' || chatBox.style.display === '';
-      chatBox.style.display = isHidden ? 'flex' : 'none';
-      if (isHidden) chatInput.focus();
-    };
-    chatCloseBtn.onclick = () => { chatBox.style.display = 'none'; };
-
-    function appendMessage(text, isUser = false, isError = false, id = null) {
-      const div = document.createElement('div');
-      if (id) div.id = id;
-
-      if (isUser) {
-        div.style.cssText = 'align-self: flex-end; background: var(--primary); color: white; padding: 10px 14px; border-radius: 12px 12px 2px 12px; max-width: 85%; line-height: 1.4;';
-      } else if (isError) {
-        div.style.cssText = 'align-self: flex-start; background: #fee2e2; color: #991b1b; padding: 10px 14px; border-radius: 12px 12px 12px 2px;';
-      } else {
-        div.style.cssText = 'align-self: flex-start; background: #e2e8f0; color: #1e293b; padding: 10px 14px; border-radius: 12px 12px 12px 2px; max-width: 88%; line-height: 1.4;';
-      }
-
-      div.innerHTML = text;
-      chatMessages.appendChild(div);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-      return div;
-    }
-
-    async function sendQuery(text) {
-      if (!text) return;
-
-      const quickBox = document.getElementById('quick-questions');
-      if (quickBox) quickBox.style.display = 'none';
-
-      appendMessage(text, true);
-      chatInput.value = '';
-
-      conversationHistory.push({ role: 'user', content: text });
-
-      const loadingId = 'loading-' + Date.now();
-      appendMessage('<i>RÃ©flexion en cours...</i>', false, false, loadingId);
-
-      try {
-        const res = await fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: conversationHistory })
-        });
-
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          document.getElementById(loadingId)?.remove();
-          const errText = errorData.details ? `âš ï¸ ${errorData.error}: ${errorData.details}` : (errorData.error || "DÃ©solÃ©, je n'ai pas pu obtenir de rÃ©ponse.");
-          appendMessage(errText, false, true);
-          return;
-        }
-
-        const contentType = res.headers.get('content-type') || '';
-        if (contentType.includes('application/json')) {
-          const data = await res.json();
-          document.getElementById(loadingId)?.remove();
-          const reply = data.response || data.error || "DÃ©solÃ©, je n'ai pas pu obtenir de rÃ©ponse.";
-          if (data.response) conversationHistory.push({ role: 'assistant', content: data.response });
-          appendMessage(reply, false, !data.response);
-          return;
-        }
-
-        // Traitement du flux Streaming (SSE)
-        document.getElementById(loadingId)?.remove();
-        const assistantMsgDiv = appendMessage('', false);
-
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let fullText = '';
-        let buffer = '';
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop();
-
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const dataStr = line.slice(6).trim();
-              if (dataStr === '[DONE]') continue;
-              try {
-                const parsed = JSON.parse(dataStr);
-                if (parsed.response) {
-                  fullText += parsed.response;
-                  assistantMsgDiv.innerHTML = fullText;
-                  chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-              } catch (e) {}
-            }
-          }
-        }
-
-        if (fullText) {
-          conversationHistory.push({ role: 'assistant', content: fullText });
-        } else {
-          assistantMsgDiv.innerHTML = "DÃ©solÃ©, aucune rÃ©ponse n'a pu Ãªtre gÃ©nÃ©rÃ©e.";
-        }
-
-      } catch (err) {
-        document.getElementById(loadingId)?.remove();
-        appendMessage('Erreur de connexion avec le serveur API.', false, true);
-      }
-    }
-
-    chatSendBtn.onclick = () => sendQuery(chatInput.value.trim());
-    chatInput.onkeypress = (e) => { if (e.key === 'Enter') sendQuery(chatInput.value.trim()); };
-
-    document.querySelectorAll('.quick-btn').forEach(btn => {
-      btn.onclick = () => {
-        const query = btn.getAttribute('data-query');
-        if (query.includes("Fiche de Poste")) {
-          chatInput.value = query;
-          chatInput.focus();
-        } else {
-          sendQuery(query);
-        }
-      };
-    });
-  </script>
-</body>
-</html>
+H‚ˆ<'ä¥H[šYšY\ˆ[ˆ0âXÚ[™ÙHÈÛÛXİˆØ]Û‚ˆÙ]‚ˆÙ]‚ˆÚXY\‚‚ˆXZ[ˆÛ\ÜÏH˜ÛÛZ[™\ˆ‚ˆÙXİ[ÛˆÛ\ÜÏH˜Ø\™‚ˆ¼'äã›Ùš[	ˆš\Ú[Ûˆİ˜]0êYÚ\]YOÚ‚ˆ‚ˆ^Xİ]]™HU]™XÈ\ÈHŒ[œÈ	Ù^0ê\šY[˜ÙHÛØ˜[H[œÈH[pê\š\]YKÛN[œÈ[ˆ\™Xİ[Ûˆ	Ù\]Z\\È]H›Ú™]È[™›Ü›X]\]Y\ËˆˆÜ0êXÚX[\İHHH˜[œÙ›Ü›X][ÛˆYÚ][KHHÛİ]™\›˜[˜ÙH\ÈÒKHHŞX™\œğêXİ\š]0êH
+Ô”ÔÔ"’ÂFW2&6†—FV7GW&W26Æ÷VB‡–'&–FW2WBFRÂv–çL:–w&F–öâFRÂv–çFVÆÆ–vVæ6R'F–f–6–VÆÆRVâVçG&W&—6Rà¢Â÷à¢Â÷6V7F–öãà ¢Ç6V7F–öâ6Æ73Ò&6&B#à¢Æƒ#ï	ù
+6ö×:—FVæ6W26Ì:—2bW‡W'F—6W3Âöƒ#à¢ÆF—b6Æ73Ò'6¶–ÆÇ2Öw&–B#à¢Ç7â6Æ73Ò&&FvR#äv÷WfW&ææ6Rb7G&L:–v–RE4“Â÷7ãà¢Ç7â6Æ73Ò&&FvR#ä7–&W'<:–7W&—L:’„6W'F–fœ:’4•55“Â÷7ãà¢Ç7â6Æ73Ò&&FvR#äv÷WfW&ææ6R”bFF„U54T2“Â÷7ãà¢Ç7â6Æ73Ò&&FvR#ä6Æ÷VB‡–'&–FRu2bFF6VçFW#Â÷7ãà¢Ç7â6Æ73Ò&&FvR#å4ô2Â4õ$b7&—6W27–&W#Â÷7ãà¢Ç7â6Æ73Ò&&FvR#äVF—G2•4ò#s"bT$”õ2$ÓÂ÷7ãà¢Ç7â6Æ73Ò&&FvR#ä6öæf÷&Ö—L:’4õ‚•Dt2bw…†&ÖÂ÷7ãà¢Ç7â6Æ73Ò&&FvR#ä6öæf÷&Ö—L:’ä•2„õ4R’b$uCÂ÷7ãà¢Ç7â6Æ73Ò&&FvR#äÖævVÖVçBBtWV—W2×VÇF’Õ6—FW3Â÷7ãà¢Ç7â6Æ73Ò&&FvR#ävW7F–öâ'VF|:—F—&R4U‚ôõUƒÂ÷7ãà¢ÂöF—cà¢Â÷6V7F–öãà ¢Ç6V7F–öâ6Æ73Ò&6&B#à¢Æƒ#ï	øê&6÷W'2bW‡:—&–Væ6W2WŒ:–7WF—fW3Âöƒ#à¢ÆF—b6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#äE4’F¦ö–çBb&W7öç6&ÆR–æg&7G'V7GW&SÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#ät…B&÷W&vövæRÜ:—&–F–öæÆR(	B##cÂöF—cà¢Çå<:–7W&—L:’FW2–æg&7G'V7GW&W2–æf÷&ÖF—VW2†÷7—FÆœ:‡&W2WB–Æ÷FvRFRÆ6öç7G'V7F–öâBwVâFF6VçFW"6÷WfW&–âãÂ÷à¢ÂöF—cà¢ÆF—b6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#ä6†–Vb–æf÷&ÖF–öâöff–6W"„4”ò’b%54“ÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#ä–çfVçF—f†&Ö„&–÷FV6‚WW&öæW‡Bôä4D’(	B##":##cÂöF—cà¢ÇäF—&V7F–öâGR4’WBFRÆ7–&W'<:–7W&—L:’vÆö&ÆR„g&æ6Rb8—FG2ÕVæ—2’âÖ–w&F–öâ6Æ÷VBu2‡–'&–FRÂ6öæf÷&Ö—L:’,:–vÆVÖVçF—&R4õ‚•Dt2WBw…ÂFWÆö–VÖVçBGR4ô2WB&ö¦WG2”ãÂ÷à¢ÂöF—cà¢ÆF—f6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#ä6öç7VÇFçB6Væ–÷"7–&W'<:–7W&—L:’b%54’FRG&ç6—F–öãÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#äÖ—76–öç2FR6öç6V–Â„U’bTäTD•2’(	B##:###ÂöF—cà¢Çå%54’,:–v–öæÂ6†W¢VæVF—2†VF—G2•4ò#s"7W"Bö–çG2ÂT$”õ2$ÒÂ6öæf÷&Ö—L:’ä•2õ4R’WB6V7W&—G’6öÇWF–öâ&ö¦V7BÖævW"6†W¢U’†–çL:–w&F–öâ4ô2Öæ|:’ÂDÅÂ7–&W$&²’ãÂ÷à¢ÂöF—cà¢ÆF—f6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#ä6†VbFR&ö¦WB6W'f–6W2çVÜ:—&—VW3ÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#ät•Ö†–Ö–Æ–VâŒ8æÆRÖFRÔg&æ6R’(	B##:##ÂöF—cà¢ÇäL:–ÖL:—&–Æ—6F–öâWB<:–7W&—6F–öâvÆö&ÆRFRÆ6†:ÖæRFW0¢6†G2V&Æ–72g&æ6–Æ–Vç2ãÂ÷à¢ÂöF—cà¢ÆF—b6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#å&W7öç6&ÆR4’w&÷WRb%54“ÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#ä&&öÆBe2(	B#’:##ÂöF—cà¢ÇäÖævVÖVçBFW2:—V—W2•B–çFW&æF–öæÆW2„g&æ6RÂ6–RÂ8—FG2ÕVæ—2’ÂvW7F–öâ'VF|:—F—&RWBVçFW7G2ÖöæF–W‚ãÂ÷à¢ÂöF—cà¢ÆF—b6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#äF—&V7FWW"FV6†æ—VRFW24“ÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#åf–ÆÆRBtW–æ’×7W"Õ6V–æR(	B#‚:#“ÂöF—cà¢Çå66Œ:–ÖF—&V7FWW"ÂL:—Æö–VÖVçBGR,:—6VRf–'&R÷F—VR6öÖ×VæÂ…6Ö'B6—G’’WB6öæf÷&Ö—L:’$uBãÂ÷à¢ÂöF—cà¢ÆF—b6Æ73Ò'F–ÖVÆ–æRÖ—FVÒ#à¢ÆF—b6Æ73Ò&¦ö"×F—FÆR#å%54’ƒ#bÓ‚’ÂE4’F¦ö–çBƒ#‚Ób’Â–æ|:–æ–WW"ƒ#bÓ‚“ÂöF—cà¢ÆF—b6Æ73Ò&6ö×ç’#äõ26;FæRÖWBÔÆö—&R(	B#b:#ƒÂöF—cà¢Çå54’å54’Â4Õ4’•4ò#sÂö'FVçF–öâ4•53ÂÂÖ÷fRFò6Æ÷VB‡–'&–FRÂ7,:–F–öâGRW"6VçG&RBvVÇ2–çFW&æÆ—<:’‡GWF‚â•Â5$ÒÂ5D’’ãÂ÷à¢ÂöF—cà¢Â÷6V7F–öãà ¢Ç6V7F–öâ6Æ73Ò&6&B#à¢Æƒ#ï	øé2f÷&ÖF–öç2Â6W'F–f–6F–öç2bVævvVÖVçG3Âöƒ#à¢ÇVÂ7G–ÆSÒ'FF–ærÖÆVgC¢#ƒ²F—7Æ“¢fÆWƒ²fÆW‚ÖF—&V7F–öã¢6öÇVÖã²v¢ƒ²#à¢ÆÆ“ãÇ7G&öæsäW†V7WF—fR6W'F–f–6FRt”ÂFFb7,:–F–öâFRfÆWW"sÂ÷7G&öæsâ(	BU54T2'W6–æW7266†ööÂƒ##n(	C##r“ÂöÆ“à¢ÆÆ“ãÇ7G&öæsä6W'F–f–6F–öâ4•55Â÷7G&öæsâ(	B6W'F–f–VB–æf÷&ÖF–öâ7—7FV×26V7W&—G’&öfW76–öæÂ(	B„•42’+²ƒ#2“ÂöÆ“à¢ÆÆ“ãÇ7G&öæsäF—Ì;FÖRBt–æ|:–æ–WW"7—7L:†ÖW2Bt–æf÷&ÖF–öâ„&2³R“Â÷7G&öæsâ(	B4äÒ&—2ƒ#‚“ÂöÆ“à¢ÆÆ“ãÇ7G&öæsäDU5B–æf÷&ÖF—VR„&2³B“Â÷7G&öæsâ(	B4äÒ&÷W&vövæRƒ#R“ÂöÆ“à¢ÆÆ“ãÇ7G&öæsåFV6†æ–6–Vâ7W:—&–WW"Vâ–æf÷&ÖF—VSÂ÷7G&öæsâ(	Beƒ#2“ÂöÆ“à¢ÆÆ“ãÇ7G&öæsäVævvVÖVçB,:—V&Æ–6–â£Â÷7G&öæsâF§VFçBÔ6†VbFR,:—6W'fRFç2ÆvVæF&ÖW&–RæF–öæÆSÂöÆ“à¢Â÷VÃà¢Â÷6V7F–öãà¢ÂöÖ–ãà ¢F—b–CÒ&6öçF7BÖÖöFÂ"6Æ73Ò&ÖöFÂ#à¢ÆF—b6Æ73Ò&ÖöFÂÖ6öçFVçB#à¢Æ'WGFöâ6Æ73Ò&ÖöFÂÖ6Æ÷6R"öæ6Æ–6³Ò&6Æ÷6T6öçF7DÖöFÂ‚’#ì8CÂö'WGFöãà¢Æƒ27G–ÆSÒ&Ö&v–âÖ&÷GFöÓ¢Gƒ²6öÆ÷#¢f"‚ÒÖF&²Öæg’“²#ï	ø)RÆæ–f–W"Vâ8–6†ævRò6öçF7BF—&V7CÂöƒ3à¢Ç7G–ÆSÒ&Ö&v–âÖ&÷GFöÓ¢gƒ²föçB×6—¦S¢ã“W&VÓ²6öÆ÷#¢f"‚Ò×FW‡BÖ×WFVB“²#à¢f÷W26÷V†—FW¢:–6†ævW"7W"VæR÷÷'GVæ—L:’FRE4’Â%54’÷RF—&V7F–öâFR&ö¦WG26ö×ÆW†W2ğ¢Â÷à¢ÆF—b7G–ÆSÒ&F—7Æ“¢fÆWƒ²fÆW‚ÖF—&V7F–öã¢6öÇVÖã²v¢'ƒ²#à¢Æ‡&VcÒ&Ö–ÇFó¦†&÷V6†—$vÖ–Âæ6öÒ"7G–ÆSÒ&F—7Æ“¢fÆWƒ²Æ–vâÖ—FV×3¢6VçFW#²v¢ƒ²FF–æs¢'ƒ²&6¶w&÷VæC¢6ccVc“²&÷&FW"×&F—W3¢‡ƒ²FW‡BÖFV6÷&F–öã¢æöæS²6öÆ÷#¢f"‚ÒÖF&²Öæg’“²föçB×vV–v‡C¢c²#à¢(	ÂVçf÷–W"VâVÖ–ÂF—&V7@¢Âöà¢Æ‡&VcÒ'FVÃ¢³33c3#sc’"7G–ÆSÒ&F—7Æ“¢fÆWƒ²Æ–vâÖ—FV×3¢6VçFW#²v¢ƒ²FF–æs¢'ƒ²&6¶w&÷VæC¢6ccVc“²&÷&FW"×&F—W3¢‡ƒ²FW‡BÖFV6÷&F–öã¢æöæS²6öÆ÷#¢f"‚ÒÖF&²Öæg’“²föçB×vV–v‡C¢c²#à¢(	ÂL:–Ì:—†öæR‚³32b3"rc’¢Âöà¢ÂöF—cà¢ÂöF—cà¢ÂöF—cà ¢ÆF—b–CÒ&’Ö6†B×v–FvWB#à¢Æ'WGFöâ–CÒ&6†B×FövvÆRÖ'Fâ"&–ÖÆ&VÃÒ$÷Wg&—"Âv76—7FçB”#à¢Ç7ãï	ù*‚76—7FçB”5cÂ÷7ãà¢Âö'WGFöãà¢ÆF—b–CÒ&6†BÖ&÷‚#à¢ÆF—b6Æ73Ò&6†BÖ†VFW"#à¢ÆF—f6Æ73Ò&6†BÖ†VFW"×F—FÆR#à¢Ç7â6Æ73Ò&öæÆ–æRÖ–æF–6F÷"#ãÂ÷7ãà¢Ç7ãä76—7FçB”(	B†ÖVB&÷V6†8å#Â÷7ãà¢ÂöF—cà¢ÆF—b6Æ73Ò&6†BÖ†VFW"Ö7F–öç2#à¢Æ'WGFöâ6Æ73Ò&–6öâÖ'Fâ"–CÒ&Ö–2Ö'Fâ"F—FÆSÒ$7F—fW"ÆF–7L:–Rfö6ÆR#ì85#Âö'WGFöãà¢Æ'WGFöâ6Æ73Ò&–6öâÖ'Fâ"–CÒ'GG2Ö'Fâ"F—FÆSÒ$7F—fW"ÆÆV7GW&RVF–ò#ì85SÂö'WGFöãà¢Æ'WGFöâ6Æ73Ò&–6öâÖ'Fâ"öæ6Æ–6³Ò'v–æF÷rç&–çB‚’"F—FÆSÒ$–×&–ÖW"ò–×&–ÖW"VâDb#ì85CÂö'WGFöãà¢Æ'WGFöâ6Æ73Ò&–6öâÖ'Fâ"–CÒ&6†BÖ6Æ÷6RÖ'Fâ"F—FÆSÒ$fW&ÖW"#ì8CÂö'WGFöãà¢ÂöF—cà¢ÂöF—cà¢ÆF—b–CÒ&6†BÖÖW76vW2#à¢ÆF—b7G–ÆSÒ&&6¶w&÷VæC¢6S&S†c²6öÆ÷#¢3S#“6#²FF–æs¢'‚Gƒ²&÷&FW"×&F—W3¢'ƒ²Ö‚×v–GFƒ¢“S²Æ–æRÖ†V–v‡C¢ãC²#à¢&öæ¦÷W"¦R7V—2Âv76—7FçBf—'GVVÂBs77G&öæt†ÖVB&÷V6†:ç#Â÷7G&öæsââ÷6W¢ÖÖö’f÷2VW7F–öç2÷RFW7FW¢æ÷2föæ7F–öææÆ—L:—2 ¢ÂöF—cà¢ÆF—b–CÒ'V–6²×VW7F–öç2"7G–ÆSÒ&F—7Æ“¢fÆWƒ²fÆW‚ÖF—&V7F–öã¢6öÇVÖã²v¢gƒ²Ö&v–â×F÷¢Gƒ²#à¢Æ'WGFöâ6Æ73Ò'V–6²Ö'Fâ"FF×VW'“Ò%VVÇ26öçBÆW2F—Ì;FÖW2WB6W'F–f–6F–öç2Bt†ÖVBò#ï	ø9"F—Ì;FÖW2b6W'F–f–6F–öç3Âö'WGFöãà¢Æ'WGFöâ6Æ73Ò'V–6²Ö'Fâ"FF×VW'“Ò%&6öçFRÖÖö’6öâW‡:—&–Væ6RFRE4’WB%54’6†W¢–çfVçF—fWBU’â#ì8DW‡:—&–Væ6RE4’ò%54’ò6öç6V–ÃÂö'WGFöãà¢Æ'WGFöâ6Æ73Ò'V–6²Ö'Fâ"FF×VW'“Ò/	øê’æÇ—6W"Æf–6†RFR÷7FR7V—fçFR¢#ì8BFW7FW"VæRf–6†RFR÷7FR„¦ö"ÖF6†W"“Âö'WGFöãà¢Æ'WGFöâ6Æ73Ò'V–6²Ö'Fâ"FF×VW'“Ò,88R,:–F–vW"VæRÆWGG&RFRÖ÷F—fF–öâW'6öææÆ—<:–R÷W"†ÖVBâ#ì88R,:–F–vW"VæRÆWGG&RFRÖ÷F—fF–öãÂö'WGFöãà¢ÂöF—cà¢ÂöF—cà¢ÆF—b6Æ73Ò&6†BÖ–çWBÖ&V#à¢Æ–çWBG—SÒ'FW‡B"–CÒ&6†BÖ–çWB"Æ6V†öÆFW#Ò%÷6W¢VæRVW7F–öâ÷R6öÆÆW¢VæRöfg&Râââ"WFö6ö×ÆWFSÒ&öfb#à¢Æ'WGFöâ–CÒ&6†B×6VæBÖ'Fâ#äVçf÷–W#Âö'WGFöãà¢ÂöF—cà¢ÂöF—cà¢ÂöF—cà ¢Ç67&—Cà¢6öç7B6†EFövvÆT'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†B×FövvÆRÖ'Fâr“°¢6öç7B6†D6Æ÷6T'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†BÖ6Æ÷6RÖ'Fâr“°¢6öç7B6†D&÷‚ÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†BÖ&÷‚r“°¢6öç7B6†DÖW76vW2ÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†BÖÖW76vW2r“°¢6öç7B6†D–çWBÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†BÖ–çWBr“°¢6öç7B6†E6VæD'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚v6†B×6VæBÖ'Fâr“°¢6öç7BÖ–4'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚vÖ–2Ö'Fâr“°¢6öç7BGG4'FâÒFö7VÖVçBævWDVÆVÖVçD'”–B‚wGG2Ö'Fâr“° ¢ÆWB6öçfW'6F–öä†—7F÷'’ÒµÓ°¢ÆWBGG4Væ&ÆVBÒfÇ6S° ¢gVæ7F–öâ÷Vä6öçF7DÖöFÂ‚’²Fö7VÖVçBævWDVÆVÖVçD'”–B‚v6öçF7BÖÖöFÂr’ç7G–ÆRæF—7Æ’ÒvfÆW‚s²Ğ¢gVæ7F–öâ6Æ÷6T6öçF7DÖöFÂ‚’²Fö7VÖVçBævWDVÆVÖVçD'”–B‚v6öçF7BÖÖöFÂr’ç7G–ÆRæF—7Æ’ÒvæöæRs²Ğ ¢6†EFövvÆT'Fâæöæ6Æ–6²Ò‚’Óâ°¢6öç7B—4†–FFVâÒ6†D&÷‚ç7G–ÆRæF—7Æ’ÓÓÒvæöæRrÇÂ6†D&÷‚ç7G–ÆRæF—7Æ’ÓÓÒrs°¢6†D&÷‚ç7G–ÆRæF—7Æ’Ò—4†–FFVâòvfÆW‚r¢væöæRs°¢–b†—4†–FFVâ’6†D–çWBæfö7W2‚“°¢Ó°¢6†D6Æ÷6T'Fâæöæ6Æ–6²Ò‚’Óâ²6†D&÷‚ç7G–ÆRæF—7Æ’ÒvæöæRs²Ó° ¢–b‚wvV&¶—E7VV6…&V6övæ—F–öâr–âv–æF÷rÇÂu7VV6…&V6övæ—F–öâr–âv–æF÷r’°¢6öç7B7VV6…&V6övæ—F–öâÒv–æF÷rå7VV6…&V6övæ—F–öâÇÂv–æF÷rçvV&¶—E7VV6…&V6övæ—F–öã°¢6öç7B&V6övæ—F–öâÒæWr7VV6…&V6övæ—F–öâ‚“°¢&V6övæ—F–öâæÆærÒvg"Ôe"s°¢&V6övæ—F–öâæ6öçF–çV÷W2ÒfÇ6S°¢Ö–4'Fâæöæ6Æ–6²Ò‚’Óâ°¢Ö–4'Fâç7G–ÆRæ6öÆ÷"Òr6VcCCCBs°¢&V6övæ—F–öâç7F'B‚“°¢Ó°¢&V6övæ—F–öâæöç&W7VÇBÒ†WfVçB’Óâ°¢6öç7BG&ç67&—BÒWfVçBç&W7VÇG5³Õ³ÒçG&ç67&—C°¢6†D–çWBçfÇVRÒG&ç67&—C°¢Ö–4'Fâç7G–ÆRæ6öÆ÷#¢r3“F6#‚s°¢6VæEVW'’‡G&ç67&—B“°¢Ó°¢&V6övæ—F–öâæöæW'&÷"Ò‚’Óâ²Ö–4'Fâç7G–ÆRæ6öÆ÷"Òr3“F6#‚s²Ó°¢&V6övæ—F–öâæöæVæBÒ‚’Óâ²Ö–4'Fâç7G–ÆRæ6öÆ÷"Òr3“F6#‚s²Ó°¢ÒVÇ6R°¢Ö–4'Fâç7G–ÆRæF—7Æ’ÒvæöæRs°¢Ğ ¢GG4'Fâæöæ6Æ–6²Ò‚’Óâ°¢GG4Væ&ÆVBÒGG4Væ&ÆVC°¢GG4'Fâç7G–ÆRæ6öÆ÷"ÒGG4Væ&ÆVBòr3#&3SVRr¢r3“F6#‚s°¢Ó° ¢gVæ7F–öâ7VµFW‡B‡FW‡B’°¢–b‚GG4Væ&ÆVBÇÂ‚w7VV6…7–çF†W6—2r–âv–æF÷r’’&WGW&ã°¢6öç7B6ÆVåFW‡BÒFW‡Bç&WÆ6R‚óÅµãåÒ£âöv2Ârr“°¢6öç7BWGFW&æ6RÒæWr7VV6…7–çF†W6—5WGFW&æ6R†6ÆVåFW‡B“°¢WGFW&æ6RæÆærÒvg"Ôe"s°¢v–æF÷rç7VV6…7–çF†W6—2ç7V²‡WGFW&æ6R“°¢Ğ ¢gVæ7F–öâVæDÖW76vR‡FW‡BÂ—5W6W"ÒfÇ6RÂ—4W'&÷"ÒfÇ6RÂ–BÒçVÆÂ’°¢6öç7BF—bÒFö7VÖVçBæ7&VFTVÆVÖVçB‚vF—br“°¢–b†–B’F—bæ–BÒ–C°¢–b†—5W6W"’°¢F—bç7G–ÆRæ775FW‡BÒvÆ–vâ×6VÆc¢fÆW‚ÖVæC²&6¶w&÷VæC¢f"‚Ò×&–Ö'’“²6öÆ÷#¢v†—FS²FF–æs¢‚Gƒ²&÷&FW"×&F—W3¢'‚'‚'‚'ƒ²Ö‚×v–GFƒ¢ƒRS²Æ–æRÖ†V–v‡C¢ãC²s°¢ÒVÇ6R–b†—4W'&÷"’°¢F—bç7G–ÆRæ775FW‡BÒvÆ–vâ×6VÆc¢fÆW‚×7F'C²&6¶w&÷VæC¢6fVS&S#²6öÆ÷#¢3““##²FF–æs¢‚Gƒ²&÷&FW"×&F—W3¢'‚'‚'‚'ƒ²s°¢ÒVÇ6R°¢F—bç7G–ÆRæ775FW‡BÒvÆ–vâ×6VÆc¢fÆW‚×7F'C²&6¶w&÷VæC¢6S&S†c²6öÆ÷#¢3S#“6#²FF–æs¢‚Gƒ²&÷&FW"×&F—W3¢'‚'‚'‚'ƒ²Ö‚×v–GFƒ¢ƒ‚S²Æ–æRÖ†V–v‡C¢ãC²s°¢Ğ¢F—bæ–ææW$…DÔÂÒFW‡C°¢6†DÖW76vW2æVæD6†–ÆB†F—b“°¢6†DÖW76vW2ç67&öÆÅF÷Ò6†DÖW76vW2ç67&öÆÄ†V–v‡C°¢&WGW&âF—c°¢Ğ ¢7–æ2gVæ7F–öâ6VæEVW'’‡FW‡B’°¢–b‚FW‡B’&WGW&ã°¢6öç7BV–6´&÷‚ÒFö7VÖVçBævWDVÆVÖVçD'”–B‚wV–6²×VW7F–öç2r“°¢–b‡V–6´&÷‚’V–6´&÷‚ç7G–ÆRæF—7Æ’ÒvæöæRs° ¢VæDÖW76vR‡FW‡BÂG'VR“°¢6†D–çWBçfÇVRÒrs° ¢6öçfW'6F–öä†—7F÷'’çW6‚‡²&öÆS¢wW6W"rÂ6öçFVçC¢FW‡BÒ“° ¢6öç7BÆöF–æt–BÒvÆöF–ærÒr²FFRææ÷r‚“°¢VæDÖW76vR‚sÆ“å,:–fÆW†–öâVâ6÷W'2ââãÂö“ârÂfÇ6RÂfÇ6RÂÆöF–æt–B“° ¢G'’°¢6öç7B&W2Òv—BfWF6‚‚rö’ö6†BrÂ°¢ÖWF†öC¢uõ5BrÀ¢†VFW'3¢²t6öçFVçBÕG—Rs¢vÆ–6F–öâö§6öârÒÀ¢&öG“¢¥4ôâç7G&–æv–g’‡²ÖW76vW3¢6öçfW'6F–öä†—7F÷'’Ò¢Ò“° ¢–b‚&W2æö²’°¢6öç7BW'&÷$FFÒv—B&W2æ§6öâ‚’æ6F6‚‚‚’Óâ‡·Ò’“°¢Fö7VÖVçBævWDVÆVÖVçD'”–B†ÆöF–æt–B“òç&VÖ÷fR‚“°¢6öç7BW'%FW‡BÒW'&÷$FFæFWF–Ç2ò)ªG¶W'&÷$FFæW'&÷'Ó¢G¶W'&÷$FFæFWF–Ç7Ö¢†W'&÷$FFæW'&÷"ÇÂ$FW6öÌ:’Â¦Râv’2Rö'FVæ—"FR,:—öç6Râ"“°¢VæDÖW76vR†W'%FW‡BÂfÇ6RÂG'VR“°¢&WGW&ã°¢Ğ ¢6öç7B6öçFVçEG—RÒ&W2æ†VFW'2ævWB‚v6öçFVçB×G—Rr’ÇÂrs°¢–b†6öçFVçEG—Ræ–æ6ÇVFW2‚vÆ–6F–öâö§6öâr’’°¢6öç7BFFÒv—B&W2æ§6öâ‚“°¢Fö7VÖVçBævWDVÆVÖVçD'”–B†ÆöF–æt–B“òç&VÖ÷fR‚“°¢6öç7B&WÇ’ÒFFç&W7öç6RÇÂFFæW'&÷"ÇÂ$FW6öÌ:’Â¦Râv’2Rö'FVæ—"FR,:—öç6Râ#°¢–b†FFç&W7öç6R’°¢6öçfW'6F–öä†—7F÷'’çW6‚‡²&öÆS¢v76—7FçBrÂ6öçFVçC¢FFç&W7öç6RÒ“°¢7VµFW‡B†FFç&W7öç6R“°¢Ğ¢VæDÖW76vR‡&WÇ’ÂfÇ6RÂFFç&W7öç6R“°¢&WGW&ã°¢Ğ ¢Fö7VÖVçBævWDVÆVÖVçD'”–B†ÆöF–æt–B“òç&VÖ÷fR‚“°¢6öç7B76—7FçD×6tF—bÒVæDÖW76vR‚rrÂfÇ6R“° ¢6öç7B&VFW"Ò&W2æ&öG’ævWE&VFW"‚“°¢6öç7BFV6öFW"ÒæWrFW‡DFV6öFW"‚“°¢ÆWBgVÆÅFW‡BÒrs°¢ÆWB'VffW"Òrs° ¢v†–ÆR‡G'VR’°¢6öç7B²FöæRÂfÇVRÒÒv—B&VFW"ç&VB‚“°¢–b†FöæR–'&V³° ¢'VffW"³ÒFV6öFW"æFV6öFR‡fÇVRÂ²7G&VÓ¢G'VRÒ“°¢6öç7BÆ–æW2Ò'VffW"ç7Æ—B‚uÆâr“°¢'VffW"ÒÆ–æW2ç÷‚“° ¢f÷"†6öç7BÆ–æRöbÆ–æW2’°¢–b†Æ–æRç7F'G5v—F‚‚vFF¢r’’°¢6öç7BFF7G"ÒÆ–æRç6Æ–6Rƒb’çG&–Ò‚“°¢–b†FF7G"ÓÓÒu´DôäUÒr’6öçF–çVS°¢G'’°¢6öç7B'6VBÒ¥4ôâç'6R†FF7G"“°¢–b‡'6VBç&W7öç6R’°¢gVÆÅFW‡B³Ò'6VBç&W7öç6S°¢76—7FçD×6tF—bæ–ææW$…DÔÂÒgVÆÅFW‡C°¢6†DÖW76vW2ç67&öÆÅF÷Ò6†DÖW76vW2ç67&öÆÄ†V–v‡C°¢Ğ¢Ò6F6‚†R’·Ğ¢Ğ¢Ğ¢Ğ ¢–b†gVÆÅFW‡B’°¢6öçfW'6F–öä†—7F÷'’çW6‚‡²&öÆS¢v76—7FçBrÂ6öçFVçC¢gVÆÅFW‡BÒ“°¢7VµFW‡B†gVÆÅFW‡B“°¢ÒVÇ6R°¢76—7FçD×6tF—bæ–ææW$…DÔÂÒ$FW6öÌ:’ÂV7VæR,:—öç6RâvRÖR'fVæ—"â#°¢Ğ ¢Ò6F6‚†W'"’°¢Fö7VÖVçBævWDVÆVÖVçD'”–B†ÆöF–æt–B“²ç&VÖ÷fR‚“°¢VæDÖW76vR‚tW'&WW"FR6öææW†–öâfV2ÆR6W'fWW"’ârÂfÇ6RÂG'VR“°¢Ğ¢Ğ ¢6†E6VæD'Fâæöæ6Æ–6²Ò‚’Óâ6VæEVW'’†6†D–çWBçfÇVRçG&–Ò‚’“°¢6†D–çWBæöæ¶W—&W72Ò†R’Óâ²–b†Ræ¶W’ÓÓÒtVçFW"r’6VæEVW'’†6†D–çWBçfÇVRçG&–Ò‚’“²Ó° ¢Fö7VÖVçBçVW'•6VÆV7F÷$ÆÂ‚rçV–6²Ö'Fâr’æf÷$V6‚†'FâÓâ°¢'Fâæöæ6Æ–6²Ò‚’Óâ6VæEVW'’†'FâævWDGG&–'WFR‚vFF×VW'’r’“°¢Ò“°¢Â÷67&—Cà£Âö&öG“à£Âö‡FÖÃà 
