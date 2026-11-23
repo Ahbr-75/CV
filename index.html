@@ -3,7 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ahmed Bouchaïr — DSI & RSSI</title>
+  <title>Ahmed Bouchaïr — DSI & RSSI (CV Exécutif & Assistant IA)</title>
+  <!-- ETAPE 1 : SEO, OPEN GRAPH & TWITTER CARDS -->
+  <meta name="description" content="Profil d'Ahmed Bouchair : 20+ ans d'experience en Direction des Systemes d'Information (DSI/CIO), Cybersecurity (RSSI, CISSP), Cloud et IA. Diplome Ingenieur CNAM Paris et ESSEC.">
+  <meta name="keywords" content="Ahmed Bouchair, DSI, CIO, RSSI, CISO, Cybersecurity, CISSP, CNAM Paris, ESSEC, Cloud AWS, Governance IT, EBIOS RM, SOX, GxP, Conseil IT, EY, Enedis">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ahmed Bouchair — DSI & RSSI (CV Executif)">
+  <meta property="og:description" content="20+ ans d'experience IT & Cybersecurity. Ingenieur CNAM Paris, ESSEC, CISSP. Testez l'Assistant IA avec votre fiche de poste.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ahmed Bouchaïr",
+    "jobTitle": "Directeur des Systèmes d'Information (DSI / CIO) & Responsable de la Sécurité des SI (RSSI)",
+    "description": "20+ ans d'expérience globale dans le numérique, 18 ans en management IT. Spécialiste gouvernance DSI, cybersécurité certifiée CISSP, Cloud hybride et IA d'entreprise.",
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "CNAM Paris (Conservatoire National des Arts et Métiers)",
+        "description": "Diplôme d'Ingénieur Systèmes d'Information (Bac+5)"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "ESSEC Business School",
+        "description": "Executive Certificate IA, Data & Création de Valeur"
+      }
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "CISSP - Certified Information Systems Security Professional",
+        "credentialCategory": "Certification Cybersécurité (ISC)²"
+      }
+    ]
+  }
+  </script>
+
   <style>
     /* -------------------------------------------------------------
        VARIABLES & SYSTEME DE DESIGN
@@ -344,7 +379,145 @@
       #chat-toggle-btn { width: 100%; justify-content: center; }
       #chat-box { width: 100%; height: 80vh; }
     }
-  </style>
+  
+    /* ETAPE 2 : FILTRES DYNAMIQUES ET STYLES UX */
+    .filter-bar-container {
+      margin-bottom: 22px;
+      background: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .filter-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 16px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-btn:hover {
+      background: #e2e8f0;
+      color: var(--dark-navy);
+    }
+
+    .filter-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    .badge {
+      transition: all 0.25s ease;
+    }
+
+    .badge.highlight {
+      background: var(--primary) !important;
+      color: white !important;
+      border-color: var(--primary) !important;
+    }
+
+    .timeline-item {
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item.dimmed {
+      opacity: 0.35;
+      transform: scale(0.99);
+    }
+
+    .timeline-item.active-filter {
+      border-left-color: var(--primary);
+    }
+
+    .timeline-item.active-filter::before {
+      transform: scale(1.4);
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
+    }
+
+    .header-cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+    }
+
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary { background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-card {
+      background: white;
+      width: 90%;
+      max-width: 480px;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 18px;
+      background: none; border: none;
+      font-size: 20px; color: var(--text-muted);
+      cursor: pointer;
+    }
+
+</style>
 </head>
 <body>
 
@@ -358,15 +531,14 @@
     <div class="status-badge">
       <span class="status-dot"></span>
       <span>Disponible pour de nouveaux défis stratégiques</span>
-    </div>
-  
-    <div style="margin-top: 20px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
-      <a href="cv-ahmed-bouchair-developpe.pdf" download style="background: #2563eb; color: white; padding: 12px 20px; border-radius: 8px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);">
-        📄 Télécharger le CV Complet (PDF)
+        <div class="header-cta-group">
+      <a href="cv-ahmed-bouchair-developpe.pdf" target="_blank" class="btn btn-primary">
+        <span>📄 Télécharger le CV Complet (PDF)</span>
       </a>
-      <button onclick="document.getElementById('contact-modal').style.display='flex'" style="background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;">
-        📅 Planifier un Échange / Contact
+      <button class="btn btn-secondary" id="open-contact-modal">
+        <span>📅 Planifier un Échange / Contact</span>
       </button>
+    </div>
     </div>
   </header>
 
@@ -383,37 +555,48 @@
       </p>
     </section>
 
+        <!-- ETAPE 2 : BARRE DE FILTRES DYNAMIQUES PAR CASQUETTE -->
+    <div class="filter-bar-container">
+      <span class="filter-label">🎯 Filtrer l'expérience par casquette professionnelle :</span>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">✨ Tous les profils</button>
+        <button class="filter-btn" data-filter="dsi">💻 DSI / CIO (Gouvernance & Infra)</button>
+        <button class="filter-btn" data-filter="rssi">🛡️ RSSI / Cybersécurité (GRC & SOC)</button>
+        <button class="filter-btn" data-filter="conseil">💼 Conseil & ESN (EY & Enedis)</button>
+      </div>
+    </div>
+
     <section class="card">
       <h2>🛡️ Compétences Clés</h2>
       <div class="skills-grid">
-        <span class="badge">Gouvernance DSI</span>
-        <span class="badge">Cybersécurité (CISSP)</span>
-        <span class="badge">Cloud Hybride & AWS</span>
-        <span class="badge">SOC & Incident Response</span>
-        <span class="badge">Normes ISO 27002 / NIS</span>
-        <span class="badge">Conformité GxP & SOX</span>
-        <span class="badge">IA d'Entreprise & MLOps</span>
-        <span class="badge">EBIOS RM</span>
-        <span class="badge">Gestion Budgétaire CapEx/OpEx</span>
+        <span class="badge" data-category="dsi">Gouvernance DSI</span>
+        <span class="badge" data-category="rssi">Cybersécurité (CISSP)</span>
+        <span class="badge" data-category="dsi">Cloud Hybride & AWS</span>
+        <span class="badge" data-category="rssi">SOC & Incident Response</span>
+        <span class="badge" data-category="rssi conseil">Normes ISO 27002 / NIS</span>
+        <span class="badge" data-category="dsi">Conformité GxP & SOX</span>
+        <span class="badge" data-category="dsi">IA d'Entreprise & MLOps</span>
+        <span class="badge" data-category="rssi conseil">EBIOS RM</span>
+        <span class="badge" data-category="dsi">Gestion Budgétaire CapEx/OpEx</span>
       </div>
     </section>
 
     <section class="card">
       <h2>💼 Expériences Principales</h2>
       
-      <div class="timeline-item">
+      <div class="timeline-item" data-category="dsi rssi">
         <div class="job-title">DSI & RSSI</div>
         <div class="company">Inventiva (Biotech Internationale) — 2022 à 2026</div>
         <p>Management du SI et de la cybersécurité globale (France, US, UK). Migration Cloud AWS, mise en place du SOC, gouvernance des données et conformité SOX / GxP.</p>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item" data-category="rssi conseil">
         <div class="job-title">Consultant Senior Cybersécurité</div>
         <div class="company">EY / Enedis — 2021 à 2022</div>
         <p>Analyses de risques EBIOS RM, audits de maturité ISO 27002 et accompagnement à la conformité NIS pour les Opérateurs de Services Essentiels (OSE).</p>
       </div>
 
-      <div class="timeline-item">
+      <div class="timeline-item" data-category="dsi">
         <div class="job-title">Directeur de Projets IT & Datacenter</div>
         <div class="company">Secteur Public & Parapublic — Prior à 2021</div>
         <p>Construction de Datacenter souverain, déploiement de réseaux fibre optique (Smart City) et dématérialisation des marchés publics.</p>
@@ -429,29 +612,22 @@
       </ul>
     </section>
 
+    <!-- MODALE DE CONTACT DIRECT -->
+  <div class="modal-overlay" id="contact-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="close-contact-modal">✕</button>
+      <h3 style="color: var(--dark-navy); margin-bottom: 14px; font-size: 1.25rem;">📅 Planifier un Échange avec Ahmed</h3>
+      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px;">
+        Vous pouvez contacter directement Ahmed Bouchaïr pour échanger sur une opportunité ou organiser un entretien.
+      </p>
+    </div>
+  </div>
+
   </main>
 
   <!-- =============================================================
        WIDGET CHATBOT IA INTERACTIF
   ============================================================= -->
-  
-  <!-- MODAL CONTACT -->
-  <div id="contact-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.75); z-index: 10000; justify-content: center; align-items: center; backdrop-filter: blur(4px);" onclick="if(event.target.id==='contact-modal') this.style.display='none'">
-    <div style="background: white; padding: 32px; border-radius: 16px; max-width: 480px; width: 90%; box-shadow: 0 20px 30px rgba(0,0,0,0.2); position: relative;">
-      <button onclick="document.getElementById('contact-modal').style.display='none'" style="position: absolute; top: 16px; right: 20px; background: transparent; border: none; font-size: 24px; cursor: pointer; color: #64748b;">✕</button>
-      <h3 style="margin-bottom: 8px; color: #0f172a; font-size: 1.3rem;">✉️ Prendre Contact avec Ahmed Bouchaïr</h3>
-      <p style="margin-bottom: 20px; color: #64748b; font-size: 0.95rem;">Directeur des Systèmes d'Information & Responsable Sécurité (DSI / RSSI)</p>
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <a href="mailto:ahbouchair@gmail.com" style="background: #2563eb; color: white; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center;">
-          ✉️ Envoyer un Email Direct (ahbouchair@gmail.com)
-        </a>
-        <a href="tel:+33611321769" style="background: #f1f5f9; color: #0f172a; border: 1px solid #cbd5e1; padding: 12px 18px; border-radius: 8px; font-weight: 600; text-decoration: none; text-align: center;">
-          📞 Appeler au +33 6 11 32 17 69
-        </a>
-      </div>
-    </div>
-  </div>
-
   <div id="ai-chat-widget">
     
     <button id="chat-toggle-btn" aria-label="Ouvrir l'assistant IA">
@@ -473,13 +649,7 @@
           Bonjour ! Je suis l'assistant virtuel d'<strong>Ahmed Bouchaïr</strong>. Posez-moi vos questions ou cliquez sur une suggestion :
         </div>
 
-        
         <div id="quick-questions" style="display: flex; flex-direction: column; gap: 6px; margin-top: 4px;">
-          <button class="quick-btn" data-query="Voici une offre d'emploi : Chef / Directeur de Projet IT. Peux-tu analyser l'adéquation d'Ahmed ?">💼 Job Matcher (Tester une Fiche de Poste)</button>
-          <button class="quick-btn" data-query="Peux-tu rédiger une lettre de motivation sur-mesure pour un poste de DSI / RSSI ?">📝 Rédiger une Lettre de Motivation</button>
-          <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed (CNAM Paris, ESSEC, CISSP) ?">🎓 Diplômes & Certifications</button>
-          <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva et chez EY / Enedis.">🏢 Expérience DSI/RSSI Inventiva & EY</button>
-        </div>
           <button class="quick-btn" data-query="Quels sont les diplômes et certifications d'Ahmed ?">🎓 Diplômes & Certifications</button>
           <button class="quick-btn" data-query="Raconte-moi son expérience de DSI et RSSI chez Inventiva.">🏢 Expérience DSI/RSSI Inventiva</button>
           <button class="quick-btn" data-query="Quelles sont ses compétences clés en cybersécurité et gouvernance SI ?">🛡️ Compétences Cybersécurité</button>
@@ -503,6 +673,52 @@
     const chatSendBtn = document.getElementById('chat-send-btn');
 
     // Tableau de mémoire de conversation multi-tours
+    
+    // MODALE DE CONTACT
+    const contactModal = document.getElementById('contact-modal');
+    const openContactBtn = document.getElementById('open-contact-modal');
+    const closeContactBtn = document.getElementById('close-contact-modal');
+    if (openContactBtn && contactModal) {
+      openContactBtn.onclick = () => { contactModal.style.display = 'flex'; };
+      if (closeContactBtn) closeContactBtn.onclick = () => { contactModal.style.display = 'none'; };
+      contactModal.onclick = (e) => { if (e.target === contactModal) contactModal.style.display = 'none'; };
+    }
+
+    // ETAPE 2 : FILTRAGE DYNAMIQUE PAR CASQUETTE
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    const skillBadges = document.querySelectorAll('.badge');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.getAttribute('data-filter');
+
+        timelineItems.forEach(item => {
+          const categories = item.getAttribute('data-category') || '';
+          if (filter === 'all' || categories.includes(filter)) {
+            item.classList.remove('dimmed');
+            item.classList.add('active-filter');
+            item.style.display = 'block';
+          } else {
+            item.classList.add('dimmed');
+            item.classList.remove('active-filter');
+          }
+        });
+
+        skillBadges.forEach(badge => {
+          const categories = badge.getAttribute('data-category') || '';
+          if (filter !== 'all' && categories.includes(filter)) {
+            badge.classList.add('highlight');
+          } else {
+            badge.classList.remove('highlight');
+          }
+        });
+      });
+    });
+
     let conversationHistory = [];
 
     chatToggleBtn.onclick = () => {
