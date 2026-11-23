@@ -1,78 +1,114 @@
-// functions/api/chat.js - Cloudflare Worker API v7
+// functions/api/chat.js
+// Cloudflare Pages Function - Assistant d'Information Association Musulmane Chalon (El-Fath)
 
-const ALLOWED_ORIGINS = [
-  'https://cv-89q.pages.dev',
-  'http://localhost:8788',
-  'https://cv-89q.pages.dev/'
-];
-
-function getCorsHeaders(request) {
-  const origin = request.headers.get('Origin');
-  const allowedOrigin = ALLOWED_ORIGINS.includes(origin) ? origin : 'https://cv-89q.pages.dev';
-  return {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Max-Age': '86400',
-  };
-}
-
-export async function onRequestOptions(context) {
-  return new Response(null, { status: 204, headers: getCorsHeaders(context.request) });
+export async function onRequestOptions() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    }
+  });
 }
 
 export async function onRequestPost(context) {
-  const { request, env } = context;
-  const corsHeaders = getCorsHeaders(request);
+  const headers = {
+    "Content-Type": "application/json; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+
   try {
-    if (!env || !env.AI) {
-      return new Response(JSON.stringify({ error: 'Binding AI non configure' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    const { request, env } = context;
+    const body = await request.json();
+
+    let userMessage = "";
+    let history = [];
+
+    if (body.messages && Array.isArray(body.messages) && body.messages.length > 0) {
+      history = body.messages;
+      userMessage = history[history.length - 1].content || "";
+    } else if (body.message && typeof body.message === "string") {
+      userMessage = body.message;
+      history = [{ role: "user", content: userMessage }];
     }
-    const body = await request.json().catch(() => ({}));
-    let chatMessages = [];
-    if (Array.isArray(body.messages) && body.messages.length > 0) {
-      chatMessages = body.messages.slice(-8);
-    } else if (body.message && typeof body.message === 'string' && body.message.trim() !== '') {
-      chatMessages = [{ role: 'user', content: body.message.trim() }];
-    }
-    if (chatMessages.length === 0) {
-      return new Response(JSON.stringify({ error: 'Message vide' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+
+    if (!userMessage || userMessage.trim() === "") {
+      return new Response(JSON.stringify({ error: "Le message ne peut pas être vide." }), {
+        status: 400,
+        headers
+      });
     }
 
-    const systemPrompt = `Tu es l'assistant virtuel interactif officiel d'Ahmed Bouchair (DSI / CIO & RSSI).
-Ton role est d'informer les recruteurs, de realiser des analyses d'adequation (Job Matching) et de generer des lettres de motivation ciblees sur-mesure.
+    const systemPrompt = `Tu es l'assistant virtuel d'information de l'Association Musulmane El-Fath de Chalon-sur-Saône.
+Ton rôle est de fournir des réponses factuelles, apaisées, respectueuses et précises aux citoyens, fidèles et journalistes s'informant sur la situation de la mosquée et de l'association.
 
-1. IDENTITE & SYNTHESE EXECUTIVES :
-- Nom : Ahmed BOUCHAIR
-- Titre : Directeur des Systemes d'Information (DSI / CIO) & Responsable de la Securite des SI (RSSI)
-- Experience : 20 ans d'experience globale dans le numerique, dont 18 ans en management d'equipes et de projets IT.
-- Certifications & Diplomes : Certification CISSP (2013), Executive Certificate IA & Data (ESSEC Business School 2026-2027), DIPLOME D'INGENIEUR SYSTEMES D'INFORMATION (CNAM Paris 2008, Bac+5), DEST Informatique (CNAM 2005), Technicien Superieur (AFPA 2003).
-- Engagement : Cadre de Reserve (Adjudant-Chef) dans la Gendarmerie Nationale.
+CONTEXTE FACTUEL :
+- Le 16 novembre 2026, la municipalité de Chalon-sur-Saône (portée par le maire Gilles Platret) a fait procéder au changement des serrures et à la reprise de possession du bâtiment situé au 4, rue Edgar-Quinet (ancienne halle Sainte-Marie).
+- Ce bâtiment abritait le centre culturel et cultuel musulman El-Fath depuis 1978/1979 (soit près de 47 ans d'ancrage local).
+- La décision fait suite à une ordonnance du Tribunal Administratif de Dijon (rendue en septembre 2026) motivée par le strict respect de la loi de 1905 concernant la mise à disposition gratuite de locaux municipaux pour le culte.
+- L'association exprime la tristesse et l'incompréhension des fidèles face à l'absence de solution de repli ou d'accueil alternative.
+- L'association prône le calme, le respect des lois de la République, le refus de toute provocation et appelle au dialogue constructif avec les autorités.
 
-2. PARCOURS & REALISATIONS :
-- 2026-Present : GHT Bourgogne Meridionale — DSI Adjoint & Responsable Infra (Securite des infrastructures de sante, Datacenter souverain).
-- 2022-2026 : Inventiva Pharma (France & US) — CIO / DSI & RSSI (Migration AWS hybride, conformite financiere et qualite pharma, direction SOC).
-- 2021-2022 : EY & Enedis — Consultant Senior Securite & RSSI de Transition (Audits de securite, gouvernance des risques, SOC et DLP).
-- 2020-2021 : GIP Maximilien — Chef de Projet Services Numeriques (Dematerialisation achats publics).
-- 2019-2020 : Babolat VS (Lyon/US/Asie) — Responsable SI Groupe & RSSI (Management multi-sites, tests de securite mondiaux, PCA).
-- 2018-2019 : Ville d'Epinay-sur-Seine — Directeur Technique SI (Smart City, fibre, RGPD).
-- 2006-2018 : OPAC Saone-et-Loire — RSSI & DSI Adjoint (Politique de securite, CISSP 2013, centre d'appels IP/CRM CTI).
-- 2003-2006 : Missions Locales & Saint-Gobain Emballage.
+CONSIGNES DE RÉPONSE :
+1. Reste neutre, mesuré, digne, républicain et apaisé.
+2. Réponds directement en français (ou dans la langue de la question).
+3. Ne diffuse aucun message de haine ni de provocation.
+4. Encourage le dialogue et la recherche de solutions concertées pour l'exercice du culte dans le respect des lois.`;
 
-3. DIRECTIVES DE TRAITEMENT STRICTES :
-- DIPLOMES & ESN : Ne JAMAIS dire qu'Ahmed n'a pas de diplome informatique (il est Ingenieur CNAM Paris) ni qu'il n'a pas travaille en ESN/Conseil (Consultant Senior chez EY et Enedis).
-- JOB MATCHER : Si une fiche de poste est transmise, calcule le score d'adequation (85-98%), presente un tableau Exigences vs Profil, et souligne 3 forces majeures.
-- LETTRE DE MOTIVATION : Si une lettre est demandee, redige une lettre formelle, percutante et personnalisee (Vous / Moi / Nous) valorisant ses succes (Inventiva, EY, Babolat, ESSEC, CISSP, CNAM).`;
+    const messagesPayload = [
+      { role: "system", content: systemPrompt }
+    ];
 
-    const fullMessages = [{ role: 'system', content: systemPrompt }, ...chatMessages];
-    const models = ['@cf/meta/llama-3.2-3b-instruct', '@cf/meta/llama-3.3-70b-instruct', '@cf/meta/llama-3.1-8b-instruct-fp8', '@cf/mistral/mistral-7b-instruct-v0.2'];
-    let stream = null; let lastError = null;
+    for (const msg of history) {
+      if (msg.role && msg.content) {
+        messagesPayload.push({
+          role: msg.role === "user" ? "user" : "assistant",
+          content: msg.content
+        });
+      }
+    }
+
+    const models = [
+      "@cf/meta/llama-3.3-70b-instruct",
+      "@cf/meta/llama-3.2-3b-instruct",
+      "@cf/meta/llama-3.1-8b-instruct",
+      "@cf/mistral/mistral-7b-instruct-v0.1"
+    ];
+
+    let aiResponse = null;
+    let lastError = null;
+
     for (const model of models) {
-      try { stream = await env.AI.run(model, { messages: fullMessages, stream: true, max_tokens: 600, temperature: 0.4 }); if (stream) break; } catch (err) { lastError = err; }
+      try {
+        aiResponse = await env.AI.run(model, {
+          messages: messagesPayload,
+          max_tokens: 500,
+          temperature: 0.4
+        });
+        if (aiResponse && (aiResponse.response || aiResponse.text)) break;
+      } catch (err) {
+        lastError = err;
+      }
     }
-    if (!stream) throw lastError || new Error('Aucun modele disponible.');
-    return new Response(stream, { headers: { ...corsHeaders, 'Content-Type': 'text/event-stream', 'Cache-Control': 'no-cache', 'Connection': 'keep-alive' } });
+
+    if (!aiResponse) {
+      throw lastError || new Error("Aucun modèle IA disponible.");
+    }
+
+    const responseText = aiResponse.response || aiResponse.text || "Pas de réponse générée.";
+
+    return new Response(JSON.stringify({ response: responseText }), { headers });
+
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+    return new Response(JSON.stringify({
+      error: "Une erreur est survenue lors du traitement.",
+      details: error.message
+    }), {
+      status: 500,
+      headers
+    });
   }
 }
